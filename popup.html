@@ -5,16 +5,94 @@
     <style>
       html {
         min-height: 5em;
-        min-width: 10em;
-        background: salmon;
+        min-width: 12em;
+      }
+      header {
+        padding: 0.4em;
+        color: #76b5c5;
+      }
+      .blue-color {
+        color: #76b5c5;
+      }
+      .flex-col {
+        display: flex;
+        flex-direction: column;
+      }
+      .flex-row {
+        display: flex;
+        flex-direction: row;
+      }
+      .align-center {
+        align-items: center;
+      }
+      .justify-between {
+        justify-content: space-between;
+      }
+      .justify-around {
+        justify-content: space-around;
+      }
+      .justify-end {
+        justify-content: end;
+      }
+      .full-width {
+        width: 100%;
+      }
+      .margin-s {
+        margin: 0.3em;
       }
     </style>
   </head>
   <body>
-    <p>auth4:</p>
-    <p id="demo"></p>
-    <input id="copyButton" type="button" value="Click Me!" />
-
+    <header>
+      <div class="flex-row justify-around">
+        <img src="./images/icon48.png" />
+        <h4>Key Retriever</h4>
+      </div>
+    </header>
+    <section>
+      <div id="keyList" class="flex-col">
+        <div class="flex-row justify-between align-center full-width">
+          <div class="flex-row align-center">
+            <img
+              src="/images/icon-package-48.png"
+              width="20"
+              height="20"
+              class="margin-s"
+            />
+            <p>Authentication key</p>
+          </div>
+          <img src="./images/icon-copy-24.png" width="15" height="15" />
+        </div>
+        <div class="flex-row justify-between align-center full-width">
+          <div class="flex-row align-center">
+            <img
+              src="/images/icon-cookies-48.png"
+              width="20"
+              height="20"
+              class="margin-s"
+            />
+            <p>Cookie key</p>
+          </div>
+          <img src="./images/icon-copy-24.png" width="15" height="15" />
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="flex-row justify-end full-width align-center">
+        <img
+          src="./images/icon-delete-50.png"
+          width="20"
+          height="20"
+          class="margin-s"
+        />
+        <img
+          src="./images/icon-plus-50.png"
+          width="20"
+          height="20"
+          class="margin-s"
+        />
+      </div>
+    </footer>
     <script src="app.js"></script>
   </body>
 </html>
