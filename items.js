@@ -54,6 +54,8 @@ const appCreator = () => {
     copyElement.width = "15";
     copyElement.height = "15";
 
+    if(value === undefined ) copyElement.hidden = true;
+
     itemParentDiv.appendChild(itemDetailsElement);
     itemParentDiv.appendChild(copyElement);
 
