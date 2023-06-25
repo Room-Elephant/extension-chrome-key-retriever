@@ -1,12 +1,9 @@
 const manager = appManager();
 const creator = appCreator();
 let presentationList;
-const keyList = document.getElementById("keyList");
+const keyListElement = document.getElementById("keyList");
 
 document.addEventListener("DOMContentLoaded", async function () {
-  /* DEBUG */
-  cleanup();
-  /* DEBUG */
   presentationList = await manager.getKeyValues();
 
   if (presentationList === null || presentationList?.length === 0) {
@@ -15,6 +12,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   renderPresentationList();
+
+  const saveButton = document.getElementById("saveKeyBtn");
+  saveButton.addEventListener("click", async function () {
+    creator.showKeyList();
+    const formData = creator.getFormData();
+    await manager.persistNewKey([formData]);
+    presentationList = await manager.getKeyValues();
+    keyListElement.innerHTML = "";
+    renderPresentationList();
+  });
 });
 
 function renderPresentationList() {
@@ -24,7 +31,7 @@ function renderPresentationList() {
       item = creator.localStorageItem(key.alias, key.value);
     else item = creator.cookieItem(key.alias, key.value);
 
-    keyList.appendChild(item);
+    keyListElement.appendChild(item);
   });
 }
 
@@ -47,7 +54,7 @@ async function loadDefaultKeys() {
 
 async function cleanup() {
   return new Promise((resolve) => {
-    chrome.storage.local.set({ keyList: undefined }, function () {
+    chrome.storage.local.clear(function () {
       resolve();
     });
   });

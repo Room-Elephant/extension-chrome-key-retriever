@@ -1,11 +1,14 @@
 const appManager = () => {
-  let keyList;
+  let keyList = [];
 
   async function persistNewKey(newKey) {
     return new Promise((resolve) => {
-      chrome.storage.local.set({ keyList: [keyList, ...newKey] }, function () {
-        resolve();
-      });
+      chrome.storage.local.set(
+        { keyList: [...keyList, ...newKey] },
+        function () {
+          resolve();
+        }
+      );
     });
   }
 

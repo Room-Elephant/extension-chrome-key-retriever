@@ -15,10 +15,25 @@
         cursor: pointer;
       }
       .display-none {
-        display: none;
+        display: none !important;
       }
       .blue-color {
         color: #76b5c5;
+      }
+      .btn {
+        border: 2px solid;
+        background-color: white;
+        color: black;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .success {
+        border-color: #04aa6d;
+        color: green;
+      }
+      .success:hover {
+        background-color: #04aa6d;
+        color: white;
       }
       .flex-col {
         display: flex;
@@ -43,6 +58,9 @@
       .full-width {
         width: 100%;
       }
+      .margin-xs {
+        margin: 0.2em;
+      }
       .margin-s {
         margin: 0.5em;
       }
@@ -57,9 +75,75 @@
     </header>
     <section>
       <div id="keyList" class="flex-col"></div>
+      <div id="addKeyForm" class="display-none">
+        <form>
+          <div class="flex-row align-center justify-between margin-s">
+            <label class="margin-s">Alias:</label>
+            <input
+              class="margin-s"
+              type="text"
+              id="alias"
+              name="alias"
+              value=""
+            />
+          </div>
+          <div class="flex-row align-center justify-between margin-s">
+            <label class="margin-s">Key:</label>
+            <input class="margin-s" type="text" id="key" name="key" value="" />
+          </div>
+          <div class="flex-row align-center justify-between margin-s">
+            <label class="margin-s">Sub-key (optional):</label>
+            <input
+              class="margin-s"
+              type="text"
+              id="subKey"
+              name="subKey"
+              value=""
+            />
+          </div>
+          <div class="flex-col">
+            <label class="margin-s">Storage type:</label>
+            <div class="flex-row align-center">
+              <input
+                class="margin-s"
+                type="radio"
+                id="localStorage"
+                name="storage"
+                value="local"
+              />
+              <img
+                class="margin-s"
+                src="/images/icon-package-48.png"
+                width="20"
+                height="20"
+              />
+              <label class="margin-s">Local storage</label>
+            </div>
+            <div class="flex-row align-center">
+              <input
+                class="margin-s"
+                type="radio"
+                id="cookies"
+                name="storage"
+                value="cookie"
+              />
+              <img
+                class="margin-s"
+                src="/images/icon-cookies-48.png"
+                width="20"
+                height="20"
+              />
+              <label class="margin-s">Cookies</label>
+            </div>
+          </div>
+        </form>
+      </div>
     </section>
     <footer>
-      <div class="flex-row justify-end full-width align-center">
+      <div
+        id="keyListFooter"
+        class="flex-row justify-end full-width align-center"
+      >
         <img
           class="cursor-pointer margin-s"
           id="deleteKeysBtn"
@@ -74,6 +158,22 @@
           width="20"
           height="20"
         />
+      </div>
+      <div
+        id="addKeyFooter"
+        class="flex-row justify-end full-width align-center display-none"
+      >
+        <button id="saveKeyBtn" type="button" class="btn success">
+          <div class="flex-row justify-between align-center">
+            <img
+              src="./images/icon-green-save-30.png"
+              width="15"
+              height="15"
+              class="margin-xs"
+            />
+            Save
+          </div>
+        </button>
       </div>
     </footer>
     <script src="manager.js"></script>

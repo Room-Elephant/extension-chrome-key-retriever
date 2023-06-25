@@ -1,17 +1,72 @@
 const appCreator = () => {
   document.addEventListener("DOMContentLoaded", function () {
     let btn = document.getElementById("addKeyBtn");
-    btn.addEventListener("click", function () {
-      console.log("alert add");
-    });
+    btn.addEventListener("click", () => showAddKeyForm());
   });
 
   document.addEventListener("DOMContentLoaded", function () {
     let btn = document.getElementById("deleteKeysBtn");
-    btn.addEventListener("click", function () {
-      console.log("alert delete");
-    });
+    btn.addEventListener("click", () => deleteKeys());
   });
+
+  function showKeyList() {
+    const addKeyForm = document.getElementById("addKeyForm");
+    addKeyForm.classList.add("display-none");
+
+    const addKeyFooter = document.getElementById("addKeyFooter");
+    addKeyFooter.classList.add("display-none");
+
+    const keyListElement = document.getElementById("keyList");
+    keyListElement.classList.remove("display-none");
+
+    const keyListFooterElement = document.getElementById("keyListFooter");
+    keyListFooterElement.classList.remove("display-none");
+  }
+
+  function getFormData() {
+    const alias = document.getElementById("alias").value;
+    const key = document.getElementById("key").value;
+    const subKey = document.getElementById("subKey").value || undefined;
+    const storageType = document.querySelector(
+      'input[name="storage"]:checked'
+    ).value;
+
+    return { alias, key, subKey, type: storageType };
+  }
+
+  function showAddKeyForm() {
+    const keyListElement = document.getElementById("keyList");
+    keyListElement.classList.add("display-none");
+
+    const keyListFooterElement = document.getElementById("keyListFooter");
+    keyListFooterElement.classList.add("display-none");
+
+    const addKeyForm = document.getElementById("addKeyForm");
+    addKeyForm.classList.remove("display-none");
+
+    const addKeyFooter = document.getElementById("addKeyFooter");
+    addKeyFooter.classList.remove("display-none");
+  }
+
+  function deleteKeys() {
+    console.log("alert delete");
+  }
+
+  function copyValue(element, itemKey) {
+    const token = document.getElementById(`token-${itemKey}`)?.innerHTML;
+    navigator.clipboard.writeText(token).then(
+      function () {
+        console.log("Async: Copy value with success");
+        element.src = "./images/icon-check-30.png";
+        setTimeout(function () {
+          element.src = "./images/icon-copy-24.png";
+        }, 1000);
+      },
+      function (err) {
+        console.error("Async: Could not copy text: ", err);
+      }
+    );
+  }
 
   function localStorageItem(alias, value) {
     return item(alias, value, "/images/icon-package-48.png");
@@ -33,28 +88,16 @@ const appCreator = () => {
 
     const copyElement = document.createElement("img");
 
-    copyElement.addEventListener("click", function () {
-      const token = document.getElementById(`token-${itemKey}`).innerHTML;
-      navigator.clipboard.writeText(token).then(
-        function () {
-          console.log(copyElement);
-          copyElement.src = "./images/icons8-check-30.png";
-          setTimeout(function () {
-            copyElement.src = "./images/icon-copy-24.png";
-          }, 1000);
-        },
-        function (err) {
-          console.error("Async: Could not copy text: ", err);
-        }
-      );
-    });
+    copyElement.addEventListener("click", () =>
+      copyValue(copyElement, itemKey)
+    );
     copyElement.classList.add("cursor-pointer");
     copyElement.classList.add("copy-btn");
     copyElement.src = "./images/icon-copy-24.png";
     copyElement.width = "15";
     copyElement.height = "15";
 
-    if(value === undefined ) copyElement.hidden = true;
+    if (value === undefined) copyElement.hidden = true;
 
     itemParentDiv.appendChild(itemDetailsElement);
     itemParentDiv.appendChild(copyElement);
@@ -70,12 +113,10 @@ const appCreator = () => {
     const textElement = document.createElement("p");
     textElement.innerText = alias;
 
-    /* DEBUG */
     const hiddenToken = document.createElement("p");
     hiddenToken.id = `token-${itemKey}`;
     hiddenToken.classList.add("display-none");
     hiddenToken.innerText = value;
-    /* DEBUG */
 
     const imgType = type(imgTypeSrc);
 
@@ -99,5 +140,7 @@ const appCreator = () => {
   return {
     localStorageItem,
     cookieItem,
+    showKeyList,
+    getFormData,
   };
 };
