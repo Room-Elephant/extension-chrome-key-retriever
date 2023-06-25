@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "key-retriever",
+  "name": "auth-retriever",
   "version": "1.0.0",
   "action": {
     "default_icon": {
@@ -18,6 +18,6 @@
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
-  "permissions": ["tabs", "scripting"],
+  "permissions": ["tabs", "scripting", "storage"],
   "host_permissions": ["*://*/"]
 }
