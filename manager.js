@@ -55,7 +55,7 @@ const appManager = () => {
         localKeyPresentation = await remoteRequest(
           tab,
           getLocal,
-          keyList?.filter(({ type }) => type === "local") ?? []
+          keyList?.filter(({ type }) => type === "local")
         );
       } catch (e) {
         console.log("🚀 ~ could not read from local storage:", e);
@@ -68,7 +68,7 @@ const appManager = () => {
         cookieKeyPresentation = await remoteRequest(
           tab,
           getCookie,
-          keyList?.filter(({ type }) => type === "cookie") ?? []
+          keyList?.filter(({ type }) => type === "cookie")
         );
       } catch (e) {
         console.log("🚀 ~ could not from read cookies:", e);

@@ -46,9 +46,9 @@ async function loadDefaultKeys() {
 }
 
 async function cleanup() {
-    return new Promise((resolve) => {
-      chrome.storage.local.set({ keyList: undefined }, function () {
-        resolve();
-      });
+  return new Promise((resolve) => {
+    chrome.storage.local.set({ keyList: undefined }, function () {
+      resolve();
     });
-  }
+  });
+}

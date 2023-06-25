@@ -11,6 +11,12 @@
         padding: 0.4em;
         color: #76b5c5;
       }
+      .cursor-pointer {
+        cursor: pointer;
+      }
+      .display-none {
+        display: none;
+      }
       .blue-color {
         color: #76b5c5;
       }
@@ -38,13 +44,9 @@
         width: 100%;
       }
       .margin-s {
-        margin: 0.3em;
-      }
-      .sponsor {
-        font-size: 0.6em;
+        margin: 0.5em;
       }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
     <header>
@@ -54,26 +56,25 @@
       </div>
     </header>
     <section>
-      <div id="keyList" class="flex-col">
-      </div>
+      <div id="keyList" class="flex-col"></div>
     </section>
     <footer>
       <div class="flex-row justify-end full-width align-center">
         <img
+          class="cursor-pointer margin-s"
+          id="deleteKeysBtn"
           src="./images/icon-delete-50.png"
           width="20"
           height="20"
-          class="margin-s"
         />
         <img
+          class="cursor-pointer margin-s"
+          id="addKeyBtn"
           src="./images/icon-plus-50.png"
           width="20"
           height="20"
-          class="margin-s"
         />
       </div>
-      <i class="fa-solid fa-house"></i>
-<a href="https://www.flaticon.com/free-icons/golden-retriever" title="golden retriever icons" class="sponsor">app icon made by Chanut-is-Industries - Flaticon</a>
     </footer>
     <script src="manager.js"></script>
     <script src="items.js"></script>
