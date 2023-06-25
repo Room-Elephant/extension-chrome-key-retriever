@@ -8,45 +8,45 @@ const appCreator = () => {
   }
 
   function item(alias, value, imgTypeSrc) {
-    const mainDiv = document.createElement("div");
-    mainDiv.classList.add("flex-row");
-    mainDiv.classList.add("justify-between");
-    mainDiv.classList.add("align-center");
-    mainDiv.classList.add("full-width");
+    const itemParentDiv = document.createElement("div");
+    itemParentDiv.classList.add("flex-row");
+    itemParentDiv.classList.add("justify-between");
+    itemParentDiv.classList.add("align-center");
+    itemParentDiv.classList.add("full-width");
 
-    const textDiv = itemDetails(alias, imgTypeSrc);
+    const itemDetailsElement = itemDetails(alias, imgTypeSrc);
 
-    const imgCopy = document.createElement("img");
-    imgCopy.src = "./images/icon-copy-24.png";
-    imgCopy.width = "15";
-    imgCopy.height = "15";
+    const copyElement = document.createElement("img");
+    copyElement.src = "./images/icon-copy-24.png";
+    copyElement.width = "15";
+    copyElement.height = "15";
 
-    mainDiv.appendChild(textDiv);
-    mainDiv.appendChild(imgCopy);
+    itemParentDiv.appendChild(itemDetailsElement);
+    itemParentDiv.appendChild(copyElement);
 
     /* DEBUG */
     const para = document.createElement("p");
     para.innerText = value;
-    mainDiv.appendChild(para);
+    itemParentDiv.appendChild(para);
     /* DEBUG */
 
-    return mainDiv;
+    return itemParentDiv;
   }
 
   function itemDetails(alias, imgTypeSrc) {
-    const textDiv = document.createElement("div");
-    textDiv.classList.add("flex-row");
-    textDiv.classList.add("align-center");
+    const itemTextDiv = document.createElement("div");
+    itemTextDiv.classList.add("flex-row");
+    itemTextDiv.classList.add("align-center");
 
-    const para = document.createElement("p");
-    para.innerText = alias;
+    const textElement = document.createElement("p");
+    textElement.innerText = alias;
 
     const imgType = type(imgTypeSrc);
 
-    textDiv.appendChild(imgType);
-    textDiv.appendChild(para);
+    itemTextDiv.appendChild(imgType);
+    itemTextDiv.appendChild(textElement);
 
-    return textDiv;
+    return itemTextDiv;
   }
 
   function type(imgTypeSrc) {

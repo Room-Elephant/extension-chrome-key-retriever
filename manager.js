@@ -1,18 +1,18 @@
 const appManager = () => {
-  var keyList;
+  let keyList;
 
   async function getKeyValues() {
     try {
       keyList = await readStorageKeyList();
+      return loadKeyValues();
     } catch (e) {
       console.log("🚀 ~ could not read settings:", e);
     }
-    return loadKeyValues();
   }
 
   async function persistStorageKeyList(keyList) {
     return new Promise((resolve) => {
-      chrome.storage.local.set({ keyList: keyList }, function (result) {
+      chrome.storage.local.set({ keyList }, function () {
         resolve();
       });
     });
@@ -87,9 +87,7 @@ const appManager = () => {
         let value = window.localStorage.getItem(localKeyList[i].key);
 
         if (localKeyList[i].subKey) {
-          if (typeof value === "object") value = value[localKeyList[i].subKey];
-          if (typeof value === "string")
-            value = JSON.parse(value)[localKeyList[i].subKey];
+          value = JSON.parse(value)[localKeyList[i].subKey];
         }
 
         localKeyList[i].value = value;
@@ -102,32 +100,25 @@ const appManager = () => {
     }));
   }
 
-  function getCookie(cookieKeys) {
-    for (let i = 0; i < cookieKeys.length; i++) {
+  function getCookie(cookieKeyList) {
+    for (let i = 0; i < cookieKeyList.length; i++) {
       try {
-        let value = (cookieKeys[i].value = document.cookie
-          .split(cookieKeys[i].key + "=")[1]
-          .split(";")[0]);
+        let value = document.cookie
+          .split(cookieKeyList[i].key + "=")[1]
+          .split(";")[0];
 
         if (cookieKeyList[i].subKey) {
-          if (typeof value === "object") value = value[cookieKeys[i].subKey];
-          if (typeof value === "string")
-            value = JSON.parse(value)[cookieKeys[i].subKey];
+          value = JSON.parse(value)[cookieKeyList[i].subKey];
         }
 
-        cookieKeys[i].value = value;
+        cookieKeyList[i].value = value;
       } catch (e) {}
     }
-    return cookieKeys.map(({ alias, value }) => ({
+    return cookieKeyList.map(({ alias, value }) => ({
       alias,
       value,
       type: "cookies",
     }));
-  }
-
-  function parseSubKey(value, subKey) {
-    if (typeof value === "object") return value[subKey];
-    if (typeof value === "string") return JSON.parse(value)[subKey];
   }
 
   return {
