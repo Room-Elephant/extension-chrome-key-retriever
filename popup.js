@@ -5,7 +5,7 @@ const keyList = document.getElementById("keyList");
 
 document.addEventListener("DOMContentLoaded", async function () {
   /* DEBUG */
-  await manager.persistStorageKeyList(null);
+  cleanup();
   /* DEBUG */
   presentationList = await manager.getKeyValues();
 
@@ -29,21 +29,26 @@ function renderPresentationList() {
 }
 
 async function loadDefaultKeys() {
-  const defaultKeyList = {
-    cookie: [
-      {
-        alias: "auth token",
-        key: "X-Auth-Token",
-      },
-    ],
-    local: [
-      {
-        alias: "geo token",
-        key: "location token",
-        subKey: "jwt",
-      },
-    ],
-  };
-
-  await manager.persistStorageKeyList(defaultKeyList);
+  const defaultKeyList = [
+    {
+      alias: "auth token",
+      key: "X-Auth-Token",
+      type: "cookie",
+    },
+    {
+      alias: "geo token",
+      key: "location token",
+      subKey: "jwt",
+      type: "local",
+    },
+  ];
+  await manager.persistNewKey(defaultKeyList);
 }
+
+async function cleanup() {
+    return new Promise((resolve) => {
+      chrome.storage.local.set({ keyList: undefined }, function () {
+        resolve();
+      });
+    });
+  }

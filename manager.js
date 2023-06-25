@@ -1,21 +1,32 @@
 const appManager = () => {
   let keyList;
 
-  async function getKeyValues() {
-    try {
-      keyList = await readStorageKeyList();
-      return loadKeyValues();
-    } catch (e) {
-      console.log("🚀 ~ could not read settings:", e);
-    }
-  }
-
-  async function persistStorageKeyList(keyList) {
+  async function persistNewKey(newKey) {
     return new Promise((resolve) => {
-      chrome.storage.local.set({ keyList }, function () {
+      chrome.storage.local.set({ keyList: [keyList, ...newKey] }, function () {
         resolve();
       });
     });
+  }
+
+  async function removePersistKey(key) {
+    return new Promise((resolve) => {
+      chrome.storage.local.set(
+        { keyList: keyList.filter(({ alias }) => alias != key) },
+        function () {
+          resolve();
+        }
+      );
+    });
+  }
+
+  async function getKeyValues() {
+    try {
+      keyList = await readStorageKeyList();
+    } catch (e) {
+      console.log("🚀 ~ could not read settings:", e);
+    }
+    return loadKeyValues();
   }
 
   async function readStorageKeyList() {
@@ -35,27 +46,33 @@ const appManager = () => {
       tab = await getActiveTab();
     } catch (e) {
       console.log("🚀 ~ could not read active tab:", e);
+      return null;
     }
 
     let localKeyPresentation = [];
-    try {
-      localKeyPresentation = await remoteRequest(
-        tab,
-        getLocal,
-        keyList?.local ?? []
-      );
-    } catch (e) {
-      console.log("🚀 ~ could not read from local storage:", e);
+    if (keyList != null && keyList.length > 0) {
+      try {
+        localKeyPresentation = await remoteRequest(
+          tab,
+          getLocal,
+          keyList?.filter(({ type }) => type === "local") ?? []
+        );
+      } catch (e) {
+        console.log("🚀 ~ could not read from local storage:", e);
+      }
     }
+
     let cookieKeyPresentation = [];
-    try {
-      cookieKeyPresentation = await remoteRequest(
-        tab,
-        getCookie,
-        keyList?.cookie ?? []
-      );
-    } catch (e) {
-      console.log("🚀 ~ could not from read cookies:", e);
+    if (keyList != null && keyList.length > 0) {
+      try {
+        cookieKeyPresentation = await remoteRequest(
+          tab,
+          getCookie,
+          keyList?.filter(({ type }) => type === "cookie") ?? []
+        );
+      } catch (e) {
+        console.log("🚀 ~ could not from read cookies:", e);
+      }
     }
 
     presentationList.push(...localKeyPresentation);
@@ -93,10 +110,10 @@ const appManager = () => {
         localKeyList[i].value = value;
       } catch (e) {}
     }
-    return localKeyList.map(({ alias, value }) => ({
+    return localKeyList.map(({ alias, value, type }) => ({
       alias,
       value,
-      type: "local",
+      type,
     }));
   }
 
@@ -114,15 +131,16 @@ const appManager = () => {
         cookieKeyList[i].value = value;
       } catch (e) {}
     }
-    return cookieKeyList.map(({ alias, value }) => ({
+    return cookieKeyList.map(({ alias, value, type }) => ({
       alias,
       value,
-      type: "cookies",
+      type,
     }));
   }
 
   return {
-    persistStorageKeyList,
+    persistNewKey,
+    removePersistKey,
     getKeyValues,
   };
 };
