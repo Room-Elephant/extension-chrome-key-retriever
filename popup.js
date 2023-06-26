@@ -22,6 +22,37 @@ document.addEventListener("DOMContentLoaded", async function () {
     keyListElement.innerHTML = "";
     renderPresentationList();
   });
+
+  const confirmDeleteKeysBtn = document.getElementById("confirmDeleteBtn");
+  confirmDeleteKeysBtn.addEventListener("click", async function () {
+    const checkedDeleteCheckboxList = document.querySelectorAll(
+      "input[name=delete]:checked"
+    );
+    const deleteIds = [...checkedDeleteCheckboxList].map(
+      (checkbox) => checkbox.id
+    );
+
+    const deleteAliasList = presentationList
+      .filter((element) => deleteIds.includes(element.alias.trim()))
+      .map((element) => element.alias);
+
+    const deleteKeysFooter = document.getElementById("deleteKeysFooter");
+    deleteKeysFooter.classList.add("display-none");
+
+    const deleteCheckboxList =
+      document.getElementsByClassName("delete-checkbox");
+
+    [...deleteCheckboxList].forEach((checkbox) =>
+      checkbox.classList.add("display-none")
+    );
+
+    await manager.removePersistKey(deleteAliasList);
+
+    presentationList = await manager.getKeyValues();
+    keyListElement.innerHTML = "";
+    creator.showKeyList();
+    renderPresentationList();
+  });
 });
 
 function renderPresentationList() {

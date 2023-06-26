@@ -15,7 +15,7 @@ const appManager = () => {
   async function removePersistKey(key) {
     return new Promise((resolve) => {
       chrome.storage.local.set(
-        { keyList: keyList.filter(({ alias }) => alias != key) },
+        { keyList: keyList.filter(({ alias }) => !key.includes(alias)) },
         function () {
           resolve();
         }

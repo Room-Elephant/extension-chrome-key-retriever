@@ -6,7 +6,7 @@ const appCreator = () => {
 
   document.addEventListener("DOMContentLoaded", function () {
     let btn = document.getElementById("deleteKeysBtn");
-    btn.addEventListener("click", () => deleteKeys());
+    btn.addEventListener("click", () => showDeleteCheckbox());
   });
 
   function showKeyList() {
@@ -48,8 +48,19 @@ const appCreator = () => {
     addKeyFooter.classList.remove("display-none");
   }
 
-  function deleteKeys() {
-    console.log("alert delete");
+  function showDeleteCheckbox() {
+    const deleteCheckboxList =
+      document.getElementsByClassName("delete-checkbox");
+
+    [...deleteCheckboxList].forEach((checkbox) =>
+      checkbox.classList.remove("display-none")
+    );
+
+    const keyListFooterElement = document.getElementById("keyListFooter");
+    keyListFooterElement.classList.add("display-none");
+
+    const deleteKeysFooter = document.getElementById("deleteKeysFooter");
+    deleteKeysFooter.classList.remove("display-none");
   }
 
   function copyValue(element, itemKey) {
@@ -110,6 +121,13 @@ const appCreator = () => {
     itemTextDiv.classList.add("flex-row");
     itemTextDiv.classList.add("align-center");
 
+    const deleteCheckbox = document.createElement("input");
+    deleteCheckbox.setAttribute("type", "checkbox");
+    deleteCheckbox.setAttribute("name", "delete");
+    deleteCheckbox.setAttribute("id", alias.trim());
+    deleteCheckbox.classList.add("display-none");
+    deleteCheckbox.classList.add("delete-checkbox");
+
     const textElement = document.createElement("p");
     textElement.innerText = alias;
 
@@ -120,6 +138,7 @@ const appCreator = () => {
 
     const imgType = type(imgTypeSrc);
 
+    itemTextDiv.appendChild(deleteCheckbox);
     itemTextDiv.appendChild(imgType);
     itemTextDiv.appendChild(hiddenToken);
     itemTextDiv.appendChild(textElement);
