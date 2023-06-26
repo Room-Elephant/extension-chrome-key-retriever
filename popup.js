@@ -38,12 +38,12 @@ function renderPresentationList() {
 async function loadDefaultKeys() {
   const defaultKeyList = [
     {
-      alias: "auth token",
+      alias: "Auth token",
       key: "X-Auth-Token",
       type: "cookie",
     },
     {
-      alias: "geo token",
+      alias: "Geo token",
       key: "location token",
       subKey: "jwt",
       type: "local",
