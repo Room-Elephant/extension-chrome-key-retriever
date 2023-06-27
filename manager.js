@@ -54,25 +54,31 @@ const appManager = () => {
 
     let localKeyPresentation = [];
     if (keyList != null && keyList.length > 0) {
+      const localKeyList = keyList?.filter(({ type }) => type === "local");
       try {
-        localKeyPresentation = await remoteRequest(
-          tab,
-          getLocal,
-          keyList?.filter(({ type }) => type === "local")
-        );
+        localKeyPresentation = await remoteRequest(tab, getLocal, localKeyList);
       } catch (e) {
+        localKeyPresentation = localKeyList.map(({ alias, type }) => ({
+          alias,
+          type,
+        }));
         console.log("🚀 ~ could not read from local storage:", e);
       }
     }
 
     let cookieKeyPresentation = [];
     if (keyList != null && keyList.length > 0) {
+      const cookieKeyList = keyList?.filter(({ type }) => type === "cookie");
       try {
         cookieKeyPresentation = await getCookie(
-          keyList?.filter(({ type }) => type === "cookie"),
+          cookieKeyList,
           tabToStringUrl(tab)
         );
       } catch (e) {
+        cookieKeyPresentation = cookieKeyList.map(({ alias, type }) => ({
+          alias,
+          type,
+        }));
         console.log("🚀 ~ could not from read cookies:", e);
       }
     }

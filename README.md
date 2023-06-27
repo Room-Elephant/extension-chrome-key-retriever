@@ -27,4 +27,4 @@ To install:
 
 ## Thanks to
 
-<a  href="https://www.flaticon.com/free-icons/golden-retriever"  title="golden retriever icons">Golden retriever icons created by Chanut-is-Industries - Flaticon</a> for the appropriate app logo
+extension icon by Chanut-is-Industries and you can find it at <a href="https://www.flaticon.com/free-icons/golden-retriever" title="golden retriever icons">Golden retriever icons</a> on Flaticon
