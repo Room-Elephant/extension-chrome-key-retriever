@@ -4,7 +4,8 @@
 This extension allows watch keys stored.
 For more complex properties, you can select a subkey to watch.
 
-![preview](/docs/preview.png)
+<img width="399" alt="image" src="/docs/preview.png">
+(the preview might not be up to date)
 
 ## Supported keys
 
@@ -17,12 +18,12 @@ For more complex properties, you can select a subkey to watch.
 This extension was made to work on Chrome browsers.
 To install:
 1.  **Download the repository** (https://github.com/Room-Elephant/extension-chrome-key-retriever.git)
-2. Go to **extension manager** (hamburger menu > Extensions > Manage Extensions)
-3. activate **developer mode** (toggle on top right corner)
-4. Click **Load unpacked** and select the repository folder
-5. Your extension is **ready to use**. You can always pin it for faster access
-6. To update the extension, just pull from the repository
-	6. If you are coming from an older version and is not working, try removing and adding again.
+1. Go to **extension manager** (hamburger menu > Extensions > Manage Extensions)
+1. activate **developer mode** (toggle on top right corner)
+1. Click **Load unpacked** and select the repository folder
+1. Your extension is **ready to use**. You can always pin it for faster access
+1. To update the extension, just pull from the repository
+   - If you are coming from an older version and is not working, try removing and adding again.
 
 ## Thanks to
 
