@@ -1,7 +1,32 @@
 const manager = appManager();
 const creator = appCreator();
-let presentationList;
-const keyListElement = document.getElementById("keyList");
+const PAGES = {
+  LIST: {
+    addKeyForm: false,
+    addKeyFooter: false,
+    keyListElement: true,
+    keyListFooterElement: true,
+    deleteCheckboxList: false,
+    deleteKeysFooter: false,
+  },
+  ADD: {
+    addKeyForm: true,
+    addKeyFooter: true,
+    keyListElement: false,
+    keyListFooterElement: false,
+    deleteCheckboxList: false,
+    deleteKeysFooter: false,
+  },
+  REMOVE: {
+    addKeyForm: false,
+    addKeyFooter: false,
+    keyListElement: true,
+    keyListFooterElement: false,
+    deleteCheckboxList: true,
+    deleteKeysFooter: true,
+  },
+};
+let presentationList = [];
 
 document.addEventListener("DOMContentLoaded", async function () {
   presentationList = await manager.getKeyValues();
@@ -12,19 +37,25 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   renderPresentationList();
+});
 
-  const saveButton = document.getElementById("saveKeyBtn");
-  saveButton.addEventListener("click", async function () {
-    creator.showKeyList();
+document
+  .getElementById("saveKeyBtn")
+  .addEventListener("click", async function () {
+    document.getElementById("keyList").innerHTML = "";
+
     const formData = creator.getFormData();
     await manager.persistNewKey([formData]);
+
     presentationList = await manager.getKeyValues();
-    keyListElement.innerHTML = "";
+
     renderPresentationList();
+    showPage(PAGES.LIST);
   });
 
-  const confirmDeleteKeysBtn = document.getElementById("confirmDeleteBtn");
-  confirmDeleteKeysBtn.addEventListener("click", async function () {
+document
+  .getElementById("confirmDeleteBtn")
+  .addEventListener("click", async function () {
     const checkedDeleteCheckboxList = document.querySelectorAll(
       "input[name=delete]:checked"
     );
@@ -48,22 +79,97 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await manager.removePersistKey(deleteAliasList);
 
+    document.getElementById("keyList").innerHTML = "";
     presentationList = await manager.getKeyValues();
-    keyListElement.innerHTML = "";
-    creator.showKeyList();
+
     renderPresentationList();
+    showPage(PAGES.LIST);
   });
-});
+
+document
+  .getElementById("deleteKeysBtn")
+  .addEventListener("click", () => showPage(PAGES.REMOVE));
+
+document
+  .getElementById("addKeyBtn")
+  .addEventListener("click", () => showPage(PAGES.ADD));
+
+function showPage(page) {
+  const addKeyForm = document.getElementById("addKeyForm");
+  const addKeyFooter = document.getElementById("addKeyFooter");
+  const keyListElement = document.getElementById("keyList");
+  const keyListFooterElement = document.getElementById("keyListFooter");
+  const deleteKeysFooter = document.getElementById("deleteKeysFooter");
+  const deleteCheckboxList = document.getElementsByClassName("delete-checkbox");
+
+  if (page.addKeyForm) addKeyForm.classList.remove("display-none");
+  else addKeyForm.classList.add("display-none");
+
+  if (page.addKeyFooter) addKeyFooter.classList.remove("display-none");
+  else addKeyFooter.classList.add("display-none");
+
+  if (page.keyListElement) keyListElement.classList.remove("display-none");
+  else keyListElement.classList.add("display-none");
+
+  if (page.keyListFooterElement)
+    keyListFooterElement.classList.remove("display-none");
+  else keyListFooterElement.classList.add("display-none");
+
+  if (page.deleteKeysFooter) deleteKeysFooter.classList.remove("display-none");
+  else deleteKeysFooter.classList.add("display-none");
+
+  if (page.deleteCheckboxList)
+    [...deleteCheckboxList].forEach((checkbox) =>
+      checkbox.classList.remove("display-none")
+    );
+  else
+    [...deleteCheckboxList].forEach((checkbox) =>
+      checkbox.classList.add("display-none")
+    );
+}
 
 function renderPresentationList() {
+  keyListElement = document.getElementById("keyList");
+
   presentationList.forEach((key) => {
     let item;
     if (key.type === "local")
-      item = creator.localStorageItem(key.alias, key.value);
-    else item = creator.cookieItem(key.alias, key.value);
+      item = creator.newLocalItem(key.alias, key.value, copyValue, viewKey);
+    else item = creator.newCookieItem(key.alias, key.value, copyValue, viewKey);
 
     keyListElement.appendChild(item);
   });
+}
+
+function copyValue(element, itemId) {
+  const token = document.getElementById(`token-${itemId}`)?.innerHTML;
+  navigator.clipboard.writeText(token).then(
+    function () {
+      element.lastChild.classList.remove("bi-clipboard");
+      element.lastChild.classList.add("bi-check");
+      setTimeout(function () {
+        element.lastChild.classList.remove("bi-check");
+        element.lastChild.classList.add("bi-clipboard");
+      }, 1000);
+    },
+    function (err) {
+      console.error("Async: Could not copy text: ", err);
+    }
+  );
+}
+
+function viewKey(element, itemId) {
+  const card = document.getElementById(`card-${itemId}`);
+
+  if (element.lastChild.classList.contains("bi-eye")) {
+    card.classList.remove("display-none");
+    element.lastChild.classList.remove("bi-eye");
+    element.lastChild.classList.add("bi-eye-slash");
+  } else {
+    card.classList.add("display-none");
+    element.lastChild.classList.remove("bi-eye-slash");
+    element.lastChild.classList.add("bi-eye");
+  }
 }
 
 async function loadDefaultKeys() {
@@ -81,12 +187,4 @@ async function loadDefaultKeys() {
     },
   ];
   await manager.persistNewKey(defaultKeyList);
-}
-
-async function cleanup() {
-  return new Promise((resolve) => {
-    chrome.storage.local.clear(function () {
-      resolve();
-    });
-  });
 }
