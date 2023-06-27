@@ -87,69 +87,62 @@
       <ul id="keyList" class="list-group"></ul>
       <div id="addKeyForm" class="display-none">
         <form>
-          <div class="flex-row align-center justify-between margin-s">
-            <label class="margin-s">Alias:</label>
+          <div class="form-floating mb-3">
             <input
-              class="margin-s"
-              type="text"
               id="alias"
-              name="alias"
-              value=""
-            />
-          </div>
-          <div class="flex-row align-center justify-between margin-s">
-            <label class="margin-s">Key:</label>
-            <input class="margin-s" type="text" id="key" name="key" value="" />
-          </div>
-          <div class="flex-row align-center justify-between margin-s">
-            <label class="margin-s">Sub-key (optional):</label>
-            <input
-              class="margin-s"
               type="text"
-              id="subKey"
-              name="subKey"
-              value=""
+              class="form-control"
+              name="alias"
+              required
             />
+            <label for="alias" class="form-label">Alias</label>
           </div>
-          <div class="flex-col">
-            <label class="margin-s">Storage type:</label>
-            <div class="flex-row align-center">
+          <div class="form-floating mb-3">
+            <input
+              id="key"
+              type="text"
+              class="form-control"
+              name="key"
+              required
+            />
+            <label for="key" class="form-label">Key</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input id="subKey" type="text" class="form-control" name="subKey" />
+            <label for="subKey" class="form-label">Sub-key</label>
+          </div>
+          <div class="mb-3">
+            <label for="radios" class="form-label">Storage type</label>
+            <div id="radios" class="form-check">
               <input
-                class="margin-s"
+                class="form-check-input"
                 type="radio"
+                name="storage"
                 id="localStorage"
-                name="storage"
                 value="local"
+                checked
               />
-              <img
-                class="margin-s"
-                src="/images/icon-package-48.png"
-                width="20"
-                height="20"
-              />
-              <label class="margin-s">Local storage</label>
+              <label class="form-check-label" for="localStorage">
+                <i class="bi bi-archive"></i> Local storage
+              </label>
             </div>
-            <div class="flex-row align-center">
+            <div class="form-check">
               <input
-                class="margin-s"
+                class="form-check-input"
                 type="radio"
-                id="cookies"
                 name="storage"
+                id="cookies"
                 value="cookie"
               />
-              <img
-                class="margin-s"
-                src="/images/icon-cookies-48.png"
-                width="20"
-                height="20"
-              />
-              <label class="margin-s">Cookies</label>
+              <label class="form-check-label" for="localStorage">
+                <i class="bi bi-egg-fried"></i> Cookies
+              </label>
             </div>
           </div>
         </form>
       </div>
     </section>
-    <footer>
+    <footer style="margin-top: 5px;">
       <div
         id="keyListFooter"
         class="flex-row justify-end full-width align-center"
@@ -169,13 +162,12 @@
         <button
           id="cancelKeyBtn"
           type="button"
-          class="btn"
-          disabled
+          class="btn btn-primary"
           style="margin-right: 5px"
         >
           <i class="bi bi-x-circle"></i>
         </button>
-        <button id="saveKeyBtn" type="button" class="btn btn-outline-success">
+        <button id="saveKeyBtn" type="button" class="btn btn-outline-success  ">
           <i class="bi bi-save"></i>
         </button>
       </div>
@@ -186,8 +178,7 @@
         <button
           id="cancelDeleteBtn"
           type="button"
-          class="btn"
-          disabled
+          class="btn btn-primary"
           style="margin-right: 5px"
         >
           <i class="bi bi-x-circle"></i>

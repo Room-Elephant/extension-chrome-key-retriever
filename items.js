@@ -102,12 +102,12 @@ const appCreator = () => {
   function newAction(itemId, value, copyFnc, viewFnc) {
     const actionDiv = document.createElement("div");
 
-    const viewBtn = newButton("bi-eye", itemId, value === undefined, viewFnc);
+    const viewBtn = newButton("bi-eye", itemId, value === undefined || value === null, viewFnc);
     viewBtn.style.marginRight = "5px";
     const copyBtn = newButton(
       "bi-clipboard",
       itemId,
-      value === undefined,
+      value === undefined || value === null,
       copyFnc
     );
 
