@@ -68,10 +68,9 @@ const appManager = () => {
     let cookieKeyPresentation = [];
     if (keyList != null && keyList.length > 0) {
       try {
-        cookieKeyPresentation = await remoteRequest(
-          tab,
-          getCookie,
-          keyList?.filter(({ type }) => type === "cookie")
+        cookieKeyPresentation = await getCookie(
+          keyList?.filter(({ type }) => type === "cookie"),
+          tabToStringUrl(tab)
         );
       } catch (e) {
         console.log("🚀 ~ could not from read cookies:", e);
@@ -120,25 +119,23 @@ const appManager = () => {
     }));
   }
 
-  function getCookie(cookieKeyList) {
-    for (let i = 0; i < cookieKeyList.length; i++) {
-      try {
-        let value = document.cookie
-          .split(cookieKeyList[i].key + "=")[1]
-          .split(";")[0];
+  async function getCookie(cookieKeyList, url) {
+    const cookies = await chrome.cookies.getAll({ url });
+    const keyListKeys = cookieKeyList.map(({ key }) => key);
 
-        if (cookieKeyList[i].subKey) {
-          value = JSON.parse(value)[cookieKeyList[i].subKey];
-        }
+    const matchCookies = cookies
+      .filter(({ name }) => keyListKeys.includes(name))
+      .map(({ name, value }) => ({ name, value, type: "cookie" }));
 
-        cookieKeyList[i].value = value;
-      } catch (e) {}
-    }
-    return cookieKeyList.map(({ alias, value, type }) => ({
-      alias,
-      value,
-      type,
-    }));
+    return cookieKeyList.map(({ alias, key, type }) => {
+      value = matchCookies.find(({ name }) => name === key)?.value || undefined;
+      return { alias, type, value };
+    });
+  }
+
+  function tabToStringUrl(tab) {
+    const url = new URL(tab.url);
+    return url.protocol + "//" + url.hostname;
   }
 
   return {
