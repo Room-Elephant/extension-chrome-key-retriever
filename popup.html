@@ -5,8 +5,10 @@
     <style>
       html {
         min-height: 5em;
-        min-width: 12em;
-        font-size: 20px;
+        min-width: 25em;
+      }
+      body {
+        padding: 1em;
       }
       header {
         padding: 0.4em;
@@ -66,16 +68,23 @@
         margin: 0.5em;
       }
     </style>
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/bootstrap-icons/bootstrap-icons.css" />
   </head>
   <body>
     <header>
-      <div class="flex-row justify-around">
-        <img src="./images/icon48.png" />
+      <div class="flex-row align-center">
+        <img
+          src="./images/icon48.png"
+          width="48"
+          height="48"
+          style="margin-right: 1em"
+        />
         <h4>Key Retriever</h4>
       </div>
     </header>
     <section>
-      <div id="keyList" class="flex-col"></div>
+      <ul id="keyList" class="list-group"></ul>
       <div id="addKeyForm" class="display-none">
         <form>
           <div class="flex-row align-center justify-between margin-s">
@@ -145,52 +154,56 @@
         id="keyListFooter"
         class="flex-row justify-end full-width align-center"
       >
-        <img
-          class="cursor-pointer margin-s"
-          id="deleteKeysBtn"
-          src="./images/icon-delete-50.png"
-          width="20"
-          height="20"
-        />
-        <img
-          class="cursor-pointer margin-s"
-          id="addKeyBtn"
-          src="./images/icon-plus-50.png"
-          width="20"
-          height="20"
-        />
+        <button id="deleteKeysBtn" type="button" class="btn">
+          <i class="bi bi-trash"></i>
+        </button>
+
+        <button id="addKeyBtn" type="button" class="btn">
+          <i class="bi bi-plus-circle-fill"></i>
+        </button>
       </div>
       <div
         id="addKeyFooter"
         class="flex-row justify-end full-width align-center display-none"
       >
-        <button id="saveKeyBtn" type="button" class="btn success">
-          <div class="flex-row justify-between align-center">
-            <img
-              src="./images/icon-green-save-30.png"
-              width="15"
-              height="15"
-              class="margin-xs"
-            />
-            Save
-          </div>
+        <button
+          id="cancelKeyBtn"
+          type="button"
+          class="btn"
+          disabled
+          style="margin-right: 5px"
+        >
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <button id="saveKeyBtn" type="button" class="btn btn-outline-success">
+          <i class="bi bi-save"></i>
         </button>
       </div>
       <div
         id="deleteKeysFooter"
         class="flex-row justify-end full-width align-center display-none"
       >
-        <img
+        <button
+          id="cancelDeleteBtn"
+          type="button"
+          class="btn"
+          disabled
+          style="margin-right: 5px"
+        >
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <button
           id="confirmDeleteBtn"
-          src="./images/icon-check-30.png"
-          width="20"
-          height="20"
-          class="margin-xs cursor-pointer"
-        />
+          type="button"
+          class="btn btn-outline-success"
+        >
+          <i class="bi bi-eraser-fill"></i>
+        </button>
       </div>
     </footer>
     <script src="manager.js"></script>
     <script src="items.js"></script>
     <script src="popup.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

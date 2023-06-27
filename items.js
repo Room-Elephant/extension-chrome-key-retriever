@@ -1,28 +1,4 @@
 const appCreator = () => {
-  document.addEventListener("DOMContentLoaded", function () {
-    let btn = document.getElementById("addKeyBtn");
-    btn.addEventListener("click", () => showAddKeyForm());
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    let btn = document.getElementById("deleteKeysBtn");
-    btn.addEventListener("click", () => showDeleteCheckbox());
-  });
-
-  function showKeyList() {
-    const addKeyForm = document.getElementById("addKeyForm");
-    addKeyForm.classList.add("display-none");
-
-    const addKeyFooter = document.getElementById("addKeyFooter");
-    addKeyFooter.classList.add("display-none");
-
-    const keyListElement = document.getElementById("keyList");
-    keyListElement.classList.remove("display-none");
-
-    const keyListFooterElement = document.getElementById("keyListFooter");
-    keyListFooterElement.classList.remove("display-none");
-  }
-
   function getFormData() {
     const alias = document.getElementById("alias").value;
     const key = document.getElementById("key").value;
@@ -34,132 +10,139 @@ const appCreator = () => {
     return { alias, key, subKey, type: storageType };
   }
 
-  function showAddKeyForm() {
-    const keyListElement = document.getElementById("keyList");
-    keyListElement.classList.add("display-none");
-
-    const keyListFooterElement = document.getElementById("keyListFooter");
-    keyListFooterElement.classList.add("display-none");
-
-    const addKeyForm = document.getElementById("addKeyForm");
-    addKeyForm.classList.remove("display-none");
-
-    const addKeyFooter = document.getElementById("addKeyFooter");
-    addKeyFooter.classList.remove("display-none");
+  function newLocalItem(alias, value, copyFnc, viewFnc) {
+    return newItem(alias, value, "bi-archive", copyFnc, viewFnc);
   }
 
-  function showDeleteCheckbox() {
-    const deleteCheckboxList =
-      document.getElementsByClassName("delete-checkbox");
-
-    [...deleteCheckboxList].forEach((checkbox) =>
-      checkbox.classList.remove("display-none")
-    );
-
-    const keyListFooterElement = document.getElementById("keyListFooter");
-    keyListFooterElement.classList.add("display-none");
-
-    const deleteKeysFooter = document.getElementById("deleteKeysFooter");
-    deleteKeysFooter.classList.remove("display-none");
+  function newCookieItem(alias, value, copyFnc, viewFnc) {
+    return newItem(alias, value, "bi-egg-fried", copyFnc, viewFnc);
   }
 
-  function copyValue(element, itemKey) {
-    const token = document.getElementById(`token-${itemKey}`)?.innerHTML;
-    navigator.clipboard.writeText(token).then(
-      function () {
-        console.log("Async: Copy value with success");
-        element.src = "./images/icon-check-30.png";
-        setTimeout(function () {
-          element.src = "./images/icon-copy-24.png";
-        }, 1000);
-      },
-      function (err) {
-        console.error("Async: Could not copy text: ", err);
-      }
-    );
+  function newItem(alias, value, type, copyFnc, viewFnc) {
+    const itemId = alias.trim();
+
+    const li = document.createElement("li");
+    li.classList.add("list-group-item");
+
+    const itemBody = newItemBody(itemId, alias, value, type, copyFnc, viewFnc);
+    const TokenParent = newItemFooter(itemId, value);
+
+    li.appendChild(itemBody);
+    li.appendChild(TokenParent);
+
+    return li;
   }
 
-  function localStorageItem(alias, value) {
-    return item(alias, value, "/images/icon-package-48.png");
+  function newItemFooter(itemId, value) {
+    const card = document.createElement("div");
+    card.id = `card-${itemId}`;
+    card.classList.add("card");
+    card.style.maxHeight = "60px";
+    card.style.overflow = "hidden";
+    card.style.overflowY = "scroll";
+    card.classList.add("display-none");
+    const cardBody = document.createElement("div");
+    card.classList.add("card-body");
+
+    const token = document.createElement("p");
+    token.id = `token-${itemId}`;
+    token.classList.add("text-break");
+    token.innerText = value;
+
+    cardBody.appendChild(token);
+    card.appendChild(cardBody);
+
+    return card;
   }
 
-  function cookieItem(alias, value) {
-    return item(alias, value, "/images/icon-cookies-48.png");
+  function newItemBody(itemId, alias, value, type, copyFnc, viewFnc) {
+    const itemBody = document.createElement("div");
+    itemBody.classList.add("d-flex");
+    itemBody.classList.add("justify-content-between");
+    itemBody.classList.add("align-items-center");
+    itemBody.style.width = "100%";
+    itemBody.style.marginBottom = "5px";
+
+    const aliasDiv = newAlias(itemId, alias, type);
+    const actionDiv = newAction(itemId, value, copyFnc, viewFnc);
+
+    itemBody.appendChild(aliasDiv);
+    itemBody.appendChild(actionDiv);
+
+    return itemBody;
   }
 
-  function item(alias, value, imgTypeSrc) {
-    const itemParentDiv = document.createElement("div");
-    const itemKey = alias.trim();
-    itemParentDiv.classList.add("flex-row");
-    itemParentDiv.classList.add("justify-between");
-    itemParentDiv.classList.add("align-center");
-    itemParentDiv.classList.add("full-width");
-
-    const itemDetailsElement = itemDetails(alias, value, imgTypeSrc, itemKey);
-
-    const copyElement = document.createElement("img");
-
-    copyElement.addEventListener("click", () =>
-      copyValue(copyElement, itemKey)
-    );
-    copyElement.classList.add("cursor-pointer");
-    copyElement.classList.add("copy-btn");
-    copyElement.src = "./images/icon-copy-24.png";
-    copyElement.width = "15";
-    copyElement.height = "15";
-
-    if (value === undefined) copyElement.hidden = true;
-
-    itemParentDiv.appendChild(itemDetailsElement);
-    itemParentDiv.appendChild(copyElement);
-
-    return itemParentDiv;
-  }
-
-  function itemDetails(alias, value, imgTypeSrc, itemKey) {
-    const itemTextDiv = document.createElement("div");
-    itemTextDiv.classList.add("flex-row");
-    itemTextDiv.classList.add("align-center");
+  function newAlias(itemId, alias, type) {
+    const aliasDiv = document.createElement("div");
+    aliasDiv.classList.add("align-items-center");
+    aliasDiv.classList.add("d-flex");
 
     const deleteCheckbox = document.createElement("input");
     deleteCheckbox.setAttribute("type", "checkbox");
     deleteCheckbox.setAttribute("name", "delete");
-    deleteCheckbox.setAttribute("id", alias.trim());
+    deleteCheckbox.setAttribute("id", itemId);
+    deleteCheckbox.classList.add("form-check-input");
     deleteCheckbox.classList.add("display-none");
     deleteCheckbox.classList.add("delete-checkbox");
+    deleteCheckbox.style.marginRight = "5px";
 
-    const textElement = document.createElement("p");
-    textElement.innerText = alias;
+    const i = newI(type);
+    i.style.marginRight = "5px";
 
-    const hiddenToken = document.createElement("p");
-    hiddenToken.id = `token-${itemKey}`;
-    hiddenToken.classList.add("display-none");
-    hiddenToken.innerText = value;
+    const span = document.createElement("span");
+    span.textContent = alias;
 
-    const imgType = type(imgTypeSrc);
+    aliasDiv.appendChild(deleteCheckbox);
+    aliasDiv.appendChild(i);
+    aliasDiv.appendChild(span);
 
-    itemTextDiv.appendChild(deleteCheckbox);
-    itemTextDiv.appendChild(imgType);
-    itemTextDiv.appendChild(hiddenToken);
-    itemTextDiv.appendChild(textElement);
-
-    return itemTextDiv;
+    return aliasDiv;
   }
 
-  function type(imgTypeSrc) {
-    const imgType = document.createElement("img");
-    imgType.width = "20";
-    imgType.height = "20";
-    imgType.classList.add("margin-s");
-    imgType.src = imgTypeSrc;
+  function newAction(itemId, value, copyFnc, viewFnc) {
+    const actionDiv = document.createElement("div");
 
-    return imgType;
+    const viewBtn = newButton("bi-eye", itemId, value === undefined, viewFnc);
+    viewBtn.style.marginRight = "5px";
+    const copyBtn = newButton(
+      "bi-clipboard",
+      itemId,
+      value === undefined,
+      copyFnc
+    );
+
+    actionDiv.append(viewBtn);
+    actionDiv.append(copyBtn);
+
+    return actionDiv;
+  }
+
+  function newButton(icon, itemId, disabled, onClick) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.disabled = disabled;
+    button.classList.add("btn");
+
+    const i = newI(icon);
+
+    button.appendChild(i);
+
+    button.addEventListener("click", () => onClick(button, itemId));
+
+    return button;
+  }
+
+  function newI(icon) {
+    const i = document.createElement("div");
+    i.classList.add("bi");
+    i.classList.add(icon);
+
+    return i;
   }
 
   return {
-    localStorageItem,
-    cookieItem,
-    showKeyList,
+    newCookieItem,
+    newLocalItem,
     getFormData,
   };
 };
