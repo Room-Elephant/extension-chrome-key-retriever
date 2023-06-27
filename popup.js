@@ -42,11 +42,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 document
   .getElementById("saveKeyBtn")
   .addEventListener("click", async function () {
-    document.getElementById("keyList").innerHTML = "";
-
     const formData = creator.getFormData();
     await manager.persistNewKey([formData]);
 
+
+    document.getElementById("keyList").innerHTML = "";
     presentationList = await manager.getKeyValues();
 
     renderPresentationList();
@@ -93,6 +93,15 @@ document
 document
   .getElementById("addKeyBtn")
   .addEventListener("click", () => showPage(PAGES.ADD));
+
+  document
+  .getElementById("cancelDeleteBtn")
+  .addEventListener("click", () => showPage(PAGES.LIST));
+
+  document
+  .getElementById("cancelKeyBtn")
+  .addEventListener("click", () => showPage(PAGES.LIST));
+  
 
 function showPage(page) {
   const addKeyForm = document.getElementById("addKeyForm");
