@@ -1,15 +1,4 @@
 const appCreator = () => {
-  function getFormData() {
-    const alias = document.getElementById("alias").value;
-    const key = document.getElementById("key").value;
-    const subKey = document.getElementById("subKey").value || undefined;
-    const storageType = document.querySelector(
-      'input[name="storage"]:checked'
-    ).value;
-
-    return { alias, key, subKey, type: storageType };
-  }
-
   function newLocalItem(alias, value, copyFnc, viewFnc) {
     return newItem(alias, value, "bi-archive", copyFnc, viewFnc);
   }
@@ -143,6 +132,5 @@ const appCreator = () => {
   return {
     newCookieItem,
     newLocalItem,
-    getFormData,
   };
 };

@@ -67,16 +67,6 @@ document
       .filter((element) => deleteIds.includes(element.alias.trim()))
       .map((element) => element.alias);
 
-    const deleteKeysFooter = document.getElementById("deleteKeysFooter");
-    deleteKeysFooter.classList.add("display-none");
-
-    const deleteCheckboxList =
-      document.getElementsByClassName("delete-checkbox");
-
-    [...deleteCheckboxList].forEach((checkbox) =>
-      checkbox.classList.add("display-none")
-    );
-
     await manager.removePersistKey(deleteAliasList);
 
     document.getElementById("keyList").innerHTML = "";
@@ -135,6 +125,17 @@ function showPage(page) {
     [...deleteCheckboxList].forEach((checkbox) =>
       checkbox.classList.add("display-none")
     );
+}
+
+function getFormData() {
+  const alias = document.getElementById("alias").value;
+  const key = document.getElementById("key").value;
+  const subKey = document.getElementById("subKey").value || undefined;
+  const storageType = document.querySelector(
+    'input[name="storage"]:checked'
+  ).value;
+
+  return { alias, key, subKey, type: storageType };
 }
 
 function renderPresentationList() {
