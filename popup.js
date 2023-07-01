@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 document
   .getElementById("saveKeyBtn")
   .addEventListener("click", async function () {
-    const formData = creator.getFormData();
+    const formData = getFormData();
     await manager.persistNewKey([formData]);
 
 
