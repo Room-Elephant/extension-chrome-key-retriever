@@ -12,7 +12,7 @@
       }
       header {
         padding: 0.4em;
-        color: #214687;
+        color: #495057;
       }
       .cursor-pointer {
         cursor: pointer;
@@ -84,8 +84,8 @@
         <h4>Key Retriever</h4>
       </div>
     </header>
-    <section>
-      <ul id="keyList" class="list-group"></ul>
+    <section style="margin-top: 10px">
+      <ul id="keyList" class="list-group list-group-flush"></ul>
       <div id="addKeyForm" class="display-none">
         <form>
           <div class="form-floating my-3">
@@ -113,52 +113,86 @@
             <label for="subKey" class="form-label">Sub-key</label>
           </div>
           <div class="mb-3">
-            <label for="radios" class="form-label">Storage type</label>
-            <div id="radios" class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="storage"
-                id="localStorage"
-                value="local"
-                checked
-              />
-              <label class="form-check-label" for="localStorage">
-                <i
-                  class="fa-solid fa-box-archive fa-lg"
-                  style="color: #865318"
-                ></i>
-                Local storage
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="storage"
-                id="cookies"
-                value="cookie"
-              />
-              <label class="form-check-label" for="localStorage">
-                <i class="fa-solid fa-cookie fa-lg" style="color: #ffaa3b"></i>
-                Cookies
-              </label>
+            <label class="form-label">Storage type</label>
+            <div class="d-flex flex-row">
+              <div class="form-check" style="margin-right: 10px">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="session"
+                  id="sessionStorage"
+                  value="session"
+                />
+                <label class="form-check-label" for="sessionStorage">
+                  <i
+                    class="fa-sharp fa-regular fa-folder-open"
+                    style="color: #ffaa3b"
+                  ></i>
+                  Session storage
+                </label>
+              </div>
+              <div class="form-check" style="margin-right: 10px">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="storage"
+                  id="localStorage"
+                  value="local"
+                  checked
+                />
+                <label class="form-check-label" for="localStorage">
+                  <i
+                    class="fa-solid fa-box-archive fa-lg"
+                    style="color: #865318"
+                  ></i>
+                  Local storage
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="storage"
+                  id="cookies"
+                  value="cookie"
+                />
+                <label class="form-check-label" for="localStorage">
+                  <i
+                    class="fa-solid fa-cookie fa-lg"
+                    style="color: #ffaa3b"
+                  ></i>
+                  Cookies
+                </label>
+              </div>
             </div>
           </div>
         </form>
       </div>
     </section>
-    <footer style="margin-top: 5px">
+    <footer style="margin-top: 10px">
       <div
         id="keyListFooter"
         class="flex-row justify-end full-width align-center"
       >
-        <button id="deleteKeysBtn" type="button" class="btn">
-          <i class="fa-solid fa-trash-can fa-lg" style="color: #cb261a"></i>
+        <button
+          id="deleteKeysBtn"
+          type="button"
+          class="btn btn-outline-danger"
+          style="margin-right: 10px"
+        >
+          <span class="btn-label">
+            <i class="fa-solid fa-trash-can fa-sm"></i
+          ></span>
         </button>
 
-        <button id="addKeyBtn" type="button" class="btn">
-          <i class="fa-solid fa-circle-plus fa-lg" style="color: #5db027"></i>
+        <button id="addKeyBtn" type="button" class="btn btn-outline-success">
+          <span class="btn-label">
+            <i
+              class="fa-solid fa-circle-plus fa-sm"
+              style="margin-right: 10px"
+            ></i
+          ></span>
+          Add key
         </button>
       </div>
       <div
@@ -173,7 +207,7 @@
         >
           <i
             class="fa-regular fa-circle-xmark fa-lg"
-            style="color: #214687"
+            style="color: #495057"
           ></i>
         </button>
         <button id="saveKeyBtn" type="button" class="btn btn-outline-success">

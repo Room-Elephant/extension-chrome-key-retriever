@@ -110,13 +110,13 @@ const appCreator = () => {
     actionDiv.classList.add("d-flex");
 
     const viewBtn = newButton(
-      { class: "fa-solid fa-eye fa-lg", style: "color: #214687;" },
+      { class: "fa-solid fa-eye fa-lg", style: "color: #495057;" },
       itemId,
       value === undefined || value === null,
       viewFnc
     );
     const copyBtn = newButton(
-      { class: "fa-solid fa-copy fa-lg", style: "color: #214687;" },
+      { class: "fa-solid fa-copy fa-lg", style: "color: #495057;" },
       itemId,
       value === undefined || value === null,
       copyFnc

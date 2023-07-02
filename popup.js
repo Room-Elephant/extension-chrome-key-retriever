@@ -45,7 +45,6 @@ document
     const formData = getFormData();
     await manager.persistNewKey([formData]);
 
-
     document.getElementById("keyList").innerHTML = "";
     presentationList = await manager.getKeyValues();
 
@@ -84,14 +83,13 @@ document
   .getElementById("addKeyBtn")
   .addEventListener("click", () => showPage(PAGES.ADD));
 
-  document
+document
   .getElementById("cancelDeleteBtn")
   .addEventListener("click", () => showPage(PAGES.LIST));
 
-  document
+document
   .getElementById("cancelKeyBtn")
   .addEventListener("click", () => showPage(PAGES.LIST));
-  
 
 function showPage(page) {
   const addKeyForm = document.getElementById("addKeyForm");
@@ -155,11 +153,13 @@ function copyValue(element, itemId) {
   const token = document.getElementById(`token-${itemId}`)?.innerHTML;
   navigator.clipboard.writeText(token).then(
     function () {
-      element.lastChild.classList.remove("bi-clipboard");
-      element.lastChild.classList.add("bi-check");
+      element.lastChild.classList.remove("fa-copy");
+      element.lastChild.classList.add("fa-check");
+      element.lastChild.style.color = "#198754";
       setTimeout(function () {
-        element.lastChild.classList.remove("bi-check");
-        element.lastChild.classList.add("bi-clipboard");
+        element.lastChild.classList.remove("fa-check");
+        element.lastChild.classList.add("fa-copy");
+        element.lastChild.style.color = "#495057";
       }, 1000);
     },
     function (err) {
@@ -171,14 +171,14 @@ function copyValue(element, itemId) {
 function viewKey(element, itemId) {
   const card = document.getElementById(`card-${itemId}`);
 
-  if (element.lastChild.classList.contains("bi-eye")) {
+  if (element.lastChild.classList.contains("fa-eye")) {
     card.classList.remove("display-none");
-    element.lastChild.classList.remove("bi-eye");
-    element.lastChild.classList.add("bi-eye-slash");
+    element.lastChild.classList.remove("fa-eye");
+    element.lastChild.classList.add("fa-eye-slash");
   } else {
     card.classList.add("display-none");
-    element.lastChild.classList.remove("bi-eye-slash");
-    element.lastChild.classList.add("bi-eye");
+    element.lastChild.classList.remove("fa-eye-slash");
+    element.lastChild.classList.add("fa-eye");
   }
 }
 
