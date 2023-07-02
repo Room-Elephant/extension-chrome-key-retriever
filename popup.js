@@ -141,13 +141,40 @@ function renderPresentationList() {
 
   presentationList.forEach((key) => {
     let item;
-    if (key.type === "local")
-      item = creator.newLocalItem(key.alias, key.value, copyValue, viewKey);
-    else item = creator.newCookieItem(key.alias, key.value, copyValue, viewKey);
+    switch (key.type) {
+      case TYPES.SESSION:
+        item = creator.newSessionItem(
+          key.alias,
+          key.value,
+          setFnc,
+          copyValue,
+          viewKey
+        );
+        break;
+      case TYPES.LOCAL:
+        item = creator.newLocalItem(
+          key.alias,
+          key.value,
+          setFnc,
+          copyValue,
+          viewKey
+        );
+        break;
+      case TYPES.COOKIE:
+        item = creator.newCookieItem(
+          key.alias,
+          key.value,
+          setFnc,
+          copyValue,
+          viewKey
+        );
+    }
 
     keyListElement.appendChild(item);
   });
 }
+
+function setFnc(element, itemId) {}
 
 function copyValue(element, itemId) {
   const token = document.getElementById(`token-${itemId}`)?.innerHTML;
@@ -187,13 +214,13 @@ async function loadDefaultKeys() {
     {
       alias: "Auth token",
       key: "X-Auth-Token",
-      type: "cookie",
+      type: TYPES.COOKIE,
     },
     {
       alias: "Geo token",
       key: "location token",
       subKey: "jwt",
-      type: "local",
+      type: TYPES.LOCAL,
     },
   ];
   await manager.persistNewKey(defaultKeyList);

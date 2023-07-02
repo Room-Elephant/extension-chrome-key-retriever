@@ -1,5 +1,13 @@
 const appCreator = () => {
-  function newLocalItem(alias, value, copyFnc, viewFnc) {
+  function newSessionItem(alias, value, setFnc, copyFnc, viewFnc) {
+    const iconElement = {
+      class: "fa-sharp fa-regular fa-folder-open",
+      style: "color: #ffaa3b",
+    };
+    return newItem(alias, value, iconElement, copyFnc, viewFnc);
+  }
+
+  function newLocalItem(alias, value, setFnc, copyFnc, viewFnc) {
     const iconElement = {
       class: "fa-solid fa-box-archive fa-lg",
       style: "color: #865318",
@@ -7,7 +15,7 @@ const appCreator = () => {
     return newItem(alias, value, iconElement, copyFnc, viewFnc);
   }
 
-  function newCookieItem(alias, value, copyFnc, viewFnc) {
+  function newCookieItem(alias, value, setFnc, copyFnc, viewFnc) {
     const iconElement = {
       class: "fa-solid fa-cookie fa-lg",
       style: "color: #ffaa3b;",
@@ -60,7 +68,7 @@ const appCreator = () => {
     return card;
   }
 
-  function newItemBody(itemId, alias, value, icon, copyFnc, viewFnc) {
+  function newItemBody(itemId, alias, value, icon, setFnc, copyFnc, viewFnc) {
     const itemBody = document.createElement("div");
     itemBody.classList.add("d-flex");
     itemBody.classList.add("justify-content-between");
@@ -70,10 +78,8 @@ const appCreator = () => {
     const aliasDiv = newAlias(itemId, alias, icon);
     itemBody.appendChild(aliasDiv);
 
-    if (value) {
-      const actionDiv = newAction(itemId, value, copyFnc, viewFnc);
-      itemBody.appendChild(actionDiv);
-    }
+    const actionDiv = newAction(itemId, value, setFnc, copyFnc, viewFnc);
+    itemBody.appendChild(actionDiv);
 
     return itemBody;
   }
@@ -105,10 +111,16 @@ const appCreator = () => {
     return aliasDiv;
   }
 
-  function newAction(itemId, value, copyFnc, viewFnc) {
+  function newAction(itemId, value, setFnc, copyFnc, viewFnc) {
     const actionDiv = document.createElement("div");
     actionDiv.classList.add("d-flex");
 
+    const setBtn = newButton(
+      { class: "fa-solid fa-clipboard", style: "color: #214687;" },
+      itemId,
+      false,
+      setFnc
+    );
     const viewBtn = newButton(
       { class: "fa-solid fa-eye fa-lg", style: "color: #495057;" },
       itemId,
@@ -122,8 +134,9 @@ const appCreator = () => {
       copyFnc
     );
 
-    actionDiv.append(viewBtn);
-    actionDiv.append(copyBtn);
+    if (false) actionDiv.append(setBtn);
+    if (value) actionDiv.append(viewBtn);
+    if (value) actionDiv.append(copyBtn);
 
     return actionDiv;
   }
@@ -157,5 +170,6 @@ const appCreator = () => {
   return {
     newCookieItem,
     newLocalItem,
+    newSessionItem,
   };
 };

@@ -1,5 +1,5 @@
 const keyReader = (listOfKeys) => {
-    const keyList = listOfKeys;
+  const keyList = listOfKeys;
   async function getLocalKeys(tab) {
     return await getPresentationValuesFromRemote(TYPES.LOCAL, tab, getLocal);
   }
@@ -13,9 +13,9 @@ const keyReader = (listOfKeys) => {
   }
 
   async function getCookieKeys(tab) {
-    let cookieKeyPresentation;
+    let cookieKeyPresentation = [];
     if (keyList != null && keyList.length > 0) {
-      const cookieKeyList = keyList?.filter(({ type }) => type === "cookie");
+      const cookieKeyList = keyList?.filter(({ type }) => type === TYPES.COOKIE);
       try {
         cookieKeyPresentation = await getCookie(
           cookieKeyList,
@@ -34,25 +34,27 @@ const keyReader = (listOfKeys) => {
     tab,
     retrieverFnc
   ) {
-    let requestedTypeKeyPresentation;
+    let requestedTypeKeyPresentation = [];
 
     if (keyList != null && keyList.length > 0) {
       const filteredKeyList = keyList?.filter(
         ({ type }) => type === requestedType
       );
-      try {
-        requestedTypeKeyPresentation = await remoteRequest(
-          tab,
-          retrieverFnc,
-          filteredKeyList
-        );
-      } catch (e) {
-        requestedTypeKeyPresentation =
-          keyListToPresentationList(filteredKeyList);
-        console.log(
-          "🚀 ~ could not read from " + requestedType + " storage:",
-          e
-        );
+      if (filteredKeyList.length > 0) {
+        try {
+          requestedTypeKeyPresentation = await remoteRequest(
+            tab,
+            retrieverFnc,
+            filteredKeyList
+          );
+        } catch (e) {
+          requestedTypeKeyPresentation =
+            keyListToPresentationList(filteredKeyList);
+          console.log(
+            "🚀 ~ could not read from " + requestedType + " storage:",
+            e
+          );
+        }
       }
     }
     return requestedTypeKeyPresentation;
@@ -111,7 +113,7 @@ const keyReader = (listOfKeys) => {
 
     const matchCookies = cookies
       .filter(({ name }) => keyListKeys.includes(name))
-      .map(({ name, value }) => ({ name, value, type: "cookie" }));
+      .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
 
     return cookieKeyList.map(({ alias, key, type }) => {
       value = matchCookies.find(({ name }) => name === key)?.value || undefined;

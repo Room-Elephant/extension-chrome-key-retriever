@@ -57,12 +57,12 @@ const appManager = () => {
       }));
     }
 
-    const localKeyPresentation = await reader.getLocalKeys(tab);
     const sessionKeyPresentation = await reader.getSessionKeys(tab);
+    const localKeyPresentation = await reader.getLocalKeys(tab);
     const cookieKeyPresentation = await reader.getCookieKeys(tab);
 
-    presentationList.push(...localKeyPresentation);
     presentationList.push(...sessionKeyPresentation);
+    presentationList.push(...localKeyPresentation);
     presentationList.push(...cookieKeyPresentation);
 
     return presentationList;
