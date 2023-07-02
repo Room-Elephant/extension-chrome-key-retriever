@@ -12,7 +12,7 @@
       }
       header {
         padding: 0.4em;
-        color: #76b5c5;
+        color: #214687;
       }
       .cursor-pointer {
         cursor: pointer;
@@ -20,8 +20,8 @@
       .display-none {
         display: none !important;
       }
-      .blue-color {
-        color: #76b5c5;
+      .yellow-color {
+        color: #ffaa3b;
       }
       .btn {
         border: 2px solid;
@@ -70,6 +70,7 @@
     </style>
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="/assets/font-awesome/font-awesome.css" />
   </head>
   <body>
     <header>
@@ -87,7 +88,7 @@
       <ul id="keyList" class="list-group"></ul>
       <div id="addKeyForm" class="display-none">
         <form>
-          <div class="form-floating mb-3">
+          <div class="form-floating my-3">
             <input
               id="alias"
               type="text"
@@ -123,7 +124,11 @@
                 checked
               />
               <label class="form-check-label" for="localStorage">
-                <i class="bi bi-archive"></i> Local storage
+                <i
+                  class="fa-solid fa-box-archive fa-lg"
+                  style="color: #865318"
+                ></i>
+                Local storage
               </label>
             </div>
             <div class="form-check">
@@ -135,24 +140,25 @@
                 value="cookie"
               />
               <label class="form-check-label" for="localStorage">
-                <i class="bi bi-egg-fried"></i> Cookies
+                <i class="fa-solid fa-cookie fa-lg" style="color: #ffaa3b"></i>
+                Cookies
               </label>
             </div>
           </div>
         </form>
       </div>
     </section>
-    <footer style="margin-top: 5px;">
+    <footer style="margin-top: 5px">
       <div
         id="keyListFooter"
         class="flex-row justify-end full-width align-center"
       >
         <button id="deleteKeysBtn" type="button" class="btn">
-          <i class="bi bi-trash"></i>
+          <i class="fa-solid fa-trash-can fa-lg" style="color: #cb261a"></i>
         </button>
 
         <button id="addKeyBtn" type="button" class="btn">
-          <i class="bi bi-plus-circle-fill"></i>
+          <i class="fa-solid fa-circle-plus fa-lg" style="color: #5db027"></i>
         </button>
       </div>
       <div
@@ -162,13 +168,20 @@
         <button
           id="cancelKeyBtn"
           type="button"
-          class="btn btn-primary"
+          class="btn"
           style="margin-right: 5px"
         >
-          <i class="bi bi-x-circle"></i>
+          <i
+            class="fa-regular fa-circle-xmark fa-lg"
+            style="color: #214687"
+          ></i>
         </button>
-        <button id="saveKeyBtn" type="button" class="btn btn-outline-success  ">
-          <i class="bi bi-save"></i>
+        <button id="saveKeyBtn" type="button" class="btn btn-outline-success">
+          <i
+            class="fa-solid fa-floppy-disk"
+            style="color: #5db027; margin-right: 10px"
+          ></i
+          >Save
         </button>
       </div>
       <div
@@ -181,7 +194,7 @@
           class="btn btn-primary"
           style="margin-right: 5px"
         >
-          <i class="bi bi-x-circle"></i>
+          <i class="fa-solid fa-trash-can" style="color: #cb261a"></i>
         </button>
         <button
           id="confirmDeleteBtn"

@@ -1,19 +1,35 @@
 const appCreator = () => {
   function newLocalItem(alias, value, copyFnc, viewFnc) {
-    return newItem(alias, value, "bi-archive", copyFnc, viewFnc);
+    const iconElement = {
+      class: "fa-solid fa-box-archive fa-lg",
+      style: "color: #865318",
+    };
+    return newItem(alias, value, iconElement, copyFnc, viewFnc);
   }
 
   function newCookieItem(alias, value, copyFnc, viewFnc) {
-    return newItem(alias, value, "bi-egg-fried", copyFnc, viewFnc);
+    const iconElement = {
+      class: "fa-solid fa-cookie fa-lg",
+      style: "color: #ffaa3b;",
+    };
+
+    return newItem(alias, value, iconElement, copyFnc, viewFnc);
   }
 
-  function newItem(alias, value, type, copyFnc, viewFnc) {
+  function newItem(alias, value, iconType, copyFnc, viewFnc) {
     const itemId = alias.trim();
 
     const li = document.createElement("li");
     li.classList.add("list-group-item");
 
-    const itemBody = newItemBody(itemId, alias, value, type, copyFnc, viewFnc);
+    const itemBody = newItemBody(
+      itemId,
+      alias,
+      value,
+      iconType,
+      copyFnc,
+      viewFnc
+    );
     const TokenParent = newItemFooter(itemId, value);
 
     li.appendChild(itemBody);
@@ -44,24 +60,25 @@ const appCreator = () => {
     return card;
   }
 
-  function newItemBody(itemId, alias, value, type, copyFnc, viewFnc) {
+  function newItemBody(itemId, alias, value, icon, copyFnc, viewFnc) {
     const itemBody = document.createElement("div");
     itemBody.classList.add("d-flex");
     itemBody.classList.add("justify-content-between");
     itemBody.classList.add("align-items-center");
     itemBody.style.width = "100%";
-    itemBody.style.marginBottom = "5px";
 
-    const aliasDiv = newAlias(itemId, alias, type);
-    const actionDiv = newAction(itemId, value, copyFnc, viewFnc);
-
+    const aliasDiv = newAlias(itemId, alias, icon);
     itemBody.appendChild(aliasDiv);
-    itemBody.appendChild(actionDiv);
+
+    if (value) {
+      const actionDiv = newAction(itemId, value, copyFnc, viewFnc);
+      itemBody.appendChild(actionDiv);
+    }
 
     return itemBody;
   }
 
-  function newAlias(itemId, alias, type) {
+  function newAlias(itemId, alias, iconType) {
     const aliasDiv = document.createElement("div");
     aliasDiv.classList.add("align-items-center");
     aliasDiv.classList.add("d-flex");
@@ -75,14 +92,14 @@ const appCreator = () => {
     deleteCheckbox.classList.add("delete-checkbox");
     deleteCheckbox.style.marginRight = "5px";
 
-    const i = newI(type);
-    i.style.marginRight = "5px";
+    const icon = newIcon(iconType);
+    icon.style.marginRight = "10px";
 
     const span = document.createElement("span");
     span.textContent = alias;
 
     aliasDiv.appendChild(deleteCheckbox);
-    aliasDiv.appendChild(i);
+    aliasDiv.appendChild(icon);
     aliasDiv.appendChild(span);
 
     return aliasDiv;
@@ -90,11 +107,16 @@ const appCreator = () => {
 
   function newAction(itemId, value, copyFnc, viewFnc) {
     const actionDiv = document.createElement("div");
+    actionDiv.classList.add("d-flex");
 
-    const viewBtn = newButton("bi-eye", itemId, value === undefined || value === null, viewFnc);
-    viewBtn.style.marginRight = "5px";
+    const viewBtn = newButton(
+      { class: "fa-solid fa-eye fa-lg", style: "color: #214687;" },
+      itemId,
+      value === undefined || value === null,
+      viewFnc
+    );
     const copyBtn = newButton(
-      "bi-clipboard",
+      { class: "fa-solid fa-copy fa-lg", style: "color: #214687;" },
       itemId,
       value === undefined || value === null,
       copyFnc
@@ -106,27 +128,30 @@ const appCreator = () => {
     return actionDiv;
   }
 
-  function newButton(icon, itemId, disabled, onClick) {
+  function newButton(iconType, itemId, disabled, onClick) {
     const button = document.createElement("button");
     button.type = "button";
     button.disabled = disabled;
     button.classList.add("btn");
 
-    const i = newI(icon);
+    const icon = newIcon(iconType);
 
-    button.appendChild(i);
+    button.appendChild(icon);
 
     button.addEventListener("click", () => onClick(button, itemId));
 
     return button;
   }
 
-  function newI(icon) {
-    const i = document.createElement("div");
-    i.classList.add("bi");
-    i.classList.add(icon);
+  function newIcon(iconType) {
+    const icon = document.createElement("i");
+    const classes = iconType.class.split(" ");
+    for (let i = 0; i < classes.length; i++) {
+      icon.classList.add(classes[i]);
+    }
+    if (iconType.style) icon.style.cssText += iconType.style;
 
-    return i;
+    return icon;
   }
 
   return {
