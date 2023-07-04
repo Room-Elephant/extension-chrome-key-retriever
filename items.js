@@ -4,7 +4,7 @@ const appCreator = () => {
       class: "fa-sharp fa-regular fa-folder-open",
       style: "color: #ffaa3b",
     };
-    return newItem(alias, value, iconElement, copyFnc, viewFnc);
+    return newItem(alias, value, iconElement, setFnc, copyFnc, viewFnc);
   }
 
   function newLocalItem(alias, value, setFnc, copyFnc, viewFnc) {
@@ -12,7 +12,7 @@ const appCreator = () => {
       class: "fa-solid fa-box-archive fa-lg",
       style: "color: #865318",
     };
-    return newItem(alias, value, iconElement, copyFnc, viewFnc);
+    return newItem(alias, value, iconElement, setFnc, copyFnc, viewFnc);
   }
 
   function newCookieItem(alias, value, setFnc, copyFnc, viewFnc) {
@@ -21,10 +21,10 @@ const appCreator = () => {
       style: "color: #ffaa3b;",
     };
 
-    return newItem(alias, value, iconElement, copyFnc, viewFnc);
+    return newItem(alias, value, iconElement, setFnc, copyFnc, viewFnc);
   }
 
-  function newItem(alias, value, iconType, copyFnc, viewFnc) {
+  function newItem(alias, value, iconType, setFnc, copyFnc, viewFnc) {
     const itemId = alias.trim();
 
     const li = document.createElement("li");
@@ -35,6 +35,7 @@ const appCreator = () => {
       alias,
       value,
       iconType,
+      setFnc,
       copyFnc,
       viewFnc
     );
