@@ -8,6 +8,7 @@ const PAGES = {
     keyListFooterElement: true,
     deleteCheckboxList: false,
     deleteKeysFooter: false,
+    listActions: true,
   },
   ADD: {
     addKeyForm: true,
@@ -16,6 +17,7 @@ const PAGES = {
     keyListFooterElement: false,
     deleteCheckboxList: false,
     deleteKeysFooter: false,
+    listActions: false,
   },
   REMOVE: {
     addKeyForm: false,
@@ -24,6 +26,7 @@ const PAGES = {
     keyListFooterElement: false,
     deleteCheckboxList: true,
     deleteKeysFooter: true,
+    listActions: false,
   },
 };
 let presentationList = [];
@@ -39,41 +42,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   renderPresentationList();
 });
 
-document
-  .getElementById("saveKeyBtn")
-  .addEventListener("click", async function () {
-    const formData = getFormData();
-    await manager.persistNewKey([formData]);
-
-    document.getElementById("keyList").innerHTML = "";
-    presentationList = await manager.getKeyValues();
-
-    renderPresentationList();
-    showPage(PAGES.LIST);
-  });
+document.getElementById("saveKeyBtn").addEventListener("click", onSaveKey);
 
 document
   .getElementById("confirmDeleteBtn")
-  .addEventListener("click", async function () {
-    const checkedDeleteCheckboxList = document.querySelectorAll(
-      "input[name=delete]:checked"
-    );
-    const deleteIds = [...checkedDeleteCheckboxList].map(
-      (checkbox) => checkbox.id
-    );
-
-    const deleteAliasList = presentationList
-      .filter((element) => deleteIds.includes(element.alias.trim()))
-      .map((element) => element.alias);
-
-    await manager.removePersistKey(deleteAliasList);
-
-    document.getElementById("keyList").innerHTML = "";
-    presentationList = await manager.getKeyValues();
-
-    renderPresentationList();
-    showPage(PAGES.LIST);
-  });
+  .addEventListener("click", onConfirmDeleteKeys);
 
 document
   .getElementById("deleteKeysBtn")
@@ -84,12 +57,44 @@ document
   .addEventListener("click", () => showPage(PAGES.ADD));
 
 document
-  .getElementById("cancelDeleteBtn")
+  .getElementById("cancelDeleteKeyBtn")
   .addEventListener("click", () => showPage(PAGES.LIST));
 
 document
-  .getElementById("cancelKeyBtn")
+  .getElementById("cancelAddKeyBtn")
   .addEventListener("click", () => showPage(PAGES.LIST));
+
+async function onSaveKey() {
+  const formData = getFormData();
+  await manager.persistNewKey([formData]);
+
+  clearFormData();
+  document.getElementById("keyList").innerHTML = "";
+  presentationList = await manager.getKeyValues();
+  renderPresentationList();
+  showPage(PAGES.LIST);
+}
+
+async function onConfirmDeleteKeys() {
+  const checkedDeleteCheckboxList = document.querySelectorAll(
+    "input[name=delete]:checked"
+  );
+  const deleteIds = [...checkedDeleteCheckboxList].map(
+    (checkbox) => checkbox.id
+  );
+
+  const deleteAliasList = presentationList
+    .filter((element) => deleteIds.includes(element.alias.trim()))
+    .map((element) => element.alias);
+
+  await manager.removePersistKey(deleteAliasList);
+
+  document.getElementById("keyList").innerHTML = "";
+  presentationList = await manager.getKeyValues();
+
+  renderPresentationList();
+  showPage(PAGES.LIST);
+}
 
 function showPage(page) {
   const addKeyForm = document.getElementById("addKeyForm");
@@ -98,6 +103,9 @@ function showPage(page) {
   const keyListFooterElement = document.getElementById("keyListFooter");
   const deleteKeysFooter = document.getElementById("deleteKeysFooter");
   const deleteCheckboxList = document.getElementsByClassName("delete-checkbox");
+  const listActions = document.getElementsByClassName("listActions");
+  const viewButtons = document.getElementsByClassName("viewBtn");
+  const viewCards = document.getElementsByClassName("card");
 
   if (page.addKeyForm) addKeyForm.classList.remove("display-none");
   else addKeyForm.classList.add("display-none");
@@ -123,6 +131,24 @@ function showPage(page) {
     [...deleteCheckboxList].forEach((checkbox) =>
       checkbox.classList.add("display-none")
     );
+
+  if (page.listActions)
+    [...listActions].forEach((action) =>
+      action.classList.remove("visibility-hidden")
+    );
+  else
+    [...listActions].forEach((action) =>
+      action.classList.add("visibility-hidden")
+    );
+
+  [...viewButtons].forEach((btn) => {
+    if (btn.lastChild.classList.contains("fa-eye-slash")) {
+      btn.lastChild.classList.remove("fa-eye-slash");
+      btn.lastChild.classList.add("fa-eye");
+    }
+  });
+
+  [...viewCards].forEach((card) => card.classList.add("display-none"));
 }
 
 function getFormData() {
@@ -134,6 +160,14 @@ function getFormData() {
   ).value;
 
   return { alias, key, subKey, type: storageType };
+}
+
+function clearFormData() {
+  document.getElementById("alias").value = "";
+  document.getElementById("key").value = "";
+  document.getElementById("subKey").value = "";
+  document.querySelector('input[name="storage"]').checked = false;
+  document.querySelector('input[id="sessionStorage"]').checked = true;
 }
 
 function renderPresentationList() {

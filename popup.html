@@ -4,8 +4,9 @@
   <head>
     <style>
       html {
-        min-height: 5em;
+        max-height: 10em;
         min-width: 25em;
+        overflow-y: scroll;
       }
       body {
         padding: 1em;
@@ -16,6 +17,9 @@
       }
       .cursor-pointer {
         cursor: pointer;
+      }
+      .visibility-hidden {
+        visibility: hidden;
       }
       .display-none {
         display: none !important;
@@ -113,49 +117,51 @@
             <label for="subKey" class="form-label">Sub-key</label>
           </div>
           <div class="mb-3">
-            <label class="form-label">Storage type</label>
             <div class="d-flex flex-row">
-              <div class="form-check" style="margin-right: 10px">
+              <div
+                class="btn-group"
+                role="group"
+              >
                 <input
-                  class="form-check-input"
+                  class="btn-check"
+                  autocomplete="off"
                   type="radio"
                   name="storage"
                   id="sessionStorage"
                   value="session"
+                  checked
                 />
-                <label class="form-check-label" for="localStorage">
+                <label class="btn btn-outline-primary" for="sessionStorage">
                   <i
                     class="fa-sharp fa-regular fa-folder-open"
                     style="color: #ffaa3b"
                   ></i>
-                  Local storage
+                  Session storage
                 </label>
-              </div>
-              <div class="form-check" style="margin-right: 10px">
                 <input
-                  class="form-check-input"
+                  class="btn-check"
+                  autocomplete="off"
                   type="radio"
                   name="storage"
                   id="localStorage"
                   value="local"
                 />
-                <label class="form-check-label" for="localStorage">
+                <label class="btn btn-outline-primary" for="localStorage">
                   <i
                     class="fa-solid fa-box-archive fa-lg"
                     style="color: #865318"
                   ></i>
                   Local storage
                 </label>
-              </div>
-              <div class="form-check">
                 <input
-                  class="form-check-input"
+                  class="btn-check"
+                  autocomplete="off"
                   type="radio"
                   name="storage"
                   id="cookies"
                   value="cookie"
                 />
-                <label class="form-check-label" for="localStorage">
+                <label class="btn btn-outline-primary" for="cookies">
                   <i
                     class="fa-solid fa-cookie fa-lg"
                     style="color: #ffaa3b"
@@ -187,7 +193,7 @@
         <button id="addKeyBtn" type="button" class="btn btn-outline-success">
           <span class="btn-label">
             <i
-              class="fa-solid fa-circle-plus fa-sm"
+              class="fa-solid fa-circle-plus fa-lg"
               style="margin-right: 10px"
             ></i
           ></span>
@@ -199,22 +205,18 @@
         class="flex-row justify-end full-width align-center display-none"
       >
         <button
-          id="cancelKeyBtn"
+          id="cancelAddKeyBtn"
           type="button"
           class="btn"
           style="margin-right: 5px"
         >
           <i
-            class="fa-regular fa-circle-xmark fa-lg"
+            class="fa-solid fa-circle-arrow-left fa-lg"
             style="color: #495057"
           ></i>
         </button>
         <button id="saveKeyBtn" type="button" class="btn btn-outline-success">
-          <i
-            class="fa-solid fa-floppy-disk"
-            style="color: #5db027; margin-right: 10px"
-          ></i
-          >Save
+          <i class="fa-solid fa-floppy-disk" style="margin-right: 10px"></i>Save
         </button>
       </div>
       <div
@@ -222,19 +224,23 @@
         class="flex-row justify-end full-width align-center display-none"
       >
         <button
-          id="cancelDeleteBtn"
+          id="cancelDeleteKeyBtn"
           type="button"
-          class="btn btn-primary"
+          class="btn"
           style="margin-right: 5px"
         >
-          <i class="fa-solid fa-trash-can" style="color: #cb261a"></i>
+          <i
+            class="fa-solid fa-circle-arrow-left fa-lg"
+            style="color: #495057"
+          ></i>
         </button>
         <button
           id="confirmDeleteBtn"
           type="button"
-          class="btn btn-outline-success"
+          class="btn btn-outline-danger"
         >
-          <i class="bi bi-eraser-fill"></i>
+          <i class="fa-solid fa-trash-can" style="margin-right: 10px"></i>Delete
+          keys
         </button>
       </div>
     </footer>

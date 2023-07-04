@@ -97,7 +97,7 @@ const appCreator = () => {
     deleteCheckbox.classList.add("form-check-input");
     deleteCheckbox.classList.add("display-none");
     deleteCheckbox.classList.add("delete-checkbox");
-    deleteCheckbox.style.marginRight = "5px";
+    deleteCheckbox.style.marginRight = "10px";
 
     const icon = newIcon(iconType);
     icon.style.marginRight = "10px";
@@ -115,38 +115,42 @@ const appCreator = () => {
   function newAction(itemId, value, setFnc, copyFnc, viewFnc) {
     const actionDiv = document.createElement("div");
     actionDiv.classList.add("d-flex");
+    actionDiv.classList.add("listActions");
 
     const setBtn = newButton(
       { class: "fa-solid fa-clipboard", style: "color: #214687;" },
       itemId,
       false,
+      undefined,
       setFnc
     );
     const viewBtn = newButton(
       { class: "fa-solid fa-eye fa-lg", style: "color: #495057;" },
       itemId,
       value === undefined || value === null,
+      "viewBtn",
       viewFnc
     );
     const copyBtn = newButton(
       { class: "fa-solid fa-copy fa-lg", style: "color: #495057;" },
       itemId,
       value === undefined || value === null,
+      undefined,
       copyFnc
     );
 
-    if (false) actionDiv.append(setBtn);
     if (value) actionDiv.append(viewBtn);
     if (value) actionDiv.append(copyBtn);
 
     return actionDiv;
   }
 
-  function newButton(iconType, itemId, disabled, onClick) {
+  function newButton(iconType, itemId, disabled, btnClass, onClick) {
     const button = document.createElement("button");
     button.type = "button";
     button.disabled = disabled;
     button.classList.add("btn");
+    button.classList.add(btnClass);
 
     const icon = newIcon(iconType);
 
