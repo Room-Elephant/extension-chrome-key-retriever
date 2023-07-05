@@ -9,7 +9,8 @@ For more complex properties, you can select a subkey to watch.
 
 ## Supported keys
 
-- local storage items
+- local storage
+- session storage
 - cookies
   - including HTTP only cookies
 
