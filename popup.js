@@ -75,14 +75,7 @@ async function onSaveKey() {
   showPage(PAGES.LIST);
 }
 
-async function onConfirmDeleteKeys() {
-  const checkedDeleteCheckboxList = document.querySelectorAll(
-    "input[name=delete]:checked"
-  );
-  const deleteIds = [...checkedDeleteCheckboxList].map(
-    (checkbox) => checkbox.id
-  );
-
+async function onDeleteKeys(deleteIds) {
   const deleteAliasList = presentationList
     .filter((element) => deleteIds.includes(element.alias.trim()))
     .map((element) => element.alias);
@@ -94,6 +87,17 @@ async function onConfirmDeleteKeys() {
 
   renderPresentationList();
   showPage(PAGES.LIST);
+}
+
+async function onConfirmDeleteKeys() {
+  const checkedDeleteCheckboxList = document.querySelectorAll(
+    "input[name=delete]:checked"
+  );
+  const deleteIds = [...checkedDeleteCheckboxList].map(
+    (checkbox) => checkbox.id
+  );
+
+  await onDeleteKeys(deleteIds);
 }
 
 function showPage(page) {
@@ -182,7 +186,8 @@ function renderPresentationList() {
           key.value,
           setFnc,
           copyValue,
-          viewKey
+          viewKey,
+          deleteSingleKey
         );
         break;
       case TYPES.LOCAL:
@@ -191,7 +196,8 @@ function renderPresentationList() {
           key.value,
           setFnc,
           copyValue,
-          viewKey
+          viewKey,
+          deleteSingleKey
         );
         break;
       case TYPES.COOKIE:
@@ -200,7 +206,8 @@ function renderPresentationList() {
           key.value,
           setFnc,
           copyValue,
-          viewKey
+          viewKey,
+          deleteSingleKey
         );
     }
 
@@ -232,15 +239,24 @@ function copyValue(element, itemId) {
 function viewKey(element, itemId) {
   const card = document.getElementById(`card-${itemId}`);
 
-  if (element.lastChild.classList.contains("fa-eye")) {
+  const icon = element.firstChild;
+  const text = element.lastChild;
+
+  if (icon.classList.contains("fa-eye")) {
     card.classList.remove("display-none");
-    element.lastChild.classList.remove("fa-eye");
-    element.lastChild.classList.add("fa-eye-slash");
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+    text.nodeValue = " hide value";
   } else {
     card.classList.add("display-none");
-    element.lastChild.classList.remove("fa-eye-slash");
-    element.lastChild.classList.add("fa-eye");
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+    text.nodeValue = " view value";
   }
+}
+
+async function deleteSingleKey(itemId) {
+  await onDeleteKeys([itemId]);
 }
 
 async function loadDefaultKeys() {

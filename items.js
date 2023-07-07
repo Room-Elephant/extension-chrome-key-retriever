@@ -1,30 +1,62 @@
 const appCreator = () => {
-  function newSessionItem(alias, value, setFnc, copyFnc, viewFnc) {
+  function newSessionItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
     const iconElement = {
       class: "fa-sharp fa-regular fa-folder-open",
       style: "color: #ffaa3b",
     };
-    return newItem(alias, value, iconElement, setFnc, copyFnc, viewFnc);
+    return newItem(
+      alias,
+      value,
+      iconElement,
+      setFnc,
+      copyFnc,
+      viewFnc,
+      deleteFnc
+    );
   }
 
-  function newLocalItem(alias, value, setFnc, copyFnc, viewFnc) {
+  function newLocalItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
     const iconElement = {
       class: "fa-solid fa-box-archive fa-lg",
       style: "color: #865318",
     };
-    return newItem(alias, value, iconElement, setFnc, copyFnc, viewFnc);
+    return newItem(
+      alias,
+      value,
+      iconElement,
+      setFnc,
+      copyFnc,
+      viewFnc,
+      deleteFnc
+    );
   }
 
-  function newCookieItem(alias, value, setFnc, copyFnc, viewFnc) {
+  function newCookieItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
     const iconElement = {
       class: "fa-solid fa-cookie fa-lg",
       style: "color: #ffaa3b;",
     };
 
-    return newItem(alias, value, iconElement, setFnc, copyFnc, viewFnc);
+    return newItem(
+      alias,
+      value,
+      iconElement,
+      setFnc,
+      copyFnc,
+      viewFnc,
+      deleteFnc
+    );
   }
 
-  function newItem(alias, value, iconType, setFnc, copyFnc, viewFnc) {
+  function newItem(
+    alias,
+    value,
+    iconType,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const itemId = alias.trim();
 
     const li = document.createElement("li");
@@ -37,7 +69,8 @@ const appCreator = () => {
       iconType,
       setFnc,
       copyFnc,
-      viewFnc
+      viewFnc,
+      deleteFnc
     );
     const TokenParent = newItemFooter(itemId, value);
 
@@ -69,7 +102,16 @@ const appCreator = () => {
     return card;
   }
 
-  function newItemBody(itemId, alias, value, icon, setFnc, copyFnc, viewFnc) {
+  function newItemBody(
+    itemId,
+    alias,
+    value,
+    icon,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const itemBody = document.createElement("div");
     itemBody.classList.add("d-flex");
     itemBody.classList.add("justify-content-between");
@@ -79,7 +121,14 @@ const appCreator = () => {
     const aliasDiv = newAlias(itemId, alias, icon);
     itemBody.appendChild(aliasDiv);
 
-    const actionDiv = newAction(itemId, value, setFnc, copyFnc, viewFnc);
+    const actionDiv = newAction(
+      itemId,
+      value,
+      setFnc,
+      copyFnc,
+      viewFnc,
+      deleteFnc
+    );
     itemBody.appendChild(actionDiv);
 
     return itemBody;
@@ -112,25 +161,11 @@ const appCreator = () => {
     return aliasDiv;
   }
 
-  function newAction(itemId, value, setFnc, copyFnc, viewFnc) {
+  function newAction(itemId, value, setFnc, copyFnc, viewFnc, deleteFnc) {
     const actionDiv = document.createElement("div");
     actionDiv.classList.add("d-flex");
     actionDiv.classList.add("listActions");
 
-    const setBtn = newButton(
-      { class: "fa-solid fa-clipboard", style: "color: #214687;" },
-      itemId,
-      false,
-      undefined,
-      setFnc
-    );
-    const viewBtn = newButton(
-      { class: "fa-solid fa-eye fa-lg", style: "color: #495057;" },
-      itemId,
-      value === undefined || value === null,
-      "viewBtn",
-      viewFnc
-    );
     const copyBtn = newButton(
       { class: "fa-solid fa-copy fa-lg", style: "color: #495057;" },
       itemId,
@@ -139,10 +174,44 @@ const appCreator = () => {
       copyFnc
     );
 
-    if (value) actionDiv.append(viewBtn);
     if (value) actionDiv.append(copyBtn);
+    actionDiv.append(newDropdown(itemId, value, viewFnc, deleteFnc));
 
     return actionDiv;
+  }
+
+  function newDropdown(itemId, value, viewFnc, deleteFnc) {
+    const dropdown = document.createElement("div");
+    dropdown.classList.add("dropdown");
+    dropdown.classList.add("dropstart");
+    dropdown.append(newDropDownButton());
+
+    const options = document.createElement("ul");
+    options.classList.add("dropdown-menu");
+
+    options.appendChild(
+      newDropdownOption(
+        itemId,
+        " view value",
+        !value,
+        { class: "fa-solid fa-eye fa-lg", style: "color: #495057;" },
+        viewFnc
+      )
+    );
+    options.appendChild(
+      newDropdownOption(itemId, "set value", true, undefined, () => {})
+    );
+    options.appendChild(newLiItemSeparator());
+    options.appendChild(
+      newDropdownOption(itemId, "edit", true, undefined, () => {})
+    );
+    options.appendChild(
+      newDropdownOption(itemId, "delete", false, undefined, deleteFnc)
+    );
+
+    dropdown.appendChild(options);
+
+    return dropdown;
   }
 
   function newButton(iconType, itemId, disabled, btnClass, onClick) {
@@ -153,7 +222,6 @@ const appCreator = () => {
     button.classList.add(btnClass);
 
     const icon = newIcon(iconType);
-
     button.appendChild(icon);
 
     button.addEventListener("click", () => onClick(button, itemId));
@@ -161,10 +229,55 @@ const appCreator = () => {
     return button;
   }
 
+  function newDropDownButton() {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.setAttribute("data-bs-toggle", "dropdown");
+    button.setAttribute("aria-expanded", "false");
+    button.classList.add("btn");
+
+    const icon = newIcon({
+      class: "fa-solid fa-ellipsis-vertical",
+      style: "color: #495057;",
+    });
+    button.appendChild(icon);
+
+    return button;
+  }
+
+  function newDropdownOption(itemId, text, disabled, iconType, onClick) {
+    const liItem = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.disabled = disabled;
+
+    button.classList.add("dropdown-item");
+    button.addEventListener("click", () => onClick(itemId));
+
+    if (iconType) {
+      const icon = newIcon(iconType);
+      button.appendChild(icon);
+    }
+    button.appendChild(document.createTextNode(text));
+
+    liItem.appendChild(button);
+    return liItem;
+  }
+
+  function newLiItemSeparator() {
+    const liItem = document.createElement("li");
+
+    const hr = document.createElement("hr");
+    hr.classList.add("dropdown-divider");
+
+    liItem.appendChild(hr);
+    return liItem;
+  }
+
   function newIcon(iconType) {
     const icon = document.createElement("i");
     const classes = iconType.class.split(" ");
-    for (let i = 0; i < classes.length; i++) {
+    for (let i = 0; i < classes?.length; i++) {
       icon.classList.add(classes[i]);
     }
     if (iconType.style) icon.style.cssText += iconType.style;
