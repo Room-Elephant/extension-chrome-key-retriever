@@ -88,9 +88,34 @@ const appManager = () => {
     return [...keyList].sort((a, b) => a.id - b.id).slice(-1)[0]?.id || 0;
   }
 
+  async function setKeyValue(id, value) {
+    let tab;
+    try {
+      tab = await getActiveTab();
+    } catch (e) {
+      console.log("🚀 ~ could not read active tab:", e);
+      return false;
+    }
+
+    const writer = keyWriter();
+    const key = keyList.find((key) => key.id === id)[0];
+
+    switch (key.type) {
+      case TYPES.SESSION:
+        return writer.setSessionKeys(tab, key.key, key.subKey, value);
+      case TYPES.LOCAL:
+        return writer.setLocalKeys(tab, key.key, key.subKey, value);
+      case TYPES.COOKIE:
+        return writer.setLocalKeys(key.key, key.subKey, value);
+    }
+
+    return false;
+  }
+
   return {
     persistNewKey,
     removePersistKey,
     getKeyValues,
+    setKeyValue,
   };
 };
