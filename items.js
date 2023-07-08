@@ -1,10 +1,19 @@
 const appCreator = () => {
-  function newSessionItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
+  function newSessionItem(
+    itemId,
+    alias,
+    value,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const iconElement = {
       class: "fa-sharp fa-regular fa-folder-open",
       style: "color: #ffaa3b",
     };
     return newItem(
+      itemId,
       alias,
       value,
       iconElement,
@@ -15,12 +24,21 @@ const appCreator = () => {
     );
   }
 
-  function newLocalItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
+  function newLocalItem(
+    itemId,
+    alias,
+    value,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const iconElement = {
       class: "fa-solid fa-box-archive fa-lg",
       style: "color: #865318",
     };
     return newItem(
+      itemId,
       alias,
       value,
       iconElement,
@@ -31,13 +49,22 @@ const appCreator = () => {
     );
   }
 
-  function newCookieItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
+  function newCookieItem(
+    itemId,
+    alias,
+    value,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const iconElement = {
       class: "fa-solid fa-cookie fa-lg",
       style: "color: #ffaa3b;",
     };
 
     return newItem(
+      itemId,
       alias,
       value,
       iconElement,
@@ -49,6 +76,7 @@ const appCreator = () => {
   }
 
   function newItem(
+    itemId,
     alias,
     value,
     iconType,
@@ -57,8 +85,6 @@ const appCreator = () => {
     viewFnc,
     deleteFnc
   ) {
-    const itemId = alias.trim();
-
     const li = document.createElement("li");
     li.classList.add("list-group-item");
 
@@ -72,34 +98,72 @@ const appCreator = () => {
       viewFnc,
       deleteFnc
     );
-    const TokenParent = newItemFooter(itemId, value);
+    const tokenTextArea = newItemFooter(itemId, value);
+    const tokenTextAreaFooter = newTextAreaFooter(itemId, setFnc);
 
     li.appendChild(itemBody);
-    li.appendChild(TokenParent);
+    li.appendChild(tokenTextArea);
+    li.appendChild(tokenTextAreaFooter);
 
     return li;
   }
 
-  function newItemFooter(itemId, value) {
-    const card = document.createElement("div");
-    card.id = `card-${itemId}`;
-    card.classList.add("card");
-    card.style.maxHeight = "60px";
-    card.style.overflow = "hidden";
-    card.style.overflowY = "scroll";
-    card.classList.add("display-none");
-    const cardBody = document.createElement("div");
-    card.classList.add("card-body");
+  function newItemFooter(itemId, value, disabled = true) {
+    const textArea = document.createElement("textarea");
+    textArea.id = `token-${itemId}`;
+    textArea.classList.add("tokenTextArea");
+    textArea.classList.add("full-width");
+    textArea.style.overflowX = "hidden";
+    textArea.style.overflowY = "scroll";
+    textArea.classList.add("display-none");
+    textArea.disabled = disabled;
+    textArea.innerText = value || "";
+    textArea.rows = 1;
 
-    const token = document.createElement("p");
-    token.id = `token-${itemId}`;
-    token.classList.add("text-break");
-    token.innerText = value;
+    return textArea;
+  }
 
-    cardBody.appendChild(token);
-    card.appendChild(cardBody);
+  function newTextAreaFooter(itemId, setFnc) {
+    const textAreaFooter = document.createElement("div");
+    textAreaFooter.style.marginTop = "10px";
+    textAreaFooter.classList.add("display-none");
+    textAreaFooter.classList.add("flex-row");
+    textAreaFooter.classList.add("justify-end");
+    textAreaFooter.id = `textAreaFooter-${itemId}`;
 
-    return card;
+    const applyBtn = document.createElement("button");
+    applyBtn.type = "button";
+    applyBtn.classList.add("btn");
+    applyBtn.classList.add("btn-outline-success");
+
+    applyBtn.addEventListener("click", function () {
+      const textAreaFooter = document.getElementById(
+        `textAreaFooter-${itemId}`
+      );
+      textAreaFooter.classList.add("display-none");
+
+      const textArea = document.getElementById(`token-${itemId}`);
+      textArea.disabled = true;
+
+      const value = textArea.value;
+      setFnc(itemId, value);
+    });
+
+    const label = document.createElement("span");
+    label.classList.add("btn-label");
+
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid");
+    icon.classList.add("fa-floppy-disk");
+    icon.classList.add("fa-lg");
+    icon.style.marginRight = "10px";
+
+    label.appendChild(icon);
+    applyBtn.appendChild(label);
+    applyBtn.appendChild(document.createTextNode("Apply"));
+
+    textAreaFooter.appendChild(applyBtn);
+    return textAreaFooter;
   }
 
   function newItemBody(
@@ -192,21 +256,48 @@ const appCreator = () => {
     options.appendChild(
       newDropdownOption(
         itemId,
-        " view value",
+        "View value",
         !value,
-        { class: "fa-solid fa-eye fa-lg", style: "color: #495057;" },
-        viewFnc
+        {
+          class: "fa-solid fa-eye fa-lg",
+          style: "color: #495057; margin-right: 10px;",
+        },
+        viewFnc,
+        `viewBtn-${itemId}`
       )
     );
     options.appendChild(
-      newDropdownOption(itemId, "set value", true, undefined, () => {})
+      newDropdownOption(
+        itemId,
+        "Set value",
+        false,
+        {
+          class: "fa-solid fa-wand-magic-sparkles fa-lg",
+          style: "color: #495057; margin-right: 10px;",
+        },
+        function () {
+          const textArea = document.getElementById(`token-${itemId}`);
+          textArea.classList.remove("display-none");
+          textArea.disabled = false;
+          const textAreaFooter = document.getElementById(
+            `textAreaFooter-${itemId}`
+          );
+          textAreaFooter.classList.remove("display-none");
+        }
+      )
     );
     options.appendChild(newLiItemSeparator());
     options.appendChild(
-      newDropdownOption(itemId, "edit", true, undefined, () => {})
-    );
-    options.appendChild(
-      newDropdownOption(itemId, "delete", false, undefined, deleteFnc)
+      newDropdownOption(
+        itemId,
+        "Delete key",
+        false,
+        {
+          class: "fa-solid fa-trash-can fa-lg",
+          style: "color: #495057; margin-right: 10px;",
+        },
+        deleteFnc
+      )
     );
 
     dropdown.appendChild(options);
@@ -245,14 +336,22 @@ const appCreator = () => {
     return button;
   }
 
-  function newDropdownOption(itemId, text, disabled, iconType, onClick) {
+  function newDropdownOption(
+    itemId,
+    text,
+    disabled,
+    iconType,
+    onClick,
+    buttonId
+  ) {
     const liItem = document.createElement("li");
     const button = document.createElement("button");
+    button.id = buttonId;
     button.type = "button";
     button.disabled = disabled;
 
     button.classList.add("dropdown-item");
-    button.addEventListener("click", () => onClick(itemId));
+    button.addEventListener("click", () => onClick(itemId, button));
 
     if (iconType) {
       const icon = newIcon(iconType);

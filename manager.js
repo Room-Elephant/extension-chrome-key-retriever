@@ -1,10 +1,17 @@
 const appManager = () => {
   let keyList = [];
 
-  async function persistNewKey(newKey) {
+  async function persistNewKey(newKeys) {
+    let lastId = getLastId();
+
+    const indexedNewKeys = newKeys.map((newKey) => ({
+      ...newKey,
+      id: ++lastId,
+    }));
+
     return new Promise((resolve) => {
       chrome.storage.local.set(
-        { keyList: [...keyList, ...newKey] },
+        { keyList: [...keyList, ...indexedNewKeys] },
         function () {
           resolve();
         }
@@ -12,10 +19,10 @@ const appManager = () => {
     });
   }
 
-  async function removePersistKey(key) {
+  async function removePersistKey(idsToRemove) {
     return new Promise((resolve) => {
       chrome.storage.local.set(
-        { keyList: keyList.filter(({ alias }) => !key.includes(alias)) },
+        { keyList: keyList.filter(({ id }) => !idsToRemove.includes(id)) },
         function () {
           resolve();
         }
@@ -51,7 +58,8 @@ const appManager = () => {
       tab = await getActiveTab();
     } catch (e) {
       console.log("🚀 ~ could not read active tab:", e);
-      return keyList.map(({ alias, type }) => ({
+      return keyList.map(({ alias, type, id }) => ({
+        id,
         alias,
         type,
       }));
@@ -76,9 +84,38 @@ const appManager = () => {
     return tabs[0];
   }
 
+  function getLastId() {
+    return [...keyList].sort((a, b) => a.id - b.id).slice(-1)[0]?.id || 0;
+  }
+
+  async function setKeyValue(id, value) {
+    let tab;
+    try {
+      tab = await getActiveTab();
+    } catch (e) {
+      console.log("🚀 ~ could not read active tab:", e);
+      return false;
+    }
+
+    const writer = keyWriter();
+    const key = keyList.find((key) => key.id === id);
+
+    switch (key.type) {
+      case TYPES.SESSION:
+        return writer.setSessionKey(tab, key.key, key.subKey, value);
+      case TYPES.LOCAL:
+        return writer.setLocalKey(tab, key.key, key.subKey, value);
+      case TYPES.COOKIE:
+        return writer.setCookieKey(tab, key.key, key.subKey, value);
+    }
+
+    return false;
+  }
+
   return {
     persistNewKey,
     removePersistKey,
     getKeyValues,
+    setKeyValue,
   };
 };

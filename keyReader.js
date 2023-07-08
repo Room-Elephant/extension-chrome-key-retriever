@@ -1,5 +1,6 @@
 const keyReader = (listOfKeys) => {
   const keyList = listOfKeys;
+
   async function getLocalKeys(tab) {
     return await getPresentationValuesFromRemote(TYPES.LOCAL, tab, getLocal);
   }
@@ -15,7 +16,9 @@ const keyReader = (listOfKeys) => {
   async function getCookieKeys(tab) {
     let cookieKeyPresentation = [];
     if (keyList != null && keyList.length > 0) {
-      const cookieKeyList = keyList?.filter(({ type }) => type === TYPES.COOKIE);
+      const cookieKeyList = keyList?.filter(
+        ({ type }) => type === TYPES.COOKIE
+      );
       try {
         cookieKeyPresentation = await getCookie(
           cookieKeyList,
@@ -81,7 +84,8 @@ const keyReader = (listOfKeys) => {
         localKeyList[i].value = value;
       } catch (e) {}
     }
-    return localKeyList.map(({ alias, value, type }) => ({
+    return localKeyList.map(({ alias, value, type, id }) => ({
+      id,
       alias,
       value,
       type,
@@ -100,7 +104,8 @@ const keyReader = (listOfKeys) => {
         localKeyList[i].value = value;
       } catch (e) {}
     }
-    return localKeyList.map(({ alias, value, type }) => ({
+    return localKeyList.map(({ alias, value, type, id }) => ({
+      id,
       alias,
       value,
       type,
@@ -115,9 +120,16 @@ const keyReader = (listOfKeys) => {
       .filter(({ name }) => keyListKeys.includes(name))
       .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
 
-    return cookieKeyList.map(({ alias, key, type }) => {
+    return cookieKeyList.map(({ alias, key, type, id, subKey }) => {
       value = matchCookies.find(({ name }) => name === key)?.value || undefined;
-      return { alias, type, value };
+      if (subKey) {
+        try {
+          value = JSON.parse(value)[subKey];
+        } catch {
+          value = undefined;
+        }
+      }
+      return { id, alias, type, value };
     });
   }
 
@@ -127,7 +139,8 @@ const keyReader = (listOfKeys) => {
   }
 
   function keyListToPresentationList(originalKeyList) {
-    return originalKeyList.map(({ alias, type }) => ({
+    return originalKeyList.map(({ alias, type, id }) => ({
+      id,
       alias,
       type,
     }));
