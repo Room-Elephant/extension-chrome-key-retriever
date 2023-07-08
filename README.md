@@ -1,17 +1,17 @@
 ![logo](https://repository-images.githubusercontent.com/658112380/1ca66916-3b00-43e2-84fd-9e1379a3d7bb)
 # extension-chrome-key-retriever
 
-This extension allows to watch keys stored.
-For more complex properties, you can select a subkey to watch.
+This extension allows to watch keys stored and set new values.
+For more complex properties, you can select a subkey to watch and/or set a value.
 
 <img width="399" alt="image" src="/docs/preview.png">
 (the preview might not be up to date)
 
 ## Supported keys
 
-- local storage
-- session storage
-- cookies
+- Local storage
+- Session storage
+- Cookies
   - including HTTP only cookies
 
 ## Installation
