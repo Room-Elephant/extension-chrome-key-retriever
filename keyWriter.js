@@ -1,112 +1,148 @@
 const keyWriter = () => {
-    async function setSessionKeys(tab, key, subKey, value) {
-      return await setKeyInRemote(tab, key, subKey, value, setSession);
+  async function setSessionKey(tab, key, subKey, value) {
+    return await setKeyInRemote(tab, key, subKey, value, setSession);
+  }
+
+  async function setLocalKey(tab, key, subKey, value) {
+    return await setKeyInRemote(tab, key, subKey, value, setLocal);
+  }
+
+  async function setCookieKey(tab, key, subKey, value) {
+    let url = tabToStringUrl(tab);
+    let domain = tabToStringDomain(tab);
+    let details = await chrome.cookies.get({
+      name: key,
+      url,
+    });
+    if (details === null) {
+      details = { name: key };
     }
-  
-    async function setLocalKey(tab, key, subKey, value) {
-      return await setKeyInRemote(tab, key, subKey, value, setLocal);
+
+    let newValue = value;
+
+    if (subKey) {
+      const originalValue = details.value;
+      if (details.value !== undefined)
+        try {
+          newValue = JSON.parse(originalValue);
+        } catch (e) {
+          newValue = {};
+        }
+      else newValue = {};
+
+      newValue[subKey] = value;
     }
-  
-    async function setCookie(key, subKey, value) {
-      let cookie = await chrome.cookies.get({ name: key });
-      if (cookie === undefined) {
-        cookie = {};
-        cookie.name = key;
-      }
-  
+
+    const stringifiedValue =
+      newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+
+    details.value = stringifiedValue;
+
+    delete details.hostOnly;
+    delete details.session;
+
+    return new Promise((resolve) => {
+      chrome.cookies.set({ ...details, url, domain }, function (cookie) {
+        if (cookie) resolve();
+        else reject();
+      });
+    });
+  }
+
+  async function setKeyInRemote(tab, key, subKey, value, setterFnc) {
+    let requestedTypeKeyPresentation = [];
+    try {
+      requestedTypeKeyPresentation = await remoteRequest(
+        tab,
+        key,
+        subKey,
+        value,
+        setterFnc
+      );
+    } catch (e) {
+      console.log(
+        "🚀 ~ could not set key " + key + " in " + requestedType + " storage:",
+        e
+      );
+      return false;
+    }
+
+    return requestedTypeKeyPresentation;
+  }
+
+  async function remoteRequest(tab, key, subKey = "", value, func) {
+    const result = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func,
+      args: [key, subKey, value],
+    });
+    return result[0].result;
+  }
+
+  function setSession(key, subKey, value) {
+    try {
+      let newValue = value;
+
       if (subKey) {
-        cookie.value[subKey] = value;
-      } else {
-        cookie.value = value;
-      }
-  
-      return new Promise((resolve) => {
-        chrome.cookies.set(details, function (cookie) {
-          if (cookie) resolve();
-          else reject();
-        });
-      });
-    }
-  
-    async function setKeyInRemote(tab, key, subKey, value, setterFnc) {
-      let requestedTypeKeyPresentation = [];
-  
-      try {
-        requestedTypeKeyPresentation = await remoteRequest(
-          tab,
-          key,
-          subKey,
-          value,
-          setterFnc
-        );
-      } catch (e) {
-        requestedTypeKeyPresentation = keyListToPresentationList(filteredKeyList);
-        console.log(
-          "🚀 ~ could not set key " + key + " in " + requestedType + " storage:",
-          e
-        );
-      }
-  
-      return requestedTypeKeyPresentation;
-    }
-  
-    async function remoteRequest(tab, key, subKey, value, func) {
-      const result = await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func,
-        args: [key, subKey, value],
-      });
-      return result[0].result;
-    }
-  
-    function setSession(key, subKey, value) {
-      try {
-        let newValue = value;
-  
-        if (subKey) {
-          const originalValue = window.sessionStorage.getItem(key);
-          const newValue = JSON.parse(originalValue);
-  
-          newValue[subKey] = value;
+        const originalValue = window.sessionStorage.getItem(key) || {};
+        try {
+          newValue = JSON.parse(originalValue);
+        } catch {
+          newValue = {};
         }
-  
-        const stringifiedValue =
-          newValue instanceof Object ? JSON.stringify(value) : value;
-  
-        window.sessionStorage.setItem(key, stringifiedValue);
-      } catch (e) {
-        return false;
+        newValue[subKey] = value;
       }
-  
-      return true;
+
+      const stringifiedValue =
+        newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+
+      window.sessionStorage.setItem(key, stringifiedValue);
+    } catch (e) {
+      return false;
     }
-  
-    function setLocal(key, value) {
-      try {
-        let newValue = value;
-  
-        if (subKey) {
-          const originalValue = window.localStorage.getItem(key);
-          const newValue = JSON.parse(originalValue);
-  
-          newValue[subKey] = value;
+
+    return true;
+  }
+
+  function setLocal(key, subKey, value) {
+    try {
+      let newValue = value;
+
+      if (subKey) {
+        const originalValue = window.localStorage.getItem(key) || {};
+        try {
+          newValue = JSON.parse(originalValue);
+        } catch {
+          newValue = {};
         }
-  
-        const stringifiedValue =
-          newValue instanceof Object ? JSON.stringify(value) : value;
-  
-        window.localStorage.setItem(key, stringifiedValue);
-      } catch (e) {
-        return false;
+
+        newValue[subKey] = value;
       }
-  
-      return true;
+
+      const stringifiedValue =
+        newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+
+      window.localStorage.setItem(key, stringifiedValue);
+    } catch (e) {
+      return false;
     }
-  
-    return {
-      setSessionKeys,
-      setLocalKey,
-      setCookie,
-    };
+
+    return true;
+  }
+
+  function tabToStringUrl(tab) {
+    const url = new URL(tab.url);
+    return url.protocol + "//" + url.hostname;
+  }
+
+  function tabToStringDomain(tab) {
+    const url = new URL(tab.url);
+    return "." + url.hostname;
+  }
+
+  return {
+    setSessionKey,
+    setLocalKey,
+    setCookieKey,
   };
-  
+};

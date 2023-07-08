@@ -98,15 +98,15 @@ const appManager = () => {
     }
 
     const writer = keyWriter();
-    const key = keyList.find((key) => key.id === id)[0];
+    const key = keyList.find((key) => key.id === id);
 
     switch (key.type) {
       case TYPES.SESSION:
-        return writer.setSessionKeys(tab, key.key, key.subKey, value);
+        return writer.setSessionKey(tab, key.key, key.subKey, value);
       case TYPES.LOCAL:
-        return writer.setLocalKeys(tab, key.key, key.subKey, value);
+        return writer.setLocalKey(tab, key.key, key.subKey, value);
       case TYPES.COOKIE:
-        return writer.setLocalKeys(key.key, key.subKey, value);
+        return writer.setCookieKey(tab, key.key, key.subKey, value);
     }
 
     return false;

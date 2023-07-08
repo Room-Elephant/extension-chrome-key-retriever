@@ -16,7 +16,9 @@ const keyReader = (listOfKeys) => {
   async function getCookieKeys(tab) {
     let cookieKeyPresentation = [];
     if (keyList != null && keyList.length > 0) {
-      const cookieKeyList = keyList?.filter(({ type }) => type === TYPES.COOKIE);
+      const cookieKeyList = keyList?.filter(
+        ({ type }) => type === TYPES.COOKIE
+      );
       try {
         cookieKeyPresentation = await getCookie(
           cookieKeyList,
@@ -118,8 +120,15 @@ const keyReader = (listOfKeys) => {
       .filter(({ name }) => keyListKeys.includes(name))
       .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
 
-    return cookieKeyList.map(({ alias, key, type, id }) => {
+    return cookieKeyList.map(({ alias, key, type, id, subKey }) => {
       value = matchCookies.find(({ name }) => name === key)?.value || undefined;
+      if (subKey) {
+        try {
+          value = JSON.parse(value)[subKey];
+        } catch {
+          value = undefined;
+        }
+      }
       return { id, alias, type, value };
     });
   }

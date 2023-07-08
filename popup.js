@@ -109,7 +109,7 @@ function showPage(page) {
   const deleteCheckboxList = document.getElementsByClassName("delete-checkbox");
   const listActions = document.getElementsByClassName("listActions");
   const viewButtons = document.getElementsByClassName("viewBtn");
-  const viewCards = document.getElementsByClassName("card");
+  const viewCards = document.getElementsByClassName("tokenTextArea");
 
   if (page.addKeyForm) addKeyForm.classList.remove("display-none");
   else addKeyForm.classList.add("display-none");
@@ -218,7 +218,18 @@ function renderPresentationList() {
   });
 }
 
-function setFnc(element, itemId) {}
+async function setFnc(itemId, value) {
+  await manager.setKeyValue(itemId, value);
+
+  document.getElementById("keyList").innerHTML = "";
+  presentationList = await manager.getKeyValues();
+
+  renderPresentationList();
+
+  const viewBtn = document.getElementById(`viewBtn-${itemId}`);
+  viewBtn.disabled = false;
+  viewKey(itemId, viewBtn);
+}
 
 function copyValue(element, itemId) {
   const token = document.getElementById(`token-${itemId}`)?.innerHTML;
@@ -239,22 +250,23 @@ function copyValue(element, itemId) {
   );
 }
 
-function viewKey(element, itemId) {
-  const card = document.getElementById(`card-${itemId}`);
+function viewKey(itemId, element) {
+  const textArea = document.getElementById(`token-${itemId}`);
+  textArea.disabled = true;
 
   const icon = element.firstChild;
   const text = element.lastChild;
 
   if (icon.classList.contains("fa-eye")) {
-    card.classList.remove("display-none");
+    textArea.classList.remove("display-none");
     icon.classList.remove("fa-eye");
     icon.classList.add("fa-eye-slash");
-    text.nodeValue = " hide value";
+    text.nodeValue = "Hide value";
   } else {
-    card.classList.add("display-none");
+    textArea.classList.add("display-none");
     icon.classList.remove("fa-eye-slash");
     icon.classList.add("fa-eye");
-    text.nodeValue = " view value";
+    text.nodeValue = "View value";
   }
 }
 
@@ -267,13 +279,13 @@ async function loadDefaultKeys() {
     {
       alias: "Auth token",
       key: "X-Auth-Token",
-      type: TYPES.COOKIE
+      type: TYPES.COOKIE,
     },
     {
       alias: "Geo token",
       key: "location token",
       subKey: "jwt",
-      type: TYPES.LOCAL
+      type: TYPES.LOCAL,
     },
   ];
   await manager.persistNewKey(defaultKeyList);
