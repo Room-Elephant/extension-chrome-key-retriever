@@ -1,10 +1,19 @@
 const appCreator = () => {
-  function newSessionItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
+  function newSessionItem(
+    itemId,
+    alias,
+    value,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const iconElement = {
       class: "fa-sharp fa-regular fa-folder-open",
       style: "color: #ffaa3b",
     };
     return newItem(
+      itemId,
       alias,
       value,
       iconElement,
@@ -15,12 +24,21 @@ const appCreator = () => {
     );
   }
 
-  function newLocalItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
+  function newLocalItem(
+    itemId,
+    alias,
+    value,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const iconElement = {
       class: "fa-solid fa-box-archive fa-lg",
       style: "color: #865318",
     };
     return newItem(
+      itemId,
       alias,
       value,
       iconElement,
@@ -31,13 +49,22 @@ const appCreator = () => {
     );
   }
 
-  function newCookieItem(alias, value, setFnc, copyFnc, viewFnc, deleteFnc) {
+  function newCookieItem(
+    itemId,
+    alias,
+    value,
+    setFnc,
+    copyFnc,
+    viewFnc,
+    deleteFnc
+  ) {
     const iconElement = {
       class: "fa-solid fa-cookie fa-lg",
       style: "color: #ffaa3b;",
     };
 
     return newItem(
+      itemId,
       alias,
       value,
       iconElement,
@@ -49,6 +76,7 @@ const appCreator = () => {
   }
 
   function newItem(
+    itemId,
     alias,
     value,
     iconType,
@@ -57,8 +85,6 @@ const appCreator = () => {
     viewFnc,
     deleteFnc
   ) {
-    const itemId = alias.trim();
-
     const li = document.createElement("li");
     li.classList.add("list-group-item");
 

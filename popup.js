@@ -76,11 +76,11 @@ async function onSaveKey() {
 }
 
 async function onDeleteKeys(deleteIds) {
-  const deleteAliasList = presentationList
-    .filter((element) => deleteIds.includes(element.alias.trim()))
-    .map((element) => element.alias);
+  const deleteIdList = presentationList
+    .filter((element) => deleteIds.includes(element.id))
+    .map((element) => element.id);
 
-  await manager.removePersistKey(deleteAliasList);
+  await manager.removePersistKey(deleteIdList);
 
   document.getElementById("keyList").innerHTML = "";
   presentationList = await manager.getKeyValues();
@@ -182,6 +182,7 @@ function renderPresentationList() {
     switch (key.type) {
       case TYPES.SESSION:
         item = creator.newSessionItem(
+          key.id,
           key.alias,
           key.value,
           setFnc,
@@ -192,6 +193,7 @@ function renderPresentationList() {
         break;
       case TYPES.LOCAL:
         item = creator.newLocalItem(
+          key.id,
           key.alias,
           key.value,
           setFnc,
@@ -202,6 +204,7 @@ function renderPresentationList() {
         break;
       case TYPES.COOKIE:
         item = creator.newCookieItem(
+          key.id,
           key.alias,
           key.value,
           setFnc,
@@ -264,13 +267,13 @@ async function loadDefaultKeys() {
     {
       alias: "Auth token",
       key: "X-Auth-Token",
-      type: TYPES.COOKIE,
+      type: TYPES.COOKIE
     },
     {
       alias: "Geo token",
       key: "location token",
       subKey: "jwt",
-      type: TYPES.LOCAL,
+      type: TYPES.LOCAL
     },
   ];
   await manager.persistNewKey(defaultKeyList);
