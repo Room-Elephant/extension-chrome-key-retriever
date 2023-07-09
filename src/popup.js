@@ -1,3 +1,4 @@
+const store = appStore();
 const manager = appManager();
 const creator = appCreator();
 const PAGES = {
@@ -29,16 +30,16 @@ const PAGES = {
     listActions: false,
   },
 };
-let presentationList = [];
+let presentationItems = [];
 
 document.addEventListener("DOMContentLoaded", async function () {
-  presentationList = await manager.getKeyValues();
-
-  if (presentationList === null || presentationList?.length === 0) {
+  let storeItem = await store.getItems();
+  if (!storeItem?.length) {
     await loadDefaultKeys();
-    presentationList = await manager.getKeyValues();
+    storeItem = await store.getItems();
   }
 
+  presentationItems = await manager.getPresentationItems(storeItem);
   renderPresentationList();
 });
 
@@ -66,24 +67,28 @@ document
 
 async function onSaveKey() {
   const formData = getFormData();
-  await manager.persistNewKey([formData]);
+  await store.addItems([formData]);
 
   clearFormData();
   document.getElementById("keyList").innerHTML = "";
-  presentationList = await manager.getKeyValues();
+  presentationItems = await manager.getPresentationItems(
+    await store.getItems()
+  );
   renderPresentationList();
   showPage(PAGES.LIST);
 }
 
 async function onDeleteKeys(deleteIds) {
-  const deleteIdList = presentationList
+  const deleteIdList = presentationItems
     .filter((element) => deleteIds.includes(element.id))
     .map((element) => element.id);
 
-  await manager.removePersistKey(deleteIdList);
+  await store.removeItems(deleteIdList);
 
   document.getElementById("keyList").innerHTML = "";
-  presentationList = await manager.getKeyValues();
+  presentationItems = await manager.getPresentationItems(
+    await store.getItems()
+  );
 
   renderPresentationList();
   showPage(PAGES.LIST);
@@ -177,7 +182,7 @@ function clearFormData() {
 function renderPresentationList() {
   keyListElement = document.getElementById("keyList");
 
-  presentationList.forEach((key) => {
+  presentationItems.forEach((key) => {
     let item;
     switch (key.type) {
       case TYPES.SESSION:
@@ -219,10 +224,12 @@ function renderPresentationList() {
 }
 
 async function setFnc(itemId, value) {
-  await manager.setKeyValue(itemId, value);
+  await manager.setItemValue(itemId, value);
 
   document.getElementById("keyList").innerHTML = "";
-  presentationList = await manager.getKeyValues();
+  presentationItems = await manager.getPresentationItems(
+    await store.getItems()
+  );
 
   renderPresentationList();
 
@@ -288,5 +295,5 @@ async function loadDefaultKeys() {
       type: TYPES.LOCAL,
     },
   ];
-  await manager.persistNewKey(defaultKeyList);
+  await store.addItems(defaultKeyList);
 }
