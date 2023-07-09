@@ -9,7 +9,7 @@
       "128": "images/icon128.png"
     },
     "default_title": "Click Me",
-    "default_popup": "popup.html"
+    "default_popup": "src/popup.html"
   },
   "description": "the auth retriever",
   "icons": {
@@ -18,6 +18,13 @@
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
-  "permissions": ["tabs", "scripting", "storage", "cookies"],
-  "host_permissions": ["<all_urls>"]
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage",
+    "cookies"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
 }
