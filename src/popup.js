@@ -1,4 +1,4 @@
-const store = appStore();
+const store = appStore(onStoreUpdate);
 const manager = appManager();
 const creator = appCreator();
 const PAGES = {
@@ -65,33 +65,28 @@ document
   .getElementById("cancelAddKeyBtn")
   .addEventListener("click", () => showPage(PAGES.LIST));
 
-async function onSaveKey() {
-  const formData = getFormData();
-  await store.addItems([formData]);
+async function onStoreUpdate(newItems) {
+  presentationItems = await manager.getPresentationItems(newItems);
 
-  clearFormData();
   document.getElementById("keyList").innerHTML = "";
-  presentationItems = await manager.getPresentationItems(
-    await store.getItems()
-  );
   renderPresentationList();
+
   showPage(PAGES.LIST);
 }
 
-async function onDeleteKeys(deleteIds) {
+function onSaveKey() {
+  const formData = getFormData();
+  clearFormData();
+
+  store.addItems([formData]);
+}
+
+function onDeleteKeys(deleteIds) {
   const deleteIdList = presentationItems
     .filter((element) => deleteIds.includes(element.id))
     .map((element) => element.id);
 
-  await store.removeItems(deleteIdList);
-
-  document.getElementById("keyList").innerHTML = "";
-  presentationItems = await manager.getPresentationItems(
-    await store.getItems()
-  );
-
-  renderPresentationList();
-  showPage(PAGES.LIST);
+  store.removeItems(deleteIdList);
 }
 
 async function onConfirmDeleteKeys() {
@@ -252,7 +247,7 @@ function copyValue(element, itemId) {
       }, 1000);
     },
     function (err) {
-      console.error("Async: Could not copy text: ", err);
+      console.log("🐶 ~ could not copy text due to:", err);
     }
   );
 }
