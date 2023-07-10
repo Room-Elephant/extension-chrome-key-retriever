@@ -36,10 +36,10 @@ function appStore(onStoreUpdate) {
         }
     }
 
-    async function removeItems(idsToRemove) {
+    async function removeItems(itemId) {
         try {
             await chrome.storage.local.set({
-                storeItems: storeItems.filter(({ id }) => !idsToRemove.includes(id)),
+                storeItems: storeItems.filter(({ id }) => !(itemId === id)),
             });
         } catch (e) {
             console.log("🐶 ~ could not delete items from extension store:", e);
