@@ -1,5 +1,13 @@
-function appStore() {
+function appStore(onStoreUpdate) {
     let storeItems = [];
+
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+        if (namespace !== "local") return;
+        if (!changes?.storeItems) return;
+
+        storeItems = changes.storeItems.newValue;
+        onStoreUpdate(storeItems);
+    });
 
     async function getItems() {
         try {
