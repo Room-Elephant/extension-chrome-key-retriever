@@ -19,25 +19,23 @@ function appStore(onStoreUpdate) {
         }
     }
 
-    async function addItems(newItems) {
+    async function addItem(newItem) {
         try {
             let lastId = getLastId();
+            newItem.id = ++lastId;
 
-            const indexedItems = newItems.map((newItem) => ({
-                ...newItem,
-                id: ++lastId,
-            }));
+            storeItems.push(newItem);
 
             return new Promise((resolve) => {
                 chrome.storage.local.set(
-                    { storeItems: [...storeItems, ...indexedItems] },
+                    { storeItems: [...storeItems, newItem] },
                     function () {
                         resolve();
                     }
                 );
             });
         } catch (e) {
-            console.log("� ~ could not add items to extension store:", e);
+            console.log("🐶 ~ could not add items to extension store:", e);
         }
     }
 
@@ -47,7 +45,7 @@ function appStore(onStoreUpdate) {
                 storeItems: storeItems.filter(({ id }) => !idsToRemove.includes(id)),
             });
         } catch (e) {
-            console.log("� ~ could not delete items from extension store:", e);
+            console.log("🐶 ~ could not delete items from extension store:", e);
         }
     }
 
@@ -56,7 +54,7 @@ function appStore(onStoreUpdate) {
     }
 
     return {
-        addItems,
+        addItem,
         removeItems,
         getItems,
     };

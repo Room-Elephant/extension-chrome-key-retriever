@@ -67,7 +67,7 @@ document
 
 async function onStoreUpdate(newItems) {
   presentationItems = await manager.getPresentationItems(newItems);
-
+  
   document.getElementById("keyList").innerHTML = "";
   renderPresentationList();
 
@@ -78,7 +78,7 @@ function onSaveKey() {
   const formData = getFormData();
   clearFormData();
 
-  store.addItems([formData]);
+  store.addItems(formData);
 }
 
 function onDeleteKeys(deleteIds) {
@@ -290,5 +290,5 @@ async function loadDefaultKeys() {
       type: TYPES.LOCAL,
     },
   ];
-  await store.addItems(defaultKeyList);
+  defaultKeyList.forEach(async (item) => store.addItem(item));
 }
