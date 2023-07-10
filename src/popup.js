@@ -67,7 +67,7 @@ document
 
 async function onSaveKey() {
   const formData = getFormData();
-  await store.addItems([formData]);
+  await store.addItem(formData);
 
   clearFormData();
   document.getElementById("keyList").innerHTML = "";
@@ -295,5 +295,5 @@ async function loadDefaultKeys() {
       type: TYPES.LOCAL,
     },
   ];
-  await store.addItems(defaultKeyList);
+  defaultKeyList.forEach(async (item) => store.addItem(item));
 }
