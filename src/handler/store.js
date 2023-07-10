@@ -27,12 +27,9 @@ function appStore(onStoreUpdate) {
             storeItems.push(newItem);
 
             return new Promise((resolve) => {
-                chrome.storage.local.set(
-                    { storeItems: [...storeItems, newItem] },
-                    function () {
-                        resolve();
-                    }
-                );
+                chrome.storage.local.set({ storeItems }, function () {
+                    resolve();
+                });
             });
         } catch (e) {
             console.log("🐶 ~ could not add items to extension store:", e);
