@@ -22,8 +22,8 @@ function cookie(tab) {
     }
 
     async function saveCookieValue(key, subKey, value) {
-        let url = tabToStringUrl(tab);
-        let domain = tabToStringDomain(tab);
+        const url = tabToStringUrl(tab);
+        const domain = tabToStringDomain(tab);
         let details = await chrome.cookies.get({
             name: key,
             url,
