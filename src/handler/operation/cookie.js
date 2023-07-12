@@ -65,7 +65,7 @@ function cookie(tab) {
 
     function tabToStringUrl(tab) {
         const url = new URL(tab.url);
-        return url.protocol + "//" + url.hostname;
+        return `${url.protocol}//${url.hostname}`;
     }
 
     function tabToStringDomain(tab) {
