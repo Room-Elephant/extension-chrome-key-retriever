@@ -13,7 +13,6 @@ function appStore(onStoreUpdate) {
         try {
             const storeResult = await chrome.storage.local.get(["storeItems"]);
             return storeResult["storeItems"];
-            
         } catch (e) {
             console.log("🐶 ~ could not get items from extension store:", e);
         }
@@ -36,10 +35,10 @@ function appStore(onStoreUpdate) {
         }
     }
 
-    async function removeItems(idsToRemove) {
+    async function removeItem(itemId) {
         try {
             await chrome.storage.local.set({
-                storeItems: storeItems.filter(({ id }) => !idsToRemove.includes(id)),
+                storeItems: storeItems.filter(({ id }) => !(itemId === id)),
             });
         } catch (e) {
             console.log("🐶 ~ could not delete items from extension store:", e);
@@ -52,7 +51,7 @@ function appStore(onStoreUpdate) {
 
     return {
         addItem,
-        removeItems,
+        removeItem,
         getItems,
     };
 }

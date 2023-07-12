@@ -34,16 +34,14 @@ function appManager() {
     return presentationItems;
   }
 
-  async function setItemValue(id, value) {
-    const key = keyList.find((key) => key.id === id);
-
-    switch (key.type) {
+  async function setItemValue(item, value) {
+    switch (item.type) {
       case TYPES.SESSION:
-        return writer.setSessionKey(tab, key.key, key.subKey, value);
+        return writer.saveSessionValue(item.key, item.subKey, value);
       case TYPES.LOCAL:
-        return writer.setLocalKey(tab, key.key, key.subKey, value);
+        return writer.saveLocalValue(item.key, item.subKey, value);
       case TYPES.COOKIE:
-        return writer.setCookieKey(tab, key.key, key.subKey, value);
+        return writer.saveCookieValue(item.key, item.subKey, value);
     }
 
     return false;
