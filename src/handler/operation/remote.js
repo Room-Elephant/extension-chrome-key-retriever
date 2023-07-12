@@ -18,7 +18,7 @@ function remote(tab) {
                 }
 
                 sessionItems[i].value = value;
-            } catch (e) { }
+            } catch () { }
         }
         return sessionItems;
     }
