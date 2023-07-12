@@ -1,3 +1,4 @@
+const store = appStore(onStoreUpdate);
 const manager = appManager();
 const creator = appCreator();
 const PAGES = {
@@ -29,16 +30,16 @@ const PAGES = {
     listActions: false,
   },
 };
-let presentationList = [];
+let presentationItems = [];
 
 document.addEventListener("DOMContentLoaded", async function () {
-  presentationList = await manager.getKeyValues();
-
-  if (presentationList === null || presentationList?.length === 0) {
+  let storeItem = await store.getItems();
+  if (!storeItem?.length) {
     await loadDefaultKeys();
-    presentationList = await manager.getKeyValues();
+    storeItem = await store.getItems();
   }
 
+  presentationItems = await manager.getPresentationItems(storeItem);
   renderPresentationList();
 });
 
@@ -64,29 +65,28 @@ document
   .getElementById("cancelAddKeyBtn")
   .addEventListener("click", () => showPage(PAGES.LIST));
 
-async function onSaveKey() {
-  const formData = getFormData();
-  await manager.persistNewKey([formData]);
-
-  clearFormData();
+async function onStoreUpdate(newItems) {
+  presentationItems = await manager.getPresentationItems(newItems);
+  
   document.getElementById("keyList").innerHTML = "";
-  presentationList = await manager.getKeyValues();
   renderPresentationList();
+
   showPage(PAGES.LIST);
 }
 
-async function onDeleteKeys(deleteIds) {
-  const deleteIdList = presentationList
+function onSaveKey() {
+  const formData = getFormData();
+  clearFormData();
+
+  store.addItems(formData);
+}
+
+function onDeleteKeys(deleteIds) {
+  const deleteIdList = presentationItems
     .filter((element) => deleteIds.includes(element.id))
     .map((element) => element.id);
 
-  await manager.removePersistKey(deleteIdList);
-
-  document.getElementById("keyList").innerHTML = "";
-  presentationList = await manager.getKeyValues();
-
-  renderPresentationList();
-  showPage(PAGES.LIST);
+  store.removeItems(deleteIdList);
 }
 
 async function onConfirmDeleteKeys() {
@@ -177,7 +177,7 @@ function clearFormData() {
 function renderPresentationList() {
   keyListElement = document.getElementById("keyList");
 
-  presentationList.forEach((key) => {
+  presentationItems.forEach((key) => {
     let item;
     switch (key.type) {
       case TYPES.SESSION:
@@ -219,10 +219,12 @@ function renderPresentationList() {
 }
 
 async function setFnc(itemId, value) {
-  await manager.setKeyValue(itemId, value);
+  await manager.setItemValue(itemId, value);
 
   document.getElementById("keyList").innerHTML = "";
-  presentationList = await manager.getKeyValues();
+  presentationItems = await manager.getPresentationItems(
+    await store.getItems()
+  );
 
   renderPresentationList();
 
@@ -245,7 +247,7 @@ function copyValue(element, itemId) {
       }, 1000);
     },
     function (err) {
-      console.error("Async: Could not copy text: ", err);
+      console.log("🐶 ~ could not copy text due to:", err);
     }
   );
 }
@@ -288,5 +290,5 @@ async function loadDefaultKeys() {
       type: TYPES.LOCAL,
     },
   ];
-  await manager.persistNewKey(defaultKeyList);
+  defaultKeyList.forEach(async (item) => store.addItem(item));
 }

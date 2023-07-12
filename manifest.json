@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "auth-retriever",
+  "name": "Key Retriever",
   "version": "1.0.0",
   "action": {
     "default_icon": {
@@ -9,15 +9,22 @@
       "128": "images/icon128.png"
     },
     "default_title": "Click Me",
-    "default_popup": "popup.html"
+    "default_popup": "src/popup.html"
   },
-  "description": "the auth retriever",
+  "description": "Extension that allows you to watch session, local and cookie storage of you sites. Additionally Allow advance features such as set new values and watch sub keys.",
   "icons": {
     "16": "images/icon16.png",
     "32": "images/icon32.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
-  "permissions": ["tabs", "scripting", "storage", "cookies"],
-  "host_permissions": ["<all_urls>"]
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage",
+    "cookies"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
 }
