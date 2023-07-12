@@ -8,7 +8,7 @@ function remote(tab) {
         return result[0].result;
     }
 
-    function getLocalValue(sessionItems) {
+    function getLocalValue(localItems) {
         for (let i = 0; i < sessionItems.length; i++) {
             try {
                 let value = window.localStorage.getItem(sessionItems[i].key);
