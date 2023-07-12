@@ -36,7 +36,7 @@ function appStore(onStoreUpdate) {
         }
     }
 
-    async function removeItems(itemId) {
+    async function removeItem(itemId) {
         try {
             await chrome.storage.local.set({
                 storeItems: storeItems.filter(({ id }) => !(itemId === id)),
@@ -52,7 +52,7 @@ function appStore(onStoreUpdate) {
 
     return {
         addItem,
-        removeItems,
+        removeItem,
         getItems,
     };
 }

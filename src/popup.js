@@ -22,7 +22,7 @@ function onSaveItem(formData) {
 }
 
 function onDeleteKeys(itemId) {
-  store.removeItems(itemId);
+  store.removeItem(itemId);
 }
 
 async function onSetItemValue(itemId, value) {
