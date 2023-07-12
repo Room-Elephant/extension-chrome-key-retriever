@@ -70,7 +70,7 @@ function cookie(tab) {
 
     function tabToStringDomain(tab) {
         const url = new URL(tab.url);
-        return "." + url.hostname;
+        return `.${url.hostname}`;
     }
 
     return { getCookie, saveCookieValue };
