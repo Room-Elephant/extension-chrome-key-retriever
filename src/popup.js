@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     await loadDefaultKeys();
     storeItem = await store.getItems();
   }
-  
+
   page.renderPresentationList(await manager.getPresentationItems(storeItem));
 });
 
@@ -26,7 +26,12 @@ function onDeleteKeys(itemId) {
 }
 
 async function onSetItemValue(itemId, value) {
-  await manager.setItemValue(itemId, value);
+  const storeItem = await store.getItems();
+  const item = storeItem.find((item) => item.id === itemId);
+
+  await manager.setItemValue(item, value);
+
+  page.renderPresentationList(await manager.getPresentationItems(storeItem));
 }
 
 async function loadDefaultKeys() {
