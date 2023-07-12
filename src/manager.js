@@ -15,7 +15,7 @@ function appManager() {
   });
 
   async function getPresentationItems(storeItems) {
-    let presentationItems = [];
+    const presentationItems = [];
 
     const sessionKeyPresentation = await reader.getSessionValues(
       storeItems.filter(({ type }) => TYPES.SESSION === type)

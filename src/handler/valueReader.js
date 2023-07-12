@@ -6,7 +6,7 @@ function valueReader(remote, cookie) {
         remote.getSessionValue
       );
     } catch (e) {
-      console.log("🐶 ~ could not read local values:", e);
+      console.log("🐶 ~ could not read session values:", e);
     }
     return [];
   }

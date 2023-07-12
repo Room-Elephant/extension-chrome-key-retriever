@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     await loadDefaultKeys();
     storeItem = await store.getItems();
   }
-
+  
   page.renderPresentationList(await manager.getPresentationItems(storeItem));
 });
 

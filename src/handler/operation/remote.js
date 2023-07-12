@@ -8,25 +8,10 @@ function remote(tab) {
         return result[0].result;
     }
 
-    function getLocalValue(sessionItems) {
-        for (let i = 0; i < sessionItems.length; i++) {
-            try {
-                let value = window.localStorage.getItem(sessionItems[i].key);
-
-                if (sessionItems[i].subKey) {
-                    value = JSON.parse(value)[sessionItems[i].subKey];
-                }
-
-                sessionItems[i].value = value;
-            } catch (e) { }
-        }
-        return sessionItems;
-    }
-
-    function getSessionValue(localItems) {
+    function getLocalValue(localItems) {
         for (let i = 0; i < localItems.length; i++) {
             try {
-                let value = window.sessionStorage.getItem(localItems[i].key);
+                let value = window.localStorage.getItem(localItems[i].key);
 
                 if (localItems[i].subKey) {
                     value = JSON.parse(value)[localItems[i].subKey];
@@ -36,6 +21,21 @@ function remote(tab) {
             } catch (e) { }
         }
         return localItems;
+    }
+
+    function getSessionValue(sessionItems) {
+        for (let i = 0; i < sessionItems.length; i++) {
+            try {
+                let value = window.sessionStorage.getItem(sessionItems[i].key);
+
+                if (sessionItems[i].subKey) {
+                    value = JSON.parse(value)[sessionItems[i].subKey];
+                }
+
+                sessionItems[i].value = value;
+            } catch (e) { }
+        }
+        return sessionItems;
     }
 
     function saveSessionValue(key, subKey, value) {

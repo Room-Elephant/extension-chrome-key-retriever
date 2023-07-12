@@ -259,7 +259,7 @@ const appCreator = () => {
     textAreaFooter.appendChild(applyBtn);
     return textAreaFooter;
   }
-
+  
   function newIcon(iconType) {
     const icon = document.createElement("i");
     const classes = iconType.class.split(" ");
@@ -285,7 +285,7 @@ const appCreator = () => {
 
     return textArea;
   }
-
+  
   return {
     newCookieItem,
     newLocalItem,
