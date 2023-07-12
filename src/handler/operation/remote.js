@@ -56,7 +56,7 @@ function remote(tab) {
                 newValue instanceof Object ? JSON.stringify(newValue) : newValue;
 
             window.sessionStorage.setItem(key, stringifiedValue);
-        } catch (e) {
+        } catch () {
             return false;
         }
 
