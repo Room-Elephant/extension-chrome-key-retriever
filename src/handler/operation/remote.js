@@ -23,7 +23,7 @@ function remote(tab) {
         return sessionItems;
     }
 
-    function getSessionValue(localItems) {
+    function getSessionValue(sessionItems) {
         for (let i = 0; i < localItems.length; i++) {
             try {
                 let value = window.sessionStorage.getItem(localItems[i].key);
