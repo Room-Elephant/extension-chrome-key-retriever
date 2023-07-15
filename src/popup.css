@@ -1,6 +1,6 @@
 :root {
   --yellow: #ffaa3b;
-  --brown: #865318;
+  --brown: #b87333;
   --dark-gray: #495057;
   --green: #198754;
 }
@@ -32,4 +32,24 @@ header {
 
 .flex-row {
   flex-direction: row;
+}
+
+/* These 3 btn related classes are overridden to change button toggle group color to dark-gray  */
+
+.btn-outline-primary {
+  color: var(--dark-gray);
+  background-color: transparent;
+  border-color: var(--dark-gray);
+}
+
+.btn-check + .btn:hover {
+  color: var(--dark-gray);
+  background-color: white;
+  border-color: var(--dark-gray);
+}
+
+.btn-check:checked + .btn {
+  color: white;
+  background-color: var(--dark-gray);
+  border-color: var(--dark-gray);
 }

@@ -104,6 +104,7 @@ const appCreator = () => {
         disabled: false,
         onClick: actions.deleteFnc,
         separator: true,
+
       },
     ];
     return components.newDropdown({ options });

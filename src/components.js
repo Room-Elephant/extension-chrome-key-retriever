@@ -79,7 +79,6 @@ function appComponents() {
 
     const dropdownMenu = document.createElement("ul");
     dropdownMenu.classList.add("dropdown-menu");
-
     options?.forEach((option) =>
       dropdownMenu.appendChild(newDropdownOption({ ...option }))
     );
@@ -122,7 +121,6 @@ function appComponents() {
       });
       if (separator) liItem.appendChild(newSeparator());
       liItem.appendChild(option);
-
       return liItem;
     }
   }
