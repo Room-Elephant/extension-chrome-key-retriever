@@ -3,9 +3,10 @@ const manager = appManager();
 const page = appPage(onSaveItem, onDeleteKeys, onSetItemValue);
 
 document.addEventListener("DOMContentLoaded", async function () {
-  let storeItems = await store.getItems();
+  const storeItems = await store.getItems();
   if (!storeItems?.length) {
     page.show(page.PAGES.EMPTY);
+    return;
   }
 
   page.renderPresentationList(await manager.getPresentationItems(storeItems));
