@@ -132,17 +132,17 @@ const appCreator = () => {
     switch (storageType) {
       case TYPES.SESSION:
         return {
-          classNames: "fa-sharp fa-regular fa-folder-open me-1",
+          classNames: "fa-sharp fa-regular fa-folder-open me-2",
           style: "color: var(--yellow)",
         };
       case TYPES.LOCAL:
         return {
-          classNames: "fa-solid fa-box-archive fa-lg me-1",
+          classNames: "fa-solid fa-box-archive fa-lg me-2",
           style: "color: var(--brown)",
         };
       case TYPES.COOKIE:
         return {
-          classNames: "fa-solid fa-cookie fa-lg me-1",
+          classNames: "fa-solid fa-cookie-bite fa-lg me-2",
           style: "color: var(--yellow);",
         };
     }
