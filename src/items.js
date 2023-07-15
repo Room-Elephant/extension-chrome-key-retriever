@@ -56,7 +56,7 @@ const appCreator = () => {
 
       const applyButton = components.newButton({
         classNames: "btn btn-outline-success",
-        onClick: () => applyKey(item.id),
+        onClick: () => applyValue(item.id),
         label: "Apply",
         icon: {
           classNames: "fa-solid fa-floppy-disk fa-lg me-1",
@@ -92,7 +92,6 @@ const appCreator = () => {
         label: "Set value",
         disabled: false,
         onClick: () => showApplyFooter(id),
-        separator: true,
       },
       {
         id: `deleteBtn-${id}`,
@@ -104,6 +103,7 @@ const appCreator = () => {
         label: "Delete key",
         disabled: false,
         onClick: actions.deleteFnc,
+        separator: true,
       },
     ];
     return components.newDropdown({ options });
@@ -117,7 +117,7 @@ const appCreator = () => {
     textAreaFooter.classList.remove("display-none");
   }
 
-  function applyKey(id) {
+  function applyValue(id) {
     const textAreaFooter = document.getElementById(`textAreaFooter-${id}`);
     textAreaFooter.classList.add("display-none");
 
