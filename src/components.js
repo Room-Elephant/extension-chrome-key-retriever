@@ -119,12 +119,13 @@ function appComponents() {
         disabled,
         onClick: (element) => onClick(itemId, element),
       });
+      
       if (separator) liItem.appendChild(newSeparator());
       liItem.appendChild(option);
       return liItem;
     }
   }
-
+    
   function newTextArea({
     id,
     classNames,
