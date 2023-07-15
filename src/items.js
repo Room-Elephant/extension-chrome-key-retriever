@@ -111,7 +111,6 @@ const appCreator = () => {
         label: "Set value",
         disabled: false,
         onClick: () => showFooter(id),
-        separator: true,
       },
       {
         id: `deleteBtn-${id}`,
@@ -123,6 +122,7 @@ const appCreator = () => {
         label: "Delete key",
         disabled: false,
         onClick: actions.deleteFnc,
+        separator: true,
       },
     ];
     return components.newDropdown({ options });
