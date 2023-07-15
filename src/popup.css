@@ -2,6 +2,7 @@
   --yellow: #ffaa3b;
   --brown: #b87333;
   --light-gray: #d3d3d3;
+  --medium-gray: #bebebe;
   --dark-gray: #495057;
   --green: #198754;
 }
@@ -25,9 +26,7 @@ header {
   display: none !important;
 }
 
-/* These 2 flex related classes are overridden since bootstrap uses !important which is incompatible with our use of display-none  */
-
-.d-flex {
+.flex {
   display: flex;
 }
 
@@ -35,6 +34,9 @@ header {
   flex-direction: row;
 }
 
+.flex-col {
+  flex-direction: column;
+}
 /* These 3 btn related classes are overridden to change button toggle group color to dark-gray  */
 
 .btn-outline-primary {

@@ -1,7 +1,16 @@
 function appPage(storeSave, storeDelete, storeSet) {
   const creator = appCreator();
   const PAGES = {
+    EMPTY: {
+      emptyPage: true,
+      addKeyForm: false,
+      addKeyFooter: false,
+      keyListElement: false,
+      keyListFooterElement: true,
+      listActions: false,
+    },
     LIST: {
+      emptyPage: false,
       addKeyForm: false,
       addKeyFooter: false,
       keyListElement: true,
@@ -9,6 +18,7 @@ function appPage(storeSave, storeDelete, storeSet) {
       listActions: true,
     },
     ADD: {
+      emptyPage: false,
       addKeyForm: true,
       addKeyFooter: true,
       keyListElement: false,
@@ -16,6 +26,7 @@ function appPage(storeSave, storeDelete, storeSet) {
       listActions: false,
     },
   };
+
   let presentationItems = [];
 
   document
@@ -28,6 +39,10 @@ function appPage(storeSave, storeDelete, storeSet) {
 
   document.getElementById("cancelAddKeyBtn").addEventListener("click", () => {
     removeFormValidation();
+    if (!presentationItems.length) {
+      page.show(page.PAGES.EMPTY);
+      return;
+    }
     show(PAGES.LIST);
   });
 
@@ -44,6 +59,7 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   function show(page) {
+    const emptyPage = document.getElementById("emptyPage");
     const addKeyForm = document.getElementById("addKeyForm");
     const addKeyFooter = document.getElementById("addKeyFooter");
     const keyListElement = document.getElementById("keyList");
@@ -51,6 +67,9 @@ function appPage(storeSave, storeDelete, storeSet) {
     const listActions = document.getElementsByClassName("listActions");
     const viewButtons = document.getElementsByClassName("viewBtn");
     const viewCards = document.getElementsByClassName("tokenTextArea");
+
+    if (page.emptyPage) emptyPage.classList.remove("display-none");
+    else emptyPage.classList.add("display-none");
 
     if (page.addKeyForm) addKeyForm.classList.remove("display-none");
     else addKeyForm.classList.add("display-none");

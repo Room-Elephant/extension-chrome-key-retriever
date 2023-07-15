@@ -139,14 +139,14 @@ function appComponents() {
     const liBody = document.createElement("div");
     addClassesToElement(
       liBody,
-      "d-flex justify-content-between align-items-center w-100"
+      "flex justify-content-between align-items-center w-100"
     );
 
     liBody.appendChild(newLabel({ icon: item.icon, text: item.text }));
 
     if (actions) {
       const actionsElement = document.createElement("div");
-      addClassesToElement(actionsElement, "d-flex flex-row");
+      addClassesToElement(actionsElement, "flex flex-row");
 
       for (let i = 0; i < actions?.length; i++) {
         actionsElement.appendChild(newAction(actions[i]));
@@ -163,7 +163,7 @@ function appComponents() {
 
     function newLabel({ icon, text }) {
       const label = document.createElement("div");
-      addClassesToElement(label, "d-flex align-items-center");
+      addClassesToElement(label, "flex align-items-center");
 
       const iconElement = newIcon(icon);
 
@@ -178,7 +178,7 @@ function appComponents() {
 
     function newAction({ action, visible = true }) {
       const actionElement = document.createElement("div");
-      addClassesToElement(actionElement, "d-flex listActions");
+      addClassesToElement(actionElement, "flex listActions");
 
       if (visible) actionElement.appendChild(action);
 
@@ -193,7 +193,7 @@ function appComponents() {
         actionsFooter.id = `textAreaFooter-${item.id}`;
         addClassesToElement(
           actionsFooter,
-          "mt-1 display-none d-flex flex-row justify-content-end"
+          "mt-1 display-none flex flex-row justify-content-end"
         );
 
         for (let i = 0; i < actions?.length; i++) {
