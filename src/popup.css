@@ -1,6 +1,7 @@
 :root {
   --yellow: #ffaa3b;
   --brown: #b87333;
+  --light-gray: #d3d3d3;
   --dark-gray: #495057;
   --green: #198754;
 }
@@ -52,4 +53,10 @@ header {
   color: white;
   background-color: var(--dark-gray);
   border-color: var(--dark-gray);
+}
+
+.form-floating > .form-control:focus {
+  &::placeholder {
+    color: var(--light-gray) !important;
+  }
 }
