@@ -1,0 +1,35 @@
+:root {
+  --yellow: #ffaa3b;
+  --brown: #865318;
+  --dark-gray: #495057;
+  --green: #198754;
+}
+
+html {
+  max-height: 10em;
+  min-width: 25em;
+  overflow-y: scroll;
+}
+
+body {
+  padding: 1em;
+}
+
+header {
+  padding: 0.4em;
+  color: var(--dark-gray);
+}
+
+.display-none {
+  display: none !important;
+}
+
+/* These 2 flex related classes are overridden since bootstrap uses !important which is incompatible with our use of display-none  */
+
+.d-flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
