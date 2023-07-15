@@ -37,7 +37,6 @@ header {
 .flex-col {
   flex-direction: column;
 }
-/* These 3 btn related classes are overridden to change button toggle group color to dark-gray  */
 
 .btn-outline-primary {
   color: var(--dark-gray);

@@ -26,7 +26,6 @@ function appPage(storeSave, storeDelete, storeSet) {
       listActions: false,
     },
   };
-
   let presentationItems = [];
 
   document
