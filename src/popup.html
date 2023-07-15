@@ -3,7 +3,7 @@
   <head>
     <link href="./assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/font-awesome/font-awesome.css" />
-    <!-- This needs file needs to be last in order to override some bootstrap css class -->
+    <!-- This file needs to be last in order to override some bootstrap css class -->
     <link rel="stylesheet" href="popup.css" />
     <meta charset="utf-8" />
   </head>
@@ -18,8 +18,8 @@
     <section class="mt-1">
       <ul id="keyList" class="list-group list-group-flush"></ul>
       <div id="addKeyForm" class="display-none">
-        <form>
-          <div class="form-floating my-3">
+        <form id="add-key-form" novalidate>
+          <div class="my-3">
             <div class="d-flex flex-row">
               <div class="btn-group" role="group">
                 <input
@@ -77,9 +77,13 @@
               type="text"
               class="form-control"
               name="alias"
+              placeholder="e.g. Auth token"
               required
             />
             <label for="alias" class="form-label">Alias</label>
+            <div class="invalid-feedback">
+              Please choose an alias for your key.
+            </div>
           </div>
           <div class="form-floating mb-3">
             <input
@@ -87,12 +91,20 @@
               type="text"
               class="form-control"
               name="key"
+              placeholder="e.g. SSID"
               required
             />
             <label for="key" class="form-label">Key</label>
+            <div class="invalid-feedback">Please choose a key.</div>
           </div>
           <div class="form-floating mb-3">
-            <input id="subKey" type="text" class="form-control" name="subKey" />
+            <input
+              id="subKey"
+              type="text"
+              class="form-control"
+              name="subKey"
+              placeholder="e.g. cachedValue"
+            />
             <label for="subKey" class="form-label">Sub-key</label>
           </div>
         </form>
@@ -103,7 +115,7 @@
         id="keyListFooter"
         class="d-flex flex-row justify-content-end w-100 align-items-center"
       >
-        <button id="addKeyBtn" type="button" class="btn btn-outline-success">
+        <button id="addKeyBtn" type="submit" class="btn btn-outline-success">
           <span class="btn-label">
             <i class="fa-solid fa-circle-plus fa-lg me-1"></i
           ></span>
