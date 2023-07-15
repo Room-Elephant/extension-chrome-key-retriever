@@ -56,15 +56,34 @@ const appCreator = () => {
 
       const applyButton = components.newButton({
         classNames: "btn btn-outline-success",
-        onClick: () => applyValue(item.id),
+        onClick: () => {
+          const textArea = document.getElementById(`token-${item.id}`);
+          textArea.disabled = true;
+
+          hideApplyFooter(item.id);
+          const value = textArea.value;
+          actions.setFnc(item.id, value);
+        },
         label: "Apply",
         icon: {
           classNames: "fa-solid fa-floppy-disk fa-lg me-1",
         },
       });
+
+      const cancelButton = components.newButton({
+        onClick: () => {
+          hideTokenArea(item.id);
+          hideApplyFooter(item.id);
+        },
+        classNames: "me-2",
+        icon: {
+          classNames: "fa-solid fa-circle-xmark fa-lg",
+          style: "color: var(--dark-gray)",
+        },
+      });
       return {
         body: tokenArea,
-        actions: [applyButton],
+        actions: [cancelButton, applyButton],
       };
     }
   }
@@ -91,7 +110,7 @@ const appCreator = () => {
         },
         label: "Set value",
         disabled: false,
-        onClick: () => showApplyFooter(id),
+        onClick: () => showFooter(id),
       },
       {
         id: `deleteBtn-${id}`,
@@ -109,7 +128,7 @@ const appCreator = () => {
     return components.newDropdown({ options });
   }
 
-  function showApplyFooter(id) {
+  function showFooter(id) {
     const textArea = document.getElementById(`token-${id}`);
     textArea.classList.remove("display-none");
     textArea.disabled = false;
@@ -117,15 +136,15 @@ const appCreator = () => {
     textAreaFooter.classList.remove("display-none");
   }
 
-  function applyValue(id) {
+  function hideTokenArea(id) {
+    const textArea = document.getElementById(`token-${id}`);
+    textArea.classList.add("display-none");
+    textArea.disabled = true;
+  }
+
+  function hideApplyFooter(id) {
     const textAreaFooter = document.getElementById(`textAreaFooter-${id}`);
     textAreaFooter.classList.add("display-none");
-
-    const textArea = document.getElementById(`token-${id}`);
-    textArea.disabled = true;
-
-    const value = textArea.value;
-    actions.setFnc(id, value);
   }
 
   function iconByStorageType(storageType) {
