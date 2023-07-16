@@ -1,6 +1,7 @@
 const components = appComponents();
 const creator = appCreator(components);
 const page = appPage(creator, onSaveItem, onDeleteKeys, onSetItemValue);
+const analytics = appAnalytics();
 const store = appStore(onStoreUpdate);
 const manager = appManager();
 
@@ -11,6 +12,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function onStoreUpdate(items) {
+  analytics.fireEvent("number_of_keys", {
+    total: list.length,
+    session: list.filter(({ type }) => type === TYPES.SESSION).length,
+    local: list.filter(({ type }) => type === TYPES.LOCAL).length,
+    cookie: list.filter(({ type }) => type === TYPES.COOKIE).length,
+  });
+  
   if (!items.length) {
     page.show(page.PAGES.EMPTY);
     return;
