@@ -8,11 +8,10 @@ function cookie(tab) {
       .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
 
     return cookieStoreItems.map((item) => {
-      item.value =
-        matchCookies.find(({ name }) => name === item.key)?.value || undefined;
+      item.value = matchCookies.find(({ name }) => name === item.key)?.value || undefined;
       if (item.subKey) {
         try {
-          item.value = JSON.parse(value)[item.subKey];
+          item.value = JSON.parse(item.value)[item.subKey];
         } catch {
           item.value = undefined;
         }
@@ -47,15 +46,14 @@ function cookie(tab) {
       newValue[subKey] = value;
     }
 
-    const stringifiedValue =
-      newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+    const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
 
     details.value = stringifiedValue;
 
     delete details.hostOnly;
     delete details.session;
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       chrome.cookies.set({ ...details, url, domain }, function (cookie) {
         if (cookie) resolve();
         else reject();

@@ -1,4 +1,4 @@
-(function versionController() {
+function versionController(page) {
   fetch("https://key-retriever.room-elephant.com/manifest.json")
     .then((response) => {
       if (!response.ok) {
@@ -11,8 +11,7 @@
       const latestVersion = response.version;
       const currentVersion = chrome.runtime.getManifest().version;
 
-      if (isOutdated(currentVersion, latestVersion))
-        page.alertOutdatedVersion();
+      if (isOutdated(currentVersion, latestVersion)) page.alertOutdatedVersion();
     })
     .catch((err) => {
       console.log("🐶 ~ could not validate version due to:", err);
@@ -30,4 +29,4 @@
 
     return false;
   }
-})();
+}

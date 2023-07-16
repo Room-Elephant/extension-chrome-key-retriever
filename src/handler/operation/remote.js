@@ -18,7 +18,7 @@ function remote(tab) {
         }
 
         localItems[i].value = value;
-      } catch (e) {}
+      } catch (e) { /* empty */ }
     }
     return localItems;
   }
@@ -33,7 +33,7 @@ function remote(tab) {
         }
 
         sessionItems[i].value = value;
-      } catch (e) {}
+      } catch (e) { /* empty */ }
     }
     return sessionItems;
   }
@@ -52,8 +52,7 @@ function remote(tab) {
         newValue[subKey] = value;
       }
 
-      const stringifiedValue =
-        newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+      const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
 
       window.sessionStorage.setItem(key, stringifiedValue);
     } catch (e) {
@@ -78,8 +77,7 @@ function remote(tab) {
         newValue[subKey] = value;
       }
 
-      const stringifiedValue =
-        newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+      const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
 
       window.localStorage.setItem(key, stringifiedValue);
     } catch (e) {
