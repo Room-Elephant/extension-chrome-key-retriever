@@ -1,0 +1,29 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "no-redeclare": ["error", { "builtinGlobals": false }],
+    "no-unused-vars": ["error", { "vars": "local" }]
+  },
+  "globals": {
+    "cookie": "readonly",
+    "remote": "readonly",
+    "appStore": "readonly",
+    "valueReader": "readonly",
+    "valueWriter": "readonly",
+    "TYPES": "readonly",
+    "appComponents": "readonly",
+    "appCreator": "readonly",
+    "appManager": "readonly",
+    "appPage": "readonly",
+    "versionController": "readonly",
+    "chrome": "readonly"
+  }
+}

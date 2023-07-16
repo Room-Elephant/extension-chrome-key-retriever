@@ -18,14 +18,10 @@ function appManager() {
     const presentationItems = [];
 
     const sessionKeyPresentation = await reader.getSessionValues(
-      storeItems.filter(({ type }) => TYPES.SESSION === type)
+      storeItems.filter(({ type }) => TYPES.SESSION === type),
     );
-    const localKeyPresentation = await reader.getLocalValues(
-      storeItems.filter(({ type }) => TYPES.LOCAL === type)
-    );
-    const cookieKeyPresentation = await reader.getCookieValues(
-      storeItems.filter(({ type }) => TYPES.COOKIE === type)
-    );
+    const localKeyPresentation = await reader.getLocalValues(storeItems.filter(({ type }) => TYPES.LOCAL === type));
+    const cookieKeyPresentation = await reader.getCookieValues(storeItems.filter(({ type }) => TYPES.COOKIE === type));
 
     presentationItems.push(...sessionKeyPresentation);
     presentationItems.push(...localKeyPresentation);

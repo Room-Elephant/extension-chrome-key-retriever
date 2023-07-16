@@ -39,10 +39,7 @@ const appCreator = () => {
         actions,
       });
 
-      return [
-        { action: copyButton, visible: Boolean(item.value) },
-        { action: moreActionsButton },
-      ];
+      return [{ action: copyButton, visible: Boolean(item.value) }, { action: moreActionsButton }];
     }
 
     function itemFooter() {

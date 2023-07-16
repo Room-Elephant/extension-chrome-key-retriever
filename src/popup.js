@@ -1,6 +1,7 @@
 const store = appStore(onStoreUpdate);
 const manager = appManager();
 const page = appPage(onSaveItem, onDeleteKeys, onSetItemValue);
+versionController(page);
 
 document.addEventListener("DOMContentLoaded", async function () {
   const storeItems = await store.getItems();
