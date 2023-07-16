@@ -28,7 +28,9 @@ function appPage(storeSave, storeDelete, storeSet) {
   };
   let presentationItems = [];
 
-  document.getElementById("addKeyBtn").addEventListener("click", () => show(PAGES.ADD));
+  document
+    .getElementById("addKeyBtn")
+    .addEventListener("click", () => show(PAGES.ADD));
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
@@ -77,11 +79,16 @@ function appPage(storeSave, storeDelete, storeSet) {
     if (page.keyListElement) keyListElement.classList.remove("display-none");
     else keyListElement.classList.add("display-none");
 
-    if (page.keyListFooterElement) keyListFooterElement.classList.remove("display-none");
+    if (page.keyListFooterElement)
+      keyListFooterElement.classList.remove("display-none");
     else keyListFooterElement.classList.add("display-none");
 
-    if (page.listActions) [...listActions].forEach((action) => action.classList.remove("invisible"));
-    else[...listActions].forEach((action) => action.classList.add("invisible"));
+    if (page.listActions)
+      [...listActions].forEach((action) =>
+        action.classList.remove("invisible")
+      );
+    else
+      [...listActions].forEach((action) => action.classList.add("invisible"));
 
     [...viewButtons].forEach((btn) => {
       if (btn.lastChild.classList.contains("fa-eye-slash")) {
@@ -134,7 +141,9 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   function onDeleteItem(itemId) {
-    const idToRemove = presentationItems.find((element) => itemId === element.id).id;
+    const idToRemove = presentationItems.find(
+      (element) => itemId === element.id
+    ).id;
 
     storeDelete(idToRemove);
   }
@@ -164,7 +173,7 @@ function appPage(storeSave, storeDelete, storeSet) {
       },
       function (err) {
         console.log("🐶 ~ could not copy text due to:", err);
-      },
+      }
     );
   }
 
@@ -192,7 +201,9 @@ function appPage(storeSave, storeDelete, storeSet) {
     const alias = document.getElementById("alias").value;
     const key = document.getElementById("key").value;
     const subKey = document.getElementById("subKey").value || undefined;
-    const storageType = document.querySelector('input[name="storage"]:checked').value;
+    const storageType = document.querySelector(
+      'input[name="storage"]:checked'
+    ).value;
 
     return { alias, key, subKey, type: storageType };
   }
