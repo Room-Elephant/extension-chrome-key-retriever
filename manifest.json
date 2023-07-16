@@ -19,5 +19,9 @@
     "128": "images/icon128.png"
   },
   "permissions": ["tabs", "scripting", "storage", "cookies"],
-  "host_permissions": ["<all_urls>"]
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/service-worker.js",
+    "type": "module"
+  }
 }
