@@ -26,6 +26,7 @@ function appPage(creator, storeSave, storeDelete, storeSet) {
     },
   };
   let presentationItems = [];
+  let valueItems = [];
 
   document.getElementById("addKeyBtn").addEventListener("click", () => show(PAGES.ADD));
 
@@ -109,10 +110,17 @@ function appPage(creator, storeSave, storeDelete, storeSet) {
     });
   }
 
-  function renderValueElements(itemValues) {
+  function renderValueElements({ itemValues, newValue }) {
+    valueItems = itemValues || valueItems;
+    if (newValue) {
+      const updatableItem = valueItems.find(({ id }) => id === newValue.id);
+      updatableItem.value = newValue.value;
+    }
+
     const itemsByValue = presentationItems.reduce((acc, curr) => {
-      if (itemValues.includes(curr.id)) (acc.withValue = acc.withValue || []).push(curr);
-      else (acc.emptyValue = acc.emptyValue || []).push(curr);
+      const valueItem = valueItems.find(({ id }) => id === curr.id);
+      if (valueItem.value) (acc.withValue = acc.withValue || []).push(valueItem);
+      else (acc.emptyValue = acc.emptyValue || []).push(valueItem);
 
       return acc;
     }, {});
@@ -158,12 +166,10 @@ function appPage(creator, storeSave, storeDelete, storeSet) {
   }
 
   async function onSetItemValue(itemId, value) {
-    await storeSet(itemId, value);
-
-    renderPresentationList(presentationItems);
+    const item = presentationItems.find(({ id }) => id === itemId);
+    await storeSet(item, value);
 
     const viewBtn = document.getElementById(`viewBtn-${itemId}`);
-    viewBtn.disabled = false;
     onViewValue(itemId, viewBtn);
   }
 

@@ -16,7 +16,7 @@ async function onStoreUpdate(items) {
     return;
   }
   page.renderPresentationList(items);
-  page.renderValueElements(await manager.getItemsValue(items));
+  page.renderValueElements({ itemValues: await manager.getItemsValue(items) });
   page.show(page.PAGES.LIST);
 }
 
@@ -28,9 +28,7 @@ function onDeleteKeys(itemId) {
   store.removeItem(itemId);
 }
 
-async function onSetItemValue(itemId, value) {
-  const storeItem = await store.getItems();
-  const item = storeItem.find((item) => item.id === itemId);
-
+async function onSetItemValue(item, value) {
   await manager.setItemValue(item, value);
+  page.renderValueElements({ newValue: { id: item.id, value } });
 }

@@ -24,7 +24,7 @@
     "cookiestorage"
   ],
   "author": "Room-Elephant",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Room-Elephant/extension-chrome-key-retriever/issues"
   },
