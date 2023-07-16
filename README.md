@@ -28,4 +28,6 @@ To install:
 
 ## Thanks to
 
-extension icon by Chanut-is-Industries and you can find it at <a href="https://www.flaticon.com/free-icons/golden-retriever" title="golden retriever icons">Golden retriever icons</a> on Flaticon
+Extension icon by Chanut-is-Industries and you can find it at <a href="https://www.flaticon.com/free-icons/golden-retriever" title="golden retriever icons">Golden retriever icons</a> on Flaticon
+
+Empty page image by brgfx and you can find it at <a href="https://www.freepik.com/free-vector/dog-digging-dirt-white-background_18973243.htm#query=golden%20retriever%20bone&position=26&from_view=search&track=ais">Image by brgfx</a> on Freepik
