@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function onStoreUpdate(items) {
   analytics.fireEvent("number_of_keys", {
-    total: items.length,
-    session: items.filter(({ type }) => type === TYPES.SESSION).length,
-    local: items.filter(({ type }) => type === TYPES.LOCAL).length,
-    cookie: items.filter(({ type }) => type === TYPES.COOKIE).length,
+    total: test.length,
+    session: test.filter(({ type }) => type === TYPES.SESSION).length,
+    local: test.filter(({ type }) => type === TYPES.LOCAL).length,
+    cookie: test.filter(({ type }) => type === TYPES.COOKIE).length,
   });
   
   if (!items.length) {
