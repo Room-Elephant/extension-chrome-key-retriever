@@ -55,9 +55,3 @@ header {
   background-color: var(--dark-gray);
   border-color: var(--dark-gray);
 }
-
-.form-floating > .form-control:focus {
-  &::placeholder {
-    color: var(--light-gray) !important;
-  }
-}
