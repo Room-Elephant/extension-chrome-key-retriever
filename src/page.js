@@ -34,7 +34,7 @@ function appPage(storeSave, storeDelete, storeSet) {
     if (formValidation()) onSaveItem();
     else {
       const invalidFields = [...document.querySelectorAll(".form-control:invalid")].map((element) => element.name);
-      analytics.fireEvent("invalid_form", { invalidFields });
+      analytics.fireEvent("invalid_form", { invalidFields: invalidFields.toString() });
     }
   });
 
