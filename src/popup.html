@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <link href="./assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -21,36 +21,18 @@
         <i class="fa-solid fa-circle-exclamation fa-lg me-2"></i>
         <div>
           There is an update available. Go to
-          <a
-            href="https://github.com/Room-Elephant/extension-chrome-key-retriever"
-            target="_blank"
-            class="alert-link"
+          <a href="https://github.com/Room-Elephant/extension-chrome-key-retriever" target="_blank" class="alert-link"
             >key retriever github</a
           >
           to download the newest version.
         </div>
-        <button
-          type="button"
-          class="btn-close ms-2"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close ms-2" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </header>
     <section class="mt-1" style="min-height: 5em">
-      <div
-        id="emptyPage"
-        class="flex flex-col align-items-center my-3 display-none"
-      >
-        <img
-          class="mb-4"
-          src="../images/empty-page.jpg"
-          width="200"
-          height="75"
-        />
-        <em style="color: var(--medium-gray)"
-          >Key retriever is waiting for your new keys</em
-        >
+      <div id="emptyPage" class="flex flex-col align-items-center my-3 display-none">
+        <img class="mb-4" src="../images/empty-page.jpg" width="200" height="75" />
+        <em style="color: var(--medium-gray)">Key retriever is waiting for your new keys</em>
       </div>
       <ul id="keyList" class="list-group list-group-flush"></ul>
       <div id="addKeyForm" class="display-none">
@@ -68,10 +50,7 @@
                   checked
                 />
                 <label class="btn btn-outline-primary" for="sessionStorage">
-                  <i
-                    class="fa-sharp fa-regular fa-folder-open"
-                    style="color: var(--yellow)"
-                  ></i>
+                  <i class="fa-sharp fa-regular fa-folder-open" style="color: var(--yellow)"></i>
                   Session storage
                 </label>
                 <input
@@ -83,90 +62,44 @@
                   value="local"
                 />
                 <label class="btn btn-outline-primary" for="localStorage">
-                  <i
-                    class="fa-solid fa-box-archive fa-lg"
-                    style="color: var(--brown)"
-                  ></i>
+                  <i class="fa-solid fa-box-archive fa-lg" style="color: var(--brown)"></i>
                   Local storage
                 </label>
-                <input
-                  class="btn-check"
-                  autocomplete="off"
-                  type="radio"
-                  name="storage"
-                  id="cookies"
-                  value="cookie"
-                />
+                <input class="btn-check" autocomplete="off" type="radio" name="storage" id="cookies" value="cookie" />
                 <label class="btn btn-outline-primary" for="cookies">
-                  <i
-                    class="fa-solid fa-cookie-bite fa-lg"
-                    style="color: var(--yellow)"
-                  ></i>
+                  <i class="fa-solid fa-cookie-bite fa-lg" style="color: var(--yellow)"></i>
                   Cookies
                 </label>
               </div>
             </div>
           </div>
           <div class="form-floating mb-3">
-            <input
-              id="key"
-              type="text"
-              class="form-control"
-              name="key"
-              placeholder="e.g. SSID"
-              required
-            />
+            <input id="key" type="text" class="form-control" name="key" placeholder="e.g. SSID" required />
             <label for="key" class="form-label">Key</label>
             <div class="invalid-feedback">Please choose a key.</div>
           </div>
           <div class="form-floating mb-3">
-            <input
-              id="subKey"
-              type="text"
-              class="form-control"
-              name="subKey"
-              placeholder="e.g. cachedValue"
-            />
+            <input id="subKey" type="text" class="form-control" name="subKey" placeholder="e.g. cachedValue" />
             <label for="subKey" class="form-label">Sub-key</label>
           </div>
           <div class="form-floating mb-3">
-            <input
-              id="alias"
-              type="text"
-              class="form-control"
-              name="alias"
-              placeholder="e.g. Auth token"
-              required
-            />
+            <input id="alias" type="text" class="form-control" name="alias" placeholder="e.g. Auth token" required />
             <label for="alias" class="form-label">Alias</label>
-            <div class="invalid-feedback">
-              Please choose an alias for your key.
-            </div>
+            <div class="invalid-feedback">Please choose an alias for your key.</div>
           </div>
         </form>
       </div>
     </section>
     <footer class="mt-1">
-      <div
-        id="keyListFooter"
-        class="flex flex-row justify-content-end w-100 align-items-center"
-      >
+      <div id="keyListFooter" class="flex flex-row justify-content-end w-100 align-items-center">
         <button id="addKeyBtn" type="submit" class="btn btn-outline-success">
-          <span class="btn-label">
-            <i class="fa-solid fa-circle-plus fa-lg me-1"></i
-          ></span>
+          <span class="btn-label"> <i class="fa-solid fa-circle-plus fa-lg me-1"></i></span>
           Add key
         </button>
       </div>
-      <div
-        id="addKeyFooter"
-        class="flex flex-row justify-content-end w-100 align-items-center display-none"
-      >
+      <div id="addKeyFooter" class="flex flex-row justify-content-end w-100 align-items-center display-none">
         <button id="cancelAddKeyBtn" type="button" class="btn me-1">
-          <i
-            class="fa-solid fa-circle-arrow-left fa-lg"
-            style="color: var(--dark-gray)"
-          ></i>
+          <i class="fa-solid fa-circle-arrow-left fa-lg" style="color: var(--dark-gray)"></i>
         </button>
         <button id="saveKeyBtn" type="button" class="btn btn-outline-success">
           <i class="fa-solid fa-floppy-disk me-1"></i>Save
