@@ -14,8 +14,8 @@ function appManager() {
     writer = valueWriter(remoteExecutor, cookieExecutor);
   });
 
-  async function getPresentationItems(storeItems) {
-    const presentationItems = [];
+  async function getItemsValue(storeItems) {
+    const valueItems = [];
 
     const sessionKeyPresentation = await reader.getSessionValues(
       storeItems.filter(({ type }) => TYPES.SESSION === type),
@@ -23,11 +23,11 @@ function appManager() {
     const localKeyPresentation = await reader.getLocalValues(storeItems.filter(({ type }) => TYPES.LOCAL === type));
     const cookieKeyPresentation = await reader.getCookieValues(storeItems.filter(({ type }) => TYPES.COOKIE === type));
 
-    presentationItems.push(...sessionKeyPresentation);
-    presentationItems.push(...localKeyPresentation);
-    presentationItems.push(...cookieKeyPresentation);
+    valueItems.push(...sessionKeyPresentation.map(({ id, value }) => ({ id, value })));
+    valueItems.push(...localKeyPresentation.map(({ id, value }) => ({ id, value })));
+    valueItems.push(...cookieKeyPresentation.map(({ id, value }) => ({ id, value })));
 
-    return presentationItems;
+    return valueItems;
   }
 
   async function setItemValue(item, value) {
@@ -52,7 +52,7 @@ function appManager() {
   }
 
   return {
-    getPresentationItems,
+    getItemsValue,
     setItemValue,
   };
 }

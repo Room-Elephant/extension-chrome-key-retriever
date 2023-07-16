@@ -1,5 +1,4 @@
-function appPage(storeSave, storeDelete, storeSet) {
-  const creator = appCreator();
+function appPage(creator, storeSave, storeDelete, storeSet) {
   const PAGES = {
     EMPTY: {
       emptyPage: true,
@@ -27,6 +26,7 @@ function appPage(storeSave, storeDelete, storeSet) {
     },
   };
   let presentationItems = [];
+  let valueItems = [];
 
   document.getElementById("addKeyBtn").addEventListener("click", () => show(PAGES.ADD));
 
@@ -46,18 +46,6 @@ function appPage(storeSave, storeDelete, storeSet) {
     }
     show(PAGES.LIST);
   });
-
-  function formValidation() {
-    const form = document.getElementById("add-key-form");
-    const validForm = form.checkValidity();
-    form.classList.add("was-validated");
-    return validForm;
-  }
-
-  function removeFormValidation() {
-    const form = document.getElementById("add-key-form");
-    form.classList.remove("was-validated");
-  }
 
   function show(page) {
     const emptyPage = document.getElementById("emptyPage");
@@ -126,6 +114,44 @@ function appPage(storeSave, storeDelete, storeSet) {
     });
   }
 
+  function renderValueElements({ itemValues, newValue }) {
+    valueItems = itemValues || valueItems;
+    if (newValue) {
+      const updatableItem = valueItems.find(({ id }) => id === newValue.id);
+      updatableItem.value = newValue.value;
+    }
+
+    const itemsByValue = presentationItems.reduce((acc, curr) => {
+      const valueItem = valueItems.find(({ id }) => id === curr.id);
+      if (valueItem.value) (acc.withValue = acc.withValue || []).push(valueItem);
+      else (acc.emptyValue = acc.emptyValue || []).push(valueItem);
+
+      return acc;
+    }, {});
+
+    itemsByValue.withValue?.forEach(({ id, value }) => {
+      const copyBtn = document.getElementById(`copyBtn-${id}`);
+      const textArea = document.getElementById(`token-${id}`);
+      const viewBtn = document.getElementById(`viewBtn-${id}`);
+
+      copyBtn.classList.remove("display-none");
+      textArea.innerText = value;
+      viewBtn.disabled = false;
+    });
+
+    itemsByValue.emptyValue?.forEach(({ id }) => {
+      const copyBtn = document.getElementById(`copyBtn-${id}`);
+      const textArea = document.getElementById(`token-${id}`);
+      const viewBtn = document.getElementById(`viewBtn-${id}`);
+
+      if (copyBtn.classList.contains("display-none")) return;
+
+      copyBtn.classList.add("display-none");
+      textArea.innerText = "";
+      viewBtn.disabled = true;
+    });
+  }
+
   function alertOutdatedVersion() {
     document.getElementById("outdatedVersion").classList.remove("display-none");
   }
@@ -145,13 +171,11 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   async function onSetItemValue(itemId, value) {
+    const item = presentationItems.find(({ id }) => id === itemId);
+    await storeSet(item, value);
     analytics.fireEvent("set_value");
-    await storeSet(itemId, value);
-
-    renderPresentationList(presentationItems);
 
     const viewBtn = document.getElementById(`viewBtn-${itemId}`);
-    viewBtn.disabled = false;
     onViewValue(itemId, viewBtn);
   }
 
@@ -213,10 +237,23 @@ function appPage(storeSave, storeDelete, storeSet) {
     document.querySelector('input[id="sessionStorage"]').checked = true;
   }
 
+  function formValidation() {
+    const form = document.getElementById("add-key-form");
+    const validForm = form.checkValidity();
+    form.classList.add("was-validated");
+    return validForm;
+  }
+
+  function removeFormValidation() {
+    const form = document.getElementById("add-key-form");
+    form.classList.remove("was-validated");
+  }
+
   return {
     show,
     renderPresentationList,
-    PAGES,
+    renderValueElements,
     alertOutdatedVersion,
+    PAGES,
   };
 }
