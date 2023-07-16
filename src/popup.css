@@ -55,3 +55,9 @@ header {
   background-color: var(--dark-gray);
   border-color: var(--dark-gray);
 }
+
+.refreshBtn {
+  position: fixed;
+  top: 1.5em;
+  right: 1.5em; 
+}

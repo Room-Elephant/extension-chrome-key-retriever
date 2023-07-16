@@ -1,6 +1,6 @@
 const components = appComponents();
 const creator = appCreator(components);
-const page = appPage(creator, onSaveItem, onDeleteKeys, onSetItemValue);
+const page = appPage(creator, onSaveItem, onDeleteKeys, onSetItemValue, onRefreshValues);
 const analytics = appAnalytics();
 const store = appStore(onStoreUpdate);
 const manager = appManager();
@@ -39,4 +39,8 @@ function onDeleteKeys(itemId) {
 async function onSetItemValue(item, value) {
   await manager.setItemValue(item, value);
   page.renderValueElements({ newValue: { id: item.id, value } });
+}
+
+async function onRefreshValues(items) {
+  page.renderValueElements({ itemValues: await manager.getItemsValue(items) });
 }

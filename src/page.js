@@ -1,4 +1,4 @@
-function appPage(creator, storeSave, storeDelete, storeSet) {
+function appPage(creator, storeSave, storeDelete, storeSet, refreshValues) {
   const PAGES = {
     EMPTY: {
       emptyPage: true,
@@ -29,6 +29,8 @@ function appPage(creator, storeSave, storeDelete, storeSet) {
   let valueItems = [];
 
   document.getElementById("addKeyBtn").addEventListener("click", () => show(PAGES.ADD));
+
+  document.getElementById("refreshBtn").addEventListener("click", () => refreshValues(presentationItems));
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
