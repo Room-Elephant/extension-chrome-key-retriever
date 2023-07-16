@@ -1,6 +1,4 @@
-const appCreator = () => {
-  const components = appComponents();
-
+const appCreator = (components) => {
   function newSessionItem(item, actions) {
     return newItem({ storageType: TYPES.SESSION, item, actions });
   }
@@ -20,16 +18,17 @@ const appCreator = () => {
         text: item.alias,
         icon: iconByStorageType(storageType),
       },
-      actions: itemActions(),
+      actions: itemActions({id: item.id}),
       footer: itemFooter(),
     });
 
-    function itemActions() {
+    function itemActions({id}) {
       const copyButton = components.newButton({
         icon: {
           classNames: "fa-solid fa-copy fa-lg",
           style: "color: var(--dark-gray);",
         },
+        id: `copyBtn-${id}`,
         onClick: (element) => actions.copyFnc(element, item.id),
       });
 
@@ -39,7 +38,7 @@ const appCreator = () => {
         actions,
       });
 
-      return [{ action: copyButton, visible: Boolean(item.value) }, { action: moreActionsButton }];
+      return [{ action: copyButton, visible: false }, { action: moreActionsButton }];
     }
 
     function itemFooter() {
@@ -47,7 +46,7 @@ const appCreator = () => {
         id: `token-${item.id}`,
         classNames: "tokenTextArea w-100 display-none",
         style: "overflowX: hidden; overflowY: scroll",
-        text: item.value,
+        text: "",
         disabled: true,
       });
 
@@ -85,7 +84,7 @@ const appCreator = () => {
     }
   }
 
-  function moreActions({ id, value, actions }) {
+  function moreActions({ id, actions }) {
     const options = [
       {
         id: `viewBtn-${id}`,
@@ -95,7 +94,7 @@ const appCreator = () => {
           style: "color: var(--dark-gray);",
         },
         label: "View value",
-        disabled: !value,
+        disabled: true,
         onClick: actions.viewFnc,
       },
       {

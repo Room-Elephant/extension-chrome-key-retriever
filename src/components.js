@@ -42,7 +42,8 @@ function appComponents() {
       const actionElement = document.createElement("div");
       addClassesToElement(actionElement, "flex listActions");
 
-      if (visible) actionElement.appendChild(action);
+      if (!visible) action.classList.add("display-none");
+      actionElement.appendChild(action);
 
       return actionElement;
     }

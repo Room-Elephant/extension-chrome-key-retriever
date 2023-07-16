@@ -1,5 +1,4 @@
-function appPage(storeSave, storeDelete, storeSet) {
-  const creator = appCreator();
+function appPage(creator, storeSave, storeDelete, storeSet) {
   const PAGES = {
     EMPTY: {
       emptyPage: true,
@@ -42,18 +41,6 @@ function appPage(storeSave, storeDelete, storeSet) {
     }
     show(PAGES.LIST);
   });
-
-  function formValidation() {
-    const form = document.getElementById("add-key-form");
-    const validForm = form.checkValidity();
-    form.classList.add("was-validated");
-    return validForm;
-  }
-
-  function removeFormValidation() {
-    const form = document.getElementById("add-key-form");
-    form.classList.remove("was-validated");
-  }
 
   function show(page) {
     const emptyPage = document.getElementById("emptyPage");
@@ -119,6 +106,37 @@ function appPage(storeSave, storeDelete, storeSet) {
           item = creator.newCookieItem(presentationItem, actions);
       }
       keyListElement.appendChild(item);
+    });
+  }
+
+  function renderValueElements(itemValues) {
+    const itemsByValue = presentationItems.reduce((acc, curr) => {
+      if (itemValues.includes(curr.id)) (acc.withValue = acc.withValue || []).push(curr);
+      else (acc.emptyValue = acc.emptyValue || []).push(curr);
+
+      return acc;
+    }, {});
+
+    itemsByValue.withValue?.forEach(({ id, value }) => {
+      const copyBtn = document.getElementById(`copyBtn-${id}`);
+      const textArea = document.getElementById(`token-${id}`);
+      const viewBtn = document.getElementById(`viewBtn-${id}`);
+
+      copyBtn.classList.remove("display-none");
+      textArea.innerText = value;
+      viewBtn.disabled = false;
+    });
+
+    itemsByValue.emptyValue?.forEach(({ id }) => {
+      const copyBtn = document.getElementById(`copyBtn-${id}`);
+      const textArea = document.getElementById(`token-${id}`);
+      const viewBtn = document.getElementById(`viewBtn-${id}`);
+
+      if (copyBtn.classList.contains("display-none")) return;
+
+      copyBtn.classList.add("display-none");
+      textArea.innerText = "";
+      viewBtn.disabled = true;
     });
   }
 
@@ -205,10 +223,23 @@ function appPage(storeSave, storeDelete, storeSet) {
     document.querySelector('input[id="sessionStorage"]').checked = true;
   }
 
+  function formValidation() {
+    const form = document.getElementById("add-key-form");
+    const validForm = form.checkValidity();
+    form.classList.add("was-validated");
+    return validForm;
+  }
+
+  function removeFormValidation() {
+    const form = document.getElementById("add-key-form");
+    form.classList.remove("was-validated");
+  }
+
   return {
     show,
     renderPresentationList,
-    PAGES,
+    renderValueElements,
     alertOutdatedVersion,
+    PAGES,
   };
 }

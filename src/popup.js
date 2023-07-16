@@ -1,25 +1,22 @@
+const components = appComponents();
+const creator = appCreator(components);
+const page = appPage(creator, onSaveItem, onDeleteKeys, onSetItemValue);
 const store = appStore(onStoreUpdate);
 const manager = appManager();
-const page = appPage(onSaveItem, onDeleteKeys, onSetItemValue);
+
 versionController(page);
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const storeItems = await store.getItems();
-  if (!storeItems?.length) {
-    page.show(page.PAGES.EMPTY);
-    return;
-  }
-
-  page.renderPresentationList(await manager.getPresentationItems(storeItems));
+  onStoreUpdate(await store.getItems());
 });
 
-async function onStoreUpdate(newItems) {
-  const list = await manager.getPresentationItems(newItems);
-  page.renderPresentationList(list);
-  if (!list.length) {
+async function onStoreUpdate(items) {
+  if (!items.length) {
     page.show(page.PAGES.EMPTY);
     return;
   }
+  page.renderPresentationList(items);
+  page.renderValueElements(await manager.getItemsValue(items));
   page.show(page.PAGES.LIST);
 }
 
@@ -36,6 +33,4 @@ async function onSetItemValue(itemId, value) {
   const item = storeItem.find((item) => item.id === itemId);
 
   await manager.setItemValue(item, value);
-
-  page.renderPresentationList(await manager.getPresentationItems(storeItem));
 }
