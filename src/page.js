@@ -32,6 +32,7 @@ function appPage(storeSave, storeDelete, storeSet) {
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
+    else analytics.fireEvent("invalid_form");
   });
 
   document.getElementById("cancelAddKeyBtn").addEventListener("click", () => {
@@ -134,6 +135,7 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   function onDeleteItem(itemId) {
+    analytics.fireEvent("delete_item");
     const idToRemove = presentationItems.find((element) => itemId === element.id).id;
 
     storeDelete(idToRemove);
@@ -171,6 +173,7 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   function onViewValue(itemId, element) {
+    analytics.fireEvent("view_value");
     const textArea = document.getElementById(`token-${itemId}`);
     textArea.disabled = true;
 

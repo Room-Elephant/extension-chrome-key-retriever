@@ -16,7 +16,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function onStoreUpdate(newItems) {
   const list = await manager.getPresentationItems(newItems);
-  analytics.fireEvent("number_of_keys", { total: list.length });
+  analytics.fireEvent("number_of_keys", {
+    total: list.length,
+    session: list.filter(({ type }) => type === TYPES.SESSION).length,
+    local: list.filter(({ type }) => type === TYPES.LOCAL).length,
+    cookie: list.filter(({ type }) => type === TYPES.COOKIE).length,
+  });
 
   page.renderPresentationList(list);
   if (!list.length) {
