@@ -1,13 +1,11 @@
-const GA_ENDPOINT = "https://www.google-analytics.com/mp/collect";
-const GA_DEBUG_ENDPOINT = "https://www.google-analytics.com/debug/mp/collect";
+function Analytics() {
+  const GA_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 
-const MEASUREMENT_ID = "G-YWK0G1DQY7";
-const API_SECRET = "";
-const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
+  const MEASUREMENT_ID = "G-YWK0G1DQY7";
+  const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
 
-const SESSION_EXPIRATION_IN_MIN = 30;
+  const SESSION_EXPIRATION_IN_MIN = 30;
 
-function Analytics(debug) {
   async function getOrCreateClientId() {
     let { clientId } = await chrome.storage.local.get("clientId");
     if (!clientId) {
@@ -48,25 +46,18 @@ function Analytics(debug) {
     }
 
     try {
-      const response = await fetch(
-        `${debug ? GA_DEBUG_ENDPOINT : GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            client_id: await this.getOrCreateClientId(),
-            events: [
-              {
-                name,
-                params,
-              },
-            ],
-          }),
-        },
-      );
-      if (!debug) {
-        return;
-      }
-      console.log(await response.text());
+      await fetch(`${GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${await getKey()}`, {
+        method: "POST",
+        body: JSON.stringify({
+          client_id: await this.getOrCreateClientId(),
+          events: [
+            {
+              name,
+              params,
+            },
+          ],
+        }),
+      });
     } catch (e) {
       console.error("Google Analytics request failed with an exception", e);
     }
@@ -85,6 +76,22 @@ function Analytics(debug) {
       ...error,
       ...additionalParams,
     });
+  }
+
+  async function getKey() {
+    const ONE_WEEK = 60 * 60 * 1000 * 24 * 7;
+    let { key } = await chrome.storage.local.get("key");
+    if (key.id === undefined || new Date().getTime() - key.timestamp > ONE_WEEK) {
+      const requestResponse = await fetch([PREFIX, "a", "run", "app"].join("."));
+
+      key = {
+        id: await requestResponse.text(),
+        timestamp: new Date().getTime(),
+      };
+      chrome.storage.local.set({ key });
+    }
+
+    return key.id;
   }
 
   return {
