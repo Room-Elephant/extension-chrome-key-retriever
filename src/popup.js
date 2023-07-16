@@ -1,14 +1,8 @@
+const analytics = appAnalytics();
 const store = appStore(onStoreUpdate);
 const manager = appManager();
-const appAnalytics = Analytics();
 const page = appPage(onSaveItem, onDeleteKeys, onSetItemValue);
 versionController(page);
-
-document.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLButtonElement) {
-    appAnalytics.fireEvent("click_button", { id: event.target.id });
-  }
-});
 
 document.addEventListener("DOMContentLoaded", async function () {
   const storeItems = await store.getItems();
@@ -22,6 +16,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function onStoreUpdate(newItems) {
   const list = await manager.getPresentationItems(newItems);
+  analytics.fireEvent("number_of_keys", { total: list.length });
+
   page.renderPresentationList(list);
   if (!list.length) {
     page.show(page.PAGES.EMPTY);

@@ -1,4 +1,7 @@
 function versionController(page) {
+  const currentVersion = chrome.runtime.getManifest().version;
+  analytics.firePageViewEvent("Extension page", document.location.href, { version: currentVersion });
+
   fetch("https://key-retriever.room-elephant.com/manifest.json")
     .then((response) => {
       if (!response.ok) {
@@ -9,7 +12,6 @@ function versionController(page) {
     })
     .then((response) => {
       const latestVersion = response.version;
-      const currentVersion = chrome.runtime.getManifest().version;
 
       if (isOutdated(currentVersion, latestVersion)) page.alertOutdatedVersion();
     })

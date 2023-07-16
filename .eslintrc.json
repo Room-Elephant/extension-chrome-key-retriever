@@ -25,7 +25,7 @@
     "appPage": "readonly",
     "versionController": "readonly",
     "chrome": "readonly",
-    "Analytics": "readonly",
-    "PREFIX": "readonly"
+    "appAnalytics": "readonly",
+    "analytics": "readonly"
   }
 }

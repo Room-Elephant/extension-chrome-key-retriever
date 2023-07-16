@@ -140,6 +140,7 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   async function onSetItemValue(itemId, value) {
+    analytics.fireEvent("set_value");
     await storeSet(itemId, value);
 
     renderPresentationList(presentationItems);
@@ -151,6 +152,7 @@ function appPage(storeSave, storeDelete, storeSet) {
 
   function onCopyValue(element, itemId) {
     const token = document.getElementById(`token-${itemId}`)?.innerHTML;
+    analytics.fireEvent("copy_value");
     navigator.clipboard.writeText(token).then(
       function () {
         element.lastChild.classList.remove("fa-copy");
