@@ -32,7 +32,10 @@ function appPage(storeSave, storeDelete, storeSet) {
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
-    else analytics.fireEvent("invalid_form");
+    else {
+      const invalidFields = [...document.querySelectorAll(".form-control:invalid")].map((element) => element.name);
+      analytics.fireEvent("invalid_form", { invalidFields });
+    }
   });
 
   document.getElementById("cancelAddKeyBtn").addEventListener("click", () => {
