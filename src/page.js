@@ -129,6 +129,10 @@ function appPage(storeSave, storeDelete, storeSet) {
     });
   }
 
+  function alertOutdatedVersion() {
+    document.getElementById("outdatedVersion").classList.remove("display-none");
+  }
+
   function onSaveItem() {
     const formData = getFormData();
     clearFormData();
@@ -216,5 +220,6 @@ function appPage(storeSave, storeDelete, storeSet) {
     show,
     renderPresentationList,
     PAGES,
+    alertOutdatedVersion
   };
 }
