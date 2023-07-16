@@ -32,6 +32,10 @@ function appPage(storeSave, storeDelete, storeSet) {
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
+    else {
+      const invalidFields = [...document.querySelectorAll(".form-control:invalid")].map((element) => element.name);
+      analytics.fireEvent("invalid_form", { invalidFields: invalidFields.toString() });
+    }
   });
 
   document.getElementById("cancelAddKeyBtn").addEventListener("click", () => {
@@ -134,12 +138,14 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   function onDeleteItem(itemId) {
+    analytics.fireEvent("delete_item");
     const idToRemove = presentationItems.find((element) => itemId === element.id).id;
 
     storeDelete(idToRemove);
   }
 
   async function onSetItemValue(itemId, value) {
+    analytics.fireEvent("set_value");
     await storeSet(itemId, value);
 
     renderPresentationList(presentationItems);
@@ -151,6 +157,7 @@ function appPage(storeSave, storeDelete, storeSet) {
 
   function onCopyValue(element, itemId) {
     const token = document.getElementById(`token-${itemId}`)?.innerHTML;
+    analytics.fireEvent("copy_value");
     navigator.clipboard.writeText(token).then(
       function () {
         element.lastChild.classList.remove("fa-copy");
@@ -169,6 +176,7 @@ function appPage(storeSave, storeDelete, storeSet) {
   }
 
   function onViewValue(itemId, element) {
+    analytics.fireEvent("view_value");
     const textArea = document.getElementById(`token-${itemId}`);
     textArea.disabled = true;
 
