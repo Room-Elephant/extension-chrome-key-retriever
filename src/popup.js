@@ -3,17 +3,22 @@ const manager = appManager();
 const page = appPage(onSaveItem, onDeleteKeys, onSetItemValue);
 
 document.addEventListener("DOMContentLoaded", async function () {
-  let storeItem = await store.getItems();
-  if (!storeItem?.length) {
-    await loadDefaultKeys();
-    storeItem = await store.getItems();
+  const storeItems = await store.getItems();
+  if (!storeItems?.length) {
+    page.show(page.PAGES.EMPTY);
+    return;
   }
 
-  page.renderPresentationList(await manager.getPresentationItems(storeItem));
+  page.renderPresentationList(await manager.getPresentationItems(storeItems));
 });
 
 async function onStoreUpdate(newItems) {
-  page.renderPresentationList(await manager.getPresentationItems(newItems));
+  const list = await manager.getPresentationItems(newItems);
+  page.renderPresentationList(list);
+  if (!list.length) {
+    page.show(page.PAGES.EMPTY);
+    return;
+  }
   page.show(page.PAGES.LIST);
 }
 
@@ -32,21 +37,4 @@ async function onSetItemValue(itemId, value) {
   await manager.setItemValue(item, value);
 
   page.renderPresentationList(await manager.getPresentationItems(storeItem));
-}
-
-async function loadDefaultKeys() {
-  const defaultKeyList = [
-    {
-      alias: "Auth token",
-      key: "X-Auth-Token",
-      type: TYPES.COOKIE,
-    },
-    {
-      alias: "Geo token",
-      key: "location token",
-      subKey: "jwt",
-      type: TYPES.LOCAL,
-    },
-  ];
-  defaultKeyList.forEach(async (item) => store.addItem(item));
 }
