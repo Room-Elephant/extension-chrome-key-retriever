@@ -19,7 +19,7 @@ async function onStoreUpdate(items) {
     cookie: items?.filter(({ type }) => type === TYPES.COOKIE).length || 0,
   });
 
-  if (!items.length) {
+  if (!items?.length) {
     page.show(page.PAGES.EMPTY);
     return;
   }
