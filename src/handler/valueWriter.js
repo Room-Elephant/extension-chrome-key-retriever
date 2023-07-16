@@ -1,10 +1,7 @@
 function valueWriter(remote, cookie) {
   async function saveSessionValue(key, subKey = "", value) {
     try {
-      return remote.executeRequest(
-        [key, subKey, value],
-        remote.saveSessionValue
-      );
+      return remote.executeRequest([key, subKey, value], remote.saveSessionValue);
     } catch (e) {
       console.log("🐶 ~ could not set session value for key " + key + " :", e);
     }

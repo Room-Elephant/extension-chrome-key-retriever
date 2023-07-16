@@ -4,10 +4,7 @@ function appComponents() {
     li.classList.add("list-group-item");
 
     const liBody = document.createElement("div");
-    addClassesToElement(
-      liBody,
-      "flex justify-content-between align-items-center w-100"
-    );
+    addClassesToElement(liBody, "flex justify-content-between align-items-center w-100");
 
     liBody.appendChild(newLabel({ icon: item.icon, text: item.text }));
 
@@ -15,9 +12,7 @@ function appComponents() {
       const actionsElement = document.createElement("div");
       addClassesToElement(actionsElement, "flex flex-row");
 
-      actions.forEach((action) =>
-        actionsElement.appendChild(newAction(action))
-      );
+      actions.forEach((action) => actionsElement.appendChild(newAction(action)));
       liBody.appendChild(actionsElement);
     }
 
@@ -58,10 +53,7 @@ function appComponents() {
       if (actions) {
         const actionsFooter = document.createElement("div");
         actionsFooter.id = `textAreaFooter-${item.id}`;
-        addClassesToElement(
-          actionsFooter,
-          "mt-1 display-none flex flex-row justify-content-end"
-        );
+        addClassesToElement(actionsFooter, "mt-1 display-none flex flex-row justify-content-end");
 
         actions.forEach((action) => actionsFooter.appendChild(action));
 
@@ -79,9 +71,7 @@ function appComponents() {
 
     const dropdownMenu = document.createElement("ul");
     dropdownMenu.classList.add("dropdown-menu");
-    options?.forEach((option) =>
-      dropdownMenu.appendChild(newDropdownOption({ ...option }))
-    );
+    options?.forEach((option) => dropdownMenu.appendChild(newDropdownOption({ ...option })));
 
     dropdown.appendChild(dropdownMenu);
 
@@ -101,15 +91,7 @@ function appComponents() {
       return button;
     }
 
-    function newDropdownOption({
-      icon,
-      id,
-      itemId,
-      label,
-      disabled = false,
-      onClick,
-      separator = false,
-    }) {
+    function newDropdownOption({ icon, id, itemId, label, disabled = false, onClick, separator = false }) {
       const liItem = document.createElement("li");
       const option = newButton({
         icon,
@@ -126,14 +108,7 @@ function appComponents() {
     }
   }
 
-  function newTextArea({
-    id,
-    classNames,
-    style,
-    disabled = false,
-    text = "",
-    rows = 1,
-  }) {
+  function newTextArea({ id, classNames, style, disabled = false, text = "", rows = 1 }) {
     const textArea = document.createElement("textarea");
     if (id) textArea.id = id;
     if (classNames) addClassesToElement(textArea, classNames);
@@ -146,14 +121,7 @@ function appComponents() {
     return textArea;
   }
 
-  function newButton({
-    icon,
-    disabled = false,
-    onClick,
-    classNames,
-    id,
-    label,
-  }) {
+  function newButton({ icon, disabled = false, onClick, classNames, id, label }) {
     const button = document.createElement("button");
 
     button.type = "button";

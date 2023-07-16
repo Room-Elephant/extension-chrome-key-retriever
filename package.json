@@ -1,0 +1,31 @@
+{
+  "name": "extension-chrome-key-retriever",
+  "version": "1.0.0",
+  "description": "Chrome extension to watch session, local and cookie storage of you sites. Allow advance features such as set new values and watch sub keys.",
+  "main": "popup.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Room-Elephant/extension-chrome-key-retriever.git"
+  },
+  "keywords": [
+    "chrome-extension",
+    "localstorage",
+    "sessionstorage",
+    "cookiestorage"
+  ],
+  "author": "Room-Elephant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Room-Elephant/extension-chrome-key-retriever/issues"
+  },
+  "homepage": "https://github.com/Room-Elephant/extension-chrome-key-retriever#readme",
+  "devDependencies": {
+    "prettier": "3.0.0"
+  }
+}
