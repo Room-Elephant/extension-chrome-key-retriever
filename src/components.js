@@ -50,7 +50,10 @@ function appComponents() {
 
     function newFooter({ body, actions }) {
       const footer = document.createElement("div");
-      if (body) footer.appendChild(body);
+      if (body) {
+        footer.appendChild(body.keyDetails);
+        footer.appendChild(body.tokenArea);
+      }
       if (actions) {
         const actionsFooter = document.createElement("div");
         actionsFooter.id = `textAreaFooter-${item.id}`;
@@ -122,6 +125,38 @@ function appComponents() {
     return textArea;
   }
 
+  function newKeyDetails({ id, key, subKey }) {
+    const wrapper = document.createElement("div");
+    addClassesToElement(wrapper, "mb-2 display-none");
+    wrapper.id = `key-${id}`;
+
+    const spanKey = document.createElement("span");
+    addClassesToElement(spanKey, "fw-lighter");
+    spanKey.innerHTML = "Key ";
+
+    const spanKeyValue = document.createElement("span");
+    addClassesToElement(spanKeyValue, "badge text-bg-secondary me-3");
+    spanKeyValue.innerHTML = key;
+
+    wrapper.appendChild(spanKey);
+    wrapper.appendChild(spanKeyValue);
+
+    if (subKey) {
+      const spanSubKey = document.createElement("span");
+      addClassesToElement(spanSubKey, "fw-lighter");
+      spanSubKey.innerHTML = "Subkey ";
+
+      const spanSubKeyValue = document.createElement("span");
+      addClassesToElement(spanSubKeyValue, "badge text-bg-secondary");
+      spanSubKeyValue.innerHTML = subKey;
+
+      wrapper.appendChild(spanSubKey);
+      wrapper.appendChild(spanSubKeyValue);
+    }
+
+    return wrapper;
+  }
+
   function newButton({ icon, disabled = false, onClick, classNames, id, label }) {
     const button = document.createElement("button");
 
@@ -175,5 +210,6 @@ function appComponents() {
     newTextArea,
     newDropdown,
     newListItem,
+    newKeyDetails,
   };
 }

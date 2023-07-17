@@ -19,7 +19,7 @@ const appCreator = (components) => {
         icon: iconByStorageType(storageType),
       },
       actions: itemActions({ id: item.id }),
-      footer: itemFooter(item.key, item.subKey),
+      footer: itemFooter({ ...item }),
     });
 
     function itemActions({ id }) {
@@ -38,51 +38,13 @@ const appCreator = (components) => {
         actions,
       });
 
-      return [{ action: copyButton, visible: false }, { action: moreActionsButton }];
+      return [
+        { action: copyButton, visible: false },
+        { action: moreActionsButton },
+      ];
     }
 
-    function addClassesToElement(element, classNames) {
-      const classes = classNames.split(" ");
-      classes.forEach((elementClass) => element.classList.add(elementClass));
-    }
-
-    function itemFooter(key, subKey) {
-      const superDiv = document.createElement("div");
-      const div = document.createElement("div");
-      addClassesToElement(div, "mb-2");
-
-      const span0 = document.createElement("span");
-      //addClassesToElement(span0, "fw-lighter");
-      span0.style = "color: var(--dark-gray)";
-      span0.innerHTML = "key ";
-
-      const span1 = document.createElement("span");
-      addClassesToElement(span1, "badge text-bg-secondary me-3");
-      span1.innerHTML = key;
-
-      div.appendChild(span0);
-      div.appendChild(span1);
-
-      if (subKey) {
-        //const span2 = document.createElement("span");
-        //addClassesToElement(span2, "fw-lighter ms-3 me-3");
-        //span2.innerHTML = "|";
-
-        const span3 = document.createElement("span");
-        //addClassesToElement(span3, "fw-lighter");
-        span3.style = "color: var(--dark-gray)";
-        span3.innerHTML = "subkey ";
-
-        const span4 = document.createElement("span");
-        addClassesToElement(span4, "badge text-bg-secondary");
-        span4.innerHTML = subKey;
-
-        //div.appendChild(span2);
-
-        div.appendChild(span3);
-        div.appendChild(span4);
-      }
-
+    function itemFooter({ id, key, subKey }) {
       const tokenArea = components.newTextArea({
         id: `token-${item.id}`,
         classNames: "tokenTextArea w-100 display-none",
@@ -91,8 +53,7 @@ const appCreator = (components) => {
         disabled: true,
       });
 
-      superDiv.appendChild(div);
-      superDiv.appendChild(tokenArea);
+      const keyDetails = components.newKeyDetails({ id, key, subKey });
 
       const applyButton = components.newButton({
         classNames: "btn btn-outline-success",
@@ -122,7 +83,10 @@ const appCreator = (components) => {
         },
       });
       return {
-        body: superDiv,
+        body: {
+          tokenArea,
+          keyDetails,
+        },
         actions: [cancelButton, applyButton],
       };
     }
@@ -172,6 +136,8 @@ const appCreator = (components) => {
     const textArea = document.getElementById(`token-${id}`);
     textArea.classList.remove("display-none");
     textArea.disabled = false;
+    const keyDetails = document.getElementById(`key-${id}`);
+    keyDetails.classList.remove("display-none");
     const textAreaFooter = document.getElementById(`textAreaFooter-${id}`);
     textAreaFooter.classList.remove("display-none");
   }
@@ -180,6 +146,8 @@ const appCreator = (components) => {
     const textArea = document.getElementById(`token-${id}`);
     textArea.classList.add("display-none");
     textArea.disabled = true;
+    const keyDetails = document.getElementById(`key-${id}`);
+    keyDetails.classList.add("display-none");
   }
 
   function hideApplyFooter(id) {
