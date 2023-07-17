@@ -1,6 +1,12 @@
 const components = appComponents();
 const creator = appCreator(components);
-const page = appPage(creator, onSaveItem, onDeleteKeys, onSetItemValue, onRefreshValues);
+const page = appPage({
+  creator,
+  storeSave: onSaveItem,
+  storeDelete: onDeleteKeys,
+  storeSet: onSetItemValue,
+  refreshValues: onRefreshValues,
+});
 const analytics = appAnalytics();
 const store = appStore(onStoreUpdate);
 const manager = appManager();
