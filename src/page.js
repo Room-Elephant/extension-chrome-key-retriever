@@ -1,4 +1,4 @@
-function appPage({creator, storeSave, storeDelete, storeSet, refreshValues}) {
+function appPage(creator, {storeSave, storeDelete, storeSet, refreshValues}) {
   const PAGES = {
     EMPTY: {
       emptyPage: true,

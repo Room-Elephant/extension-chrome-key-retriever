@@ -1,7 +1,6 @@
 const components = appComponents();
 const creator = appCreator(components);
-const page = appPage({
-  creator,
+const page = appPage(creator, {
   storeSave: onSaveItem,
   storeDelete: onDeleteKeys,
   storeSet: onSetItemValue,
