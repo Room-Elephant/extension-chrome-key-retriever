@@ -12,7 +12,7 @@ function appStore(onStoreUpdate) {
   async function getItems() {
     try {
       const storeResult = await chrome.storage.local.get(["storeItems"]);
-      storeItems = storeResult["storeItems"];
+      storeItems = storeResult["storeItems"] || [];
       return storeItems;
     } catch (e) {
       console.log("🐶 ~ could not get items from extension store:", e);
