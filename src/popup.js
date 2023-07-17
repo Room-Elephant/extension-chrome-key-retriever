@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function onStoreUpdate(items) {
   analytics.fireEvent("number_of_keys", {
-    total: items.length,
-    session: items.filter(({ type }) => type === TYPES.SESSION).length,
-    local: items.filter(({ type }) => type === TYPES.LOCAL).length,
-    cookie: items.filter(({ type }) => type === TYPES.COOKIE).length,
+    total: items?.length || 0,
+    session: items?.filter(({ type }) => type === TYPES.SESSION).length || 0,
+    local: items?.filter(({ type }) => type === TYPES.LOCAL).length || 0,
+    cookie: items?.filter(({ type }) => type === TYPES.COOKIE).length || 0,
   });
-  
-  if (!items.length) {
+
+  if (!items?.length) {
     page.show(page.PAGES.EMPTY);
     return;
   }
