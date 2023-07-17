@@ -7,19 +7,25 @@
   --green: #198754;
 }
 
-html {
-  max-height: 10em;
-  min-width: 25em;
-  overflow-y: scroll;
-}
-
 body {
+  min-width: 25em;
   padding: 1em;
+  overflow: hidden;
 }
 
 header {
   padding: 0.4em;
   color: var(--dark-gray);
+}
+
+section {
+  max-height: 28em;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+section:has(.dropdown-menu.show) {
+  min-height: 10em;
 }
 
 .display-none {
