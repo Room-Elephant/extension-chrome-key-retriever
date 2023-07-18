@@ -58,4 +58,3 @@ jobs:
         with:
           dry: True
           only_changed: True
-          prettier_options: --config .prettierrc.json
