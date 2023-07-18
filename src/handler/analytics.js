@@ -1,5 +1,5 @@
 function appAnalytics() {
-    const GA_ENDPOINT = "https://www.google-analytics.com/mp/collect";
+                  const GA_ENDPOINT = "https://www.google-analytics.com/mp/collect";
   
     const MEASUREMENT_ID = "G-YWK0G1DQY7";
     const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
@@ -11,8 +11,8 @@ function appAnalytics() {
         params.session_id = await getOrCreateSessionId();
       }
       if (!params.engagement_time_msec) {
-        params.engagement_time_msec = DEFAULT_ENGAGEMENT_TIME_MSEC;
-      }
+                 params.engagement_time_msec = DEFAULT_ENGAGEMENT_TIME_MSEC;
+            }
   
       try {
         await fetch(`${GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${getKey()}`, {
