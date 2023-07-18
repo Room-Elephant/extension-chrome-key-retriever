@@ -18,7 +18,9 @@ function remote(tab) {
         }
 
         localItems[i].value = value;
-      } catch (e) { /* empty */ }
+      } catch (e) {
+        /* empty */
+      }
     }
     return localItems;
   }
@@ -33,7 +35,9 @@ function remote(tab) {
         }
 
         sessionItems[i].value = value;
-      } catch (e) { /* empty */ }
+      } catch (e) {
+        /* empty */
+      }
     }
     return sessionItems;
   }

@@ -18,11 +18,11 @@ const appCreator = (components) => {
         text: item.alias,
         icon: iconByStorageType(storageType),
       },
-      actions: itemActions({id: item.id}),
+      actions: itemActions({ id: item.id }),
       footer: itemFooter(),
     });
 
-    function itemActions({id}) {
+    function itemActions({ id }) {
       const copyButton = components.newButton({
         icon: {
           classNames: "fa-solid fa-copy fa-lg",
