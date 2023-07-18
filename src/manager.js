@@ -1,27 +1,29 @@
+import { TYPES } from "./common.js";
+import { getSessionValues, getLocalValues, getCookieValues } from "./handler/valueReader.js";
+import { saveSessionValue, saveLocalValue, saveCookieValue } from "./handler/valueWriter.js";
+
 function appManager() {
   let tab;
-  let remoteExecutor;
-  let cookieExecutor;
-  let reader;
-  let writer;
 
   getActiveTab().then((result) => {
     tab = result;
-
-    remoteExecutor = remote(tab);
-    cookieExecutor = cookie(tab);
-    reader = valueReader(remoteExecutor, cookieExecutor);
-    writer = valueWriter(remoteExecutor, cookieExecutor);
   });
 
   async function getItemsValue(storeItems) {
     const valueItems = [];
 
-    const sessionKeyPresentation = await reader.getSessionValues(
+    const sessionKeyPresentation = await getSessionValues(
+      tab,
       storeItems.filter(({ type }) => TYPES.SESSION === type),
     );
-    const localKeyPresentation = await reader.getLocalValues(storeItems.filter(({ type }) => TYPES.LOCAL === type));
-    const cookieKeyPresentation = await reader.getCookieValues(storeItems.filter(({ type }) => TYPES.COOKIE === type));
+    const localKeyPresentation = await getLocalValues(
+      tab,
+      storeItems.filter(({ type }) => TYPES.LOCAL === type),
+    );
+    const cookieKeyPresentation = await getCookieValues(
+      tab,
+      storeItems.filter(({ type }) => TYPES.COOKIE === type),
+    );
 
     valueItems.push(...sessionKeyPresentation.map(({ id, value }) => ({ id, value })));
     valueItems.push(...localKeyPresentation.map(({ id, value }) => ({ id, value })));
@@ -33,11 +35,11 @@ function appManager() {
   async function setItemValue(item, value) {
     switch (item.type) {
       case TYPES.SESSION:
-        return writer.saveSessionValue(item.key, item.subKey, value);
+        return saveSessionValue(tab, item.key, item.subKey, value);
       case TYPES.LOCAL:
-        return writer.saveLocalValue(item.key, item.subKey, value);
+        return saveLocalValue(tab, item.key, item.subKey, value);
       case TYPES.COOKIE:
-        return writer.saveCookieValue(item.key, item.subKey, value);
+        return saveCookieValue(tab, item.key, item.subKey, value);
     }
 
     return false;
@@ -56,3 +58,5 @@ function appManager() {
     setItemValue,
   };
 }
+
+export default appManager;

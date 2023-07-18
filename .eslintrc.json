@@ -6,26 +6,11 @@
   "extends": ["eslint:recommended", "prettier"],
   "overrides": [],
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "rules": {
-    "no-redeclare": ["error", { "builtinGlobals": false }],
-    "no-unused-vars": ["error", { "vars": "local" }]
-  },
+  "rules": {},
   "globals": {
-    "cookie": "readonly",
-    "remote": "readonly",
-    "appStore": "readonly",
-    "valueReader": "readonly",
-    "valueWriter": "readonly",
-    "TYPES": "readonly",
-    "appComponents": "readonly",
-    "appCreator": "readonly",
-    "appManager": "readonly",
-    "appPage": "readonly",
-    "versionController": "readonly",
-    "chrome": "readonly",
-    "appAnalytics": "readonly",
-    "analytics": "readonly"
+    "chrome": "readonly"
   }
 }
