@@ -14,7 +14,7 @@ function appManager() {
     writer = valueWriter(remoteExecutor, cookieExecutor);
   });
 
-  async function getItemsValue(storeItems) {
+                        async function getItemsValue(storeItems) {
     const valueItems = [];
 
     const sessionKeyPresentation = await reader.getSessionValues(
@@ -32,8 +32,7 @@ function appManager() {
 
   async function setItemValue(item, value) {
     switch (item.type) {
-      case TYPES.SESSION:
-        return writer.saveSessionValue(item.key, item.subKey, value);
+      case TYPES.SESSION: return writer.saveSessionValue(item.key, item.subKey, value);
       case TYPES.LOCAL:
         return writer.saveLocalValue(item.key, item.subKey, value);
       case TYPES.COOKIE:
