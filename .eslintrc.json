@@ -19,6 +19,7 @@
     "valueReader": "readonly",
     "valueWriter": "readonly",
     "TYPES": "readonly",
+    "addClassesToElement": "readonly",
     "appComponents": "readonly",
     "appCreator": "readonly",
     "appManager": "readonly",

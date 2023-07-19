@@ -50,7 +50,9 @@ function appComponents() {
 
     function newFooter({ body, actions }) {
       const footer = document.createElement("div");
-      if (body) footer.appendChild(body);
+      if (body) {
+        footer.appendChild(body);
+      }
       if (actions) {
         const actionsFooter = document.createElement("div");
         actionsFooter.id = `textAreaFooter-${item.id}`;
@@ -122,6 +124,29 @@ function appComponents() {
     return textArea;
   }
 
+  function newLabelWithBadge({ label, value }) {
+    const wrapper = document.createElement("div");
+    addClassesToElement(wrapper, "mb-2");
+
+    const labelElement = document.createElement("span");
+    addClassesToElement(labelElement, "me-2 fw-lighter");
+    labelElement.innerHTML = label;
+
+    const badge = newBadge({ value });
+
+    wrapper.appendChild(labelElement);
+    wrapper.appendChild(badge);
+
+    return wrapper;
+  }
+
+  function newBadge({ value }) {
+    const badge = document.createElement("span");
+    addClassesToElement(badge, "badge text-bg-secondary me-3");
+    badge.innerHTML = value;
+    return badge;
+  }
+
   function newButton({ icon, disabled = false, onClick, classNames, id, label }) {
     const button = document.createElement("button");
 
@@ -163,11 +188,6 @@ function appComponents() {
     return liItem;
   }
 
-  function addClassesToElement(element, classNames) {
-    const classes = classNames.split(" ");
-    classes.forEach((elementClass) => element.classList.add(elementClass));
-  }
-
   return {
     newIcon,
     newSeparator,
@@ -175,5 +195,7 @@ function appComponents() {
     newTextArea,
     newDropdown,
     newListItem,
+    newLabelWithBadge,
+    newBadge,
   };
 }

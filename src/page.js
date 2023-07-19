@@ -1,4 +1,4 @@
-function appPage(creator, {storeSave, storeDelete, storeSet, refreshValues}) {
+function appPage(creator, { storeSave, storeDelete, storeSet, refreshValues }) {
   const PAGES = {
     EMPTY: {
       emptyPage: true,
@@ -201,21 +201,24 @@ function appPage(creator, {storeSave, storeDelete, storeSet, refreshValues}) {
     );
   }
 
-  function onViewValue(itemId, element) {
+  function onViewValue(id, element) {
     analytics.fireEvent("view_value");
-    const textArea = document.getElementById(`token-${itemId}`);
+    const textArea = document.getElementById(`token-${id}`);
     textArea.disabled = true;
+    const keyDetails = document.getElementById(`key-${id}`);
 
     const icon = element.firstChild;
     const text = element.lastChild;
 
     if (icon.classList.contains("fa-eye")) {
       textArea.classList.remove("display-none");
+      keyDetails.classList.remove("display-none");
       icon.classList.remove("fa-eye");
       icon.classList.add("fa-eye-slash");
       text.nodeValue = "Hide value";
     } else {
       textArea.classList.add("display-none");
+      keyDetails.classList.add("display-none");
       icon.classList.remove("fa-eye-slash");
       icon.classList.add("fa-eye");
       text.nodeValue = "View value";

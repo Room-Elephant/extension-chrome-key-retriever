@@ -61,3 +61,7 @@ section:has(.dropdown-menu.show) {
   background-color: var(--dark-gray);
   border-color: var(--dark-gray);
 }
+
+.text-bg-secondary {
+  background-color: var(--dark-gray) !important;
+}

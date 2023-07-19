@@ -18,11 +18,11 @@ const appCreator = (components) => {
         text: item.alias,
         icon: iconByStorageType(storageType),
       },
-      actions: itemActions({id: item.id}),
-      footer: itemFooter(),
+      actions: itemActions({ id: item.id }),
+      footer: itemFooter({ ...item }),
     });
 
-    function itemActions({id}) {
+    function itemActions({ id }) {
       const copyButton = components.newButton({
         icon: {
           classNames: "fa-solid fa-copy fa-lg",
@@ -41,7 +41,24 @@ const appCreator = (components) => {
       return [{ action: copyButton, visible: false }, { action: moreActionsButton }];
     }
 
-    function itemFooter() {
+    function itemFooter({ id, key, subKey }) {
+      const footerBody = document.createElement("div");
+      addClassesToElement(footerBody, "flex flex-col mb-2");
+
+      const keyDetailsArea = document.createElement("div");
+      addClassesToElement(keyDetailsArea, "flex flex-row display-none");
+      keyDetailsArea.id = `key-${id}`;
+
+      const keyLabel = components.newLabelWithBadge({ label: "Key", value: key });
+      keyDetailsArea.appendChild(keyLabel);
+
+      if (subKey) {
+        const subKeyLabel = components.newLabelWithBadge({ label: "Subkey", value: subKey || "" });
+        keyDetailsArea.appendChild(subKeyLabel);
+      }
+
+      footerBody.appendChild(keyDetailsArea);
+
       const tokenArea = components.newTextArea({
         id: `token-${item.id}`,
         classNames: "tokenTextArea w-100 display-none",
@@ -49,6 +66,8 @@ const appCreator = (components) => {
         text: "",
         disabled: true,
       });
+
+      footerBody.appendChild(tokenArea);
 
       const applyButton = components.newButton({
         classNames: "btn btn-outline-success",
@@ -78,7 +97,7 @@ const appCreator = (components) => {
         },
       });
       return {
-        body: tokenArea,
+        body: footerBody,
         actions: [cancelButton, applyButton],
       };
     }
@@ -128,6 +147,8 @@ const appCreator = (components) => {
     const textArea = document.getElementById(`token-${id}`);
     textArea.classList.remove("display-none");
     textArea.disabled = false;
+    const keyDetails = document.getElementById(`key-${id}`);
+    keyDetails.classList.remove("display-none");
     const textAreaFooter = document.getElementById(`textAreaFooter-${id}`);
     textAreaFooter.classList.remove("display-none");
   }
@@ -136,6 +157,8 @@ const appCreator = (components) => {
     const textArea = document.getElementById(`token-${id}`);
     textArea.classList.add("display-none");
     textArea.disabled = true;
+    const keyDetails = document.getElementById(`key-${id}`);
+    keyDetails.classList.add("display-none");
   }
 
   function hideApplyFooter(id) {
