@@ -206,7 +206,6 @@ function appPage(creator, { storeSave, storeDelete, storeSet, refreshValues }) {
     const textArea = document.getElementById(`token-${id}`);
     textArea.disabled = true;
     const keyDetails = document.getElementById(`key-${id}`);
-    keyDetails.classList.add("display-none");
 
     const icon = element.firstChild;
     const text = element.lastChild;

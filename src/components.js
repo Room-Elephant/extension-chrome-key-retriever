@@ -51,8 +51,7 @@ function appComponents() {
     function newFooter({ body, actions }) {
       const footer = document.createElement("div");
       if (body) {
-        footer.appendChild(body.keyDetails);
-        footer.appendChild(body.tokenArea);
+        footer.appendChild(body);
       }
       if (actions) {
         const actionsFooter = document.createElement("div");
@@ -125,36 +124,27 @@ function appComponents() {
     return textArea;
   }
 
-  function newKeyDetails({ id, key, subKey }) {
+  function newLabelWithBadge({ label, value }) {
     const wrapper = document.createElement("div");
-    addClassesToElement(wrapper, "mb-2 display-none");
-    wrapper.id = `key-${id}`;
+    addClassesToElement(wrapper, "mb-2");
 
-    const spanKey = document.createElement("span");
-    addClassesToElement(spanKey, "fw-lighter");
-    spanKey.innerHTML = "Key ";
+    const labelElement = document.createElement("span");
+    addClassesToElement(labelElement, "me-2 fw-lighter");
+    labelElement.innerHTML = label;
 
-    const spanKeyValue = document.createElement("span");
-    addClassesToElement(spanKeyValue, "badge text-bg-secondary me-3");
-    spanKeyValue.innerHTML = key;
+    const badge = newBadge({ value });
 
-    wrapper.appendChild(spanKey);
-    wrapper.appendChild(spanKeyValue);
-
-    if (subKey) {
-      const spanSubKey = document.createElement("span");
-      addClassesToElement(spanSubKey, "fw-lighter");
-      spanSubKey.innerHTML = "Subkey ";
-
-      const spanSubKeyValue = document.createElement("span");
-      addClassesToElement(spanSubKeyValue, "badge text-bg-secondary");
-      spanSubKeyValue.innerHTML = subKey;
-
-      wrapper.appendChild(spanSubKey);
-      wrapper.appendChild(spanSubKeyValue);
-    }
+    wrapper.appendChild(labelElement);
+    wrapper.appendChild(badge);
 
     return wrapper;
+  }
+
+  function newBadge({ value }) {
+    const badge = document.createElement("span");
+    addClassesToElement(badge, "badge text-bg-secondary me-3");
+    badge.innerHTML = value;
+    return badge;
   }
 
   function newButton({ icon, disabled = false, onClick, classNames, id, label }) {
@@ -198,11 +188,6 @@ function appComponents() {
     return liItem;
   }
 
-  function addClassesToElement(element, classNames) {
-    const classes = classNames.split(" ");
-    classes.forEach((elementClass) => element.classList.add(elementClass));
-  }
-
   return {
     newIcon,
     newSeparator,
@@ -210,6 +195,7 @@ function appComponents() {
     newTextArea,
     newDropdown,
     newListItem,
-    newKeyDetails,
+    newLabelWithBadge,
+    newBadge,
   };
 }

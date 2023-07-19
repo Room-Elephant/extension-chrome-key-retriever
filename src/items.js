@@ -38,13 +38,27 @@ const appCreator = (components) => {
         actions,
       });
 
-      return [
-        { action: copyButton, visible: false },
-        { action: moreActionsButton },
-      ];
+      return [{ action: copyButton, visible: false }, { action: moreActionsButton }];
     }
 
     function itemFooter({ id, key, subKey }) {
+      const footerBody = document.createElement("div");
+      addClassesToElement(footerBody, "flex flex-col mb-2");
+
+      const keyDetailsArea = document.createElement("div");
+      addClassesToElement(keyDetailsArea, "flex flex-row display-none");
+      keyDetailsArea.id = `key-${id}`;
+
+      const keyLabel = components.newLabelWithBadge({ label: "Key", value: key });
+      keyDetailsArea.appendChild(keyLabel);
+
+      if (subKey) {
+        const subKeyLabel = components.newLabelWithBadge({ label: "Subkey", value: subKey || "" });
+        keyDetailsArea.appendChild(subKeyLabel);
+      }
+
+      footerBody.appendChild(keyDetailsArea);
+
       const tokenArea = components.newTextArea({
         id: `token-${item.id}`,
         classNames: "tokenTextArea w-100 display-none",
@@ -53,7 +67,7 @@ const appCreator = (components) => {
         disabled: true,
       });
 
-      const keyDetails = components.newKeyDetails({ id, key, subKey });
+      footerBody.appendChild(tokenArea);
 
       const applyButton = components.newButton({
         classNames: "btn btn-outline-success",
@@ -83,10 +97,7 @@ const appCreator = (components) => {
         },
       });
       return {
-        body: {
-          tokenArea,
-          keyDetails,
-        },
+        body: footerBody,
         actions: [cancelButton, applyButton],
       };
     }
