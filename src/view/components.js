@@ -1,4 +1,4 @@
-import { addClassesToElement } from "./common.js";
+import { addClassesToElement } from "../common.js";
 
 function newListItem({ item, actions, footer }) {
   const li = document.createElement("li");

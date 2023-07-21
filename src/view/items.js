@@ -172,7 +172,7 @@ function iconByStorageType(storageType) {
   switch (storageType) {
     case TYPES.SESSION:
       return {
-        classNames: "fa-sharp fa-regular fa-folder-open me-2",
+        classNames: "fa-sharp fa-regular fa-folder-open fa-lg me-2",
         style: "color: var(--yellow)",
       };
     case TYPES.LOCAL:
