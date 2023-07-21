@@ -1,35 +1,32 @@
-function valueReader(remote, cookie) {
-  async function getSessionValues(sessionStoreItems) {
-    try {
-      return await remote.executeRequest([sessionStoreItems], remote.getSessionValue);
-    } catch (e) {
-      console.log("🐶 ~ could not read session values:", e);
-    }
-    return [];
+import { executeRequest, getSessionValue, getLocalValue } from "./operation/remote.js";
+import { getCookie } from "./operation/cookie.js";
+
+async function getSessionValues(tab, sessionStoreItems) {
+  try {
+    return await executeRequest(tab, [sessionStoreItems], getSessionValue);
+  } catch (e) {
+    console.log("🐶 ~ could not read session values:", e);
   }
-
-  async function getLocalValues(localStoreItems) {
-    try {
-      return await remote.executeRequest([localStoreItems], remote.getLocalValue);
-    } catch (e) {
-      console.log("🐶 ~ could not read local values:", e);
-    }
-    return [];
-  }
-
-  async function getCookieValues(cookieStoreItems) {
-    try {
-      return await cookie.getCookie(cookieStoreItems);
-    } catch (e) {
-      console.log("🐶 ~ could not read cookie values:", e);
-    }
-
-    return [];
-  }
-
-  return {
-    getSessionValues,
-    getLocalValues,
-    getCookieValues,
-  };
+  return [];
 }
+
+async function getLocalValues(tab, localStoreItems) {
+  try {
+    return await executeRequest(tab, [localStoreItems], getLocalValue);
+  } catch (e) {
+    console.log("🐶 ~ could not read local values:", e);
+  }
+  return [];
+}
+
+async function getCookieValues(tab, cookieStoreItems) {
+  try {
+    return await getCookie(tab, cookieStoreItems);
+  } catch (e) {
+    console.log("🐶 ~ could not read cookie values:", e);
+  }
+
+  return [];
+}
+
+export { getSessionValues, getLocalValues, getCookieValues };

@@ -56,3 +56,5 @@ function appStore(onStoreUpdate) {
     getItems,
   };
 }
+
+export default appStore;
