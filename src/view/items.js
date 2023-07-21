@@ -1,5 +1,5 @@
-import { TYPES } from "../common.js";
-import { newListItem, newButton, newTextArea, newDropdown } from "./components.js";
+import { TYPES, addClassesToElement } from "../common.js";
+import { newListItem, newButton, newTextArea, newDropdown, newLabelWithBadge } from "./components.js";
 
 function newSessionItem(item, actions) {
   return newItem({ storageType: TYPES.SESSION, item, actions });
@@ -21,7 +21,7 @@ function newItem({ storageType, item, actions }) {
       icon: iconByStorageType(storageType),
     },
     actions: itemActions({ id: item.id }),
-    footer: itemFooter(),
+    footer: itemFooter({ ...item }),
   });
 
   function itemActions({ id }) {
@@ -43,7 +43,24 @@ function newItem({ storageType, item, actions }) {
     return [{ action: copyButton, visible: false }, { action: moreActionsButton }];
   }
 
-  function itemFooter() {
+  function itemFooter({ id, key, subKey }) {
+    const footerBody = document.createElement("div");
+    addClassesToElement(footerBody, "flex flex-col mb-2");
+
+    const keyDetailsArea = document.createElement("div");
+    addClassesToElement(keyDetailsArea, "flex flex-row display-none");
+    keyDetailsArea.id = `key-${id}`;
+
+    const keyLabel = newLabelWithBadge({ label: "Key", value: key });
+    keyDetailsArea.appendChild(keyLabel);
+
+    if (subKey) {
+      const subKeyLabel = newLabelWithBadge({ label: "Subkey", value: subKey || "" });
+      keyDetailsArea.appendChild(subKeyLabel);
+    }
+
+    footerBody.appendChild(keyDetailsArea);
+
     const tokenArea = newTextArea({
       id: `token-${item.id}`,
       classNames: "tokenTextArea w-100 display-none",
@@ -51,6 +68,8 @@ function newItem({ storageType, item, actions }) {
       text: "",
       disabled: true,
     });
+
+    footerBody.appendChild(tokenArea);
 
     const applyButton = newButton({
       classNames: "btn btn-outline-success",
@@ -80,7 +99,7 @@ function newItem({ storageType, item, actions }) {
       },
     });
     return {
-      body: tokenArea,
+      body: footerBody,
       actions: [cancelButton, applyButton],
     };
   }
@@ -130,6 +149,8 @@ function showFooter(id) {
   const textArea = document.getElementById(`token-${id}`);
   textArea.classList.remove("display-none");
   textArea.disabled = false;
+  const keyDetails = document.getElementById(`key-${id}`);
+  keyDetails.classList.remove("display-none");
   const textAreaFooter = document.getElementById(`textAreaFooter-${id}`);
   textAreaFooter.classList.remove("display-none");
 }
@@ -138,6 +159,8 @@ function hideTokenArea(id) {
   const textArea = document.getElementById(`token-${id}`);
   textArea.classList.add("display-none");
   textArea.disabled = true;
+  const keyDetails = document.getElementById(`key-${id}`);
+  keyDetails.classList.add("display-none");
 }
 
 function hideApplyFooter(id) {

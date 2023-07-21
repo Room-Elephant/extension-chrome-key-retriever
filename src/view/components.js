@@ -1,3 +1,5 @@
+import { addClassesToElement } from "./common.js";
+
 function newListItem({ item, actions, footer }) {
   const li = document.createElement("li");
   li.classList.add("list-group-item");
@@ -108,6 +110,29 @@ function newDropdown({ options }) {
   }
 }
 
+function newLabelWithBadge({ label, value }) {
+  const wrapper = document.createElement("div");
+  addClassesToElement(wrapper, "mb-2");
+
+  const labelElement = document.createElement("span");
+  addClassesToElement(labelElement, "me-2 fw-lighter");
+  labelElement.innerHTML = label;
+
+  const badge = newBadge({ value });
+
+  wrapper.appendChild(labelElement);
+  wrapper.appendChild(badge);
+
+  return wrapper;
+}
+
+function newBadge({ value }) {
+  const badge = document.createElement("span");
+  addClassesToElement(badge, "badge text-bg-secondary me-3");
+  badge.innerHTML = value;
+  return badge;
+}
+
 function newTextArea({ id, classNames, style, disabled = false, text = "", rows = 1 }) {
   const textArea = document.createElement("textarea");
   if (id) textArea.id = id;
@@ -162,9 +187,4 @@ function newSeparator() {
   return liItem;
 }
 
-function addClassesToElement(element, classNames) {
-  const classes = classNames.split(" ");
-  classes.forEach((elementClass) => element.classList.add(elementClass));
-}
-
-export { newIcon, newSeparator, newButton, newTextArea, newDropdown, newListItem };
+export { newIcon, newSeparator, newButton, newTextArea, newDropdown, newListItem, newLabelWithBadge, newBadge };
