@@ -13,7 +13,7 @@ async function fireEvent(name, params = {}) {
   }
 
   try {
-    await fetch(`${GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${getKey()}`, {
+    await fetch(`${GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${await getKey()}`, {
       method: "POST",
       body: JSON.stringify({
         client_id: await getOrCreateClientId(),
