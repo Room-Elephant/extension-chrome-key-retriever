@@ -1,15 +1,18 @@
-const components = appComponents();
-const creator = appCreator(components);
-const page = appPage(creator, {
+import versionController from "./handler/versionController.js";
+import appPage from "./page.js";
+import appStore from "./handler/store.js";
+import appManager from "./manager.js";
+import { TYPES } from "./common.js";
+import { fireEvent } from "./handler/analytics.js";
+
+const store = appStore(onStoreUpdate);
+const manager = appManager();
+const page = appPage({
   storeSave: onSaveItem,
   storeDelete: onDeleteKeys,
   storeSet: onSetItemValue,
   refreshValues: onRefreshValues,
 });
-const analytics = appAnalytics();
-const store = appStore(onStoreUpdate);
-const manager = appManager();
-
 versionController(page);
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -17,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function onStoreUpdate(items) {
-  analytics.fireEvent("number_of_keys", {
+  fireEvent("number_of_keys", {
     total: items?.length || 0,
     session: items?.filter(({ type }) => type === TYPES.SESSION).length || 0,
     local: items?.filter(({ type }) => type === TYPES.LOCAL).length || 0,

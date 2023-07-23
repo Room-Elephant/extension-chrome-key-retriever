@@ -1,34 +1,35 @@
-function valueWriter(remote, cookie) {
-  async function saveSessionValue(key, subKey = "", value) {
-    try {
-      return remote.executeRequest([key, subKey, value], remote.saveSessionValue);
-    } catch (e) {
-      console.log("🐶 ~ could not set session value for key " + key + " :", e);
-    }
-    return false;
-  }
+import {
+  executeRequest,
+  saveSessionValue as remoteSaveSessionValue,
+  saveLocalValue as remoteSaveLocalValue,
+} from "./operation/remote.js";
+import { saveCookieValue as chromeSaveCookieValue } from "./operation/cookie.js";
 
-  async function saveLocalValue(key, subKey = "", value) {
-    try {
-      return remote.executeRequest([key, subKey, value], remote.saveLocalValue);
-    } catch (e) {
-      console.log("🐶 ~ could not set local value for key " + key + " :", e);
-    }
-    return false;
+async function saveSessionValue(tab, key, subKey = "", value) {
+  try {
+    return executeRequest(tab, [key, subKey, value], remoteSaveSessionValue);
+  } catch (e) {
+    console.log("🐶 ~ could not set session value for key " + key + " :", e);
   }
-
-  async function saveCookieValue(key, subKey = "", value) {
-    try {
-      return await cookie.saveCookieValue(key, subKey, value);
-    } catch (e) {
-      console.log("🐶 ~ could not set cookie value for key " + key + " :", e);
-    }
-    return false;
-  }
-
-  return {
-    saveSessionValue,
-    saveLocalValue,
-    saveCookieValue,
-  };
+  return false;
 }
+
+async function saveLocalValue(tab, key, subKey = "", value) {
+  try {
+    return executeRequest(tab, [key, subKey, value], remoteSaveLocalValue);
+  } catch (e) {
+    console.log("🐶 ~ could not set local value for key " + key + " :", e);
+  }
+  return false;
+}
+
+async function saveCookieValue(tab, key, subKey = "", value) {
+  try {
+    return await chromeSaveCookieValue(tab, key, subKey, value);
+  } catch (e) {
+    console.log("🐶 ~ could not set cookie value for key " + key + " :", e);
+  }
+  return false;
+}
+
+export { saveSessionValue, saveLocalValue, saveCookieValue };

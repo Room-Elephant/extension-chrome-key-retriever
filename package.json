@@ -8,10 +8,7 @@
   },
   "scripts": {
     "prettier": "npx prettier src --check",
-    "prettier:fix": "npm run prettier -- --write",
-    "lint": "npx eslint src",
-    "lint:fix": "npm run lint -- --fix",
-    "format": "npm run prettier:fix && npm run lint:fix"
+    "lint": "npx eslint src"
   },
   "repository": {
     "type": "git",
