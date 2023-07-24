@@ -13,5 +13,3 @@ jobs:
     steps:
       - name: Prettier Action
         uses: creyD/prettier_action@v4.3
-        with:
-          only_changed: true
