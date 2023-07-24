@@ -1,10 +1,9 @@
-name: PRETTIER
+name: Prettier
 
 on:
   push:
     branches: ["main"]
   pull_request:
-    # The branches below must be a subset of the branches above
     branches: ["main"]
 
 jobs:
@@ -12,10 +11,7 @@ jobs:
     name: runner / prettier
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: EPMatt/reviewdog-action-prettier@v1
+      - name: Prettier Action
+        uses: creyD/prettier_action@v4.3
         with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          level: warning
-          
+          only_changed: true
