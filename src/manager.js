@@ -5,7 +5,9 @@ import { saveSessionValue, saveLocalValue, saveCookieValue } from "./handler/val
 function appManager() {
   let tab;
 
-  getActiveTab().then((result) => {
+  getActiveTab()
+    .
+    then((result) => {
     tab = result;
   });
 
