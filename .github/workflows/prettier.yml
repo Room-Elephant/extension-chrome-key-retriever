@@ -6,21 +6,16 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: ["main"]
-  schedule:
-    - cron: "27 21 * * 4"
 
 jobs:
-  ci:
-    name: Run prettier scanning
+  prettier:
+    name: runner / prettier
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run Prettier with reviewdog
-        uses: EPMatt/reviewdog-action-prettier@v1.0.0
+      - uses: actions/checkout@v2
+      - uses: EPMatt/reviewdog-action-prettier@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
           
