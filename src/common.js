@@ -5,4 +5,6 @@ function addClassesToElement(element, classNames) {
   classes.forEach((elementClass) => element.classList.add(elementClass));
 }
 
-export { TYPES, addClassesToElement };
+export { TYPES
+        ,
+        addClassesToElement };
