@@ -1,11 +1,13 @@
-import { TYPES } from "./common.js";
+
 import { getSessionValues, getLocalValues, getCookieValues } from "./handler/valueReader.js";
 import { saveSessionValue, saveLocalValue, saveCookieValue } from "./handler/valueWriter.js";
 
 function appManager() {
   let tab;
 
-  getActiveTab().then((result) => {
+  getActiveTab()
+      .
+then((result) => {
     tab = result;
   });
 
