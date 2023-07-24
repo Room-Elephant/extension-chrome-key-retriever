@@ -18,13 +18,19 @@ module.exports = {
           from: "./src/popup.html",
           to: "popup.html",
           transform(content) {
-            return content.toString().replace("../images/", "/images/").replace("icon48.png", "key-retriever.png");
+            return content.toString().replace("../images/", "/images/");
+          },
+        },
+        {
+          from: "manifest.json",
+          to: "manifest.json",
+          transform(content) {
+            return content.toString().replace("src/popup.html", "popup.html");
           },
         },
         { from: "./src/popup.css", to: "popup.css" },
         { from: "./src/assets", to: "assets" },
-        { from: "./images/icon48.png", to: "images/key-retriever.png" },
-        { from: "./images/empty-page.jpg", to: "images/empty-page.jpg" },
+        { from: "./images", to: "images/" },
       ],
     }),
     new MiniCssExtractPlugin(),
