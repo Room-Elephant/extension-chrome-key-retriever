@@ -20,5 +20,5 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          prettier_options: --write --config .prettierrc.json rc/**/*.{js,html,css}
+          prettier_options: --write --config .prettierrc.json src/**/*.{js,html,css}
           only_changed: True
