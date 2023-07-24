@@ -8,10 +8,17 @@ on:
 
 jobs:
   prettier:
-    name: runner / prettier
     runs-on: ubuntu-latest
+
     steps:
-      - name: Prettier Action
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          prettier_options: "src/**/*.{js,html,css} --write --config .prettierrc.json"
+          prettier_options: --write --config .prettierrc.json rc/**/*.{js,html,css}
+          only_changed: True
