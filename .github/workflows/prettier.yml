@@ -1,4 +1,4 @@
-name: ci
+name: PRETTIER
 
 on:
   push:
@@ -21,10 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install ESLint
-        run: npm install prettier@3.0.0
-
-      - name: Run Prettier
-        run: npx prettier src 
-          --check
-          --find-config-path .prettierrc.json
+      - name: Run Prettier with reviewdog
+        uses: EPMatt/reviewdog-action-prettier@v1.0.0k
+          
