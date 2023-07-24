@@ -39,6 +39,10 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin(), new CssMinimizerPlugin(), new HtmlMinimizerPlugin()],
+    minimizer: [
+      new TerserPlugin({ minify: TerserPlugin.uglifyJsMinify }),
+      new CssMinimizerPlugin(),
+      new HtmlMinimizerPlugin(),
+    ],
   },
 };
