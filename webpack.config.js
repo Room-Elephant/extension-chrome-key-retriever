@@ -30,7 +30,7 @@ module.exports = {
         },
         { from: "./src/popup.css", to: "popup.css" },
         { from: "./src/assets", to: "assets" },
-        { from: "./images", to: "images/" },
+        { from: "./images", to: "images" },
       ],
     }),
     new MiniCssExtractPlugin(),
