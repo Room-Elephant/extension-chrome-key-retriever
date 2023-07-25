@@ -1,5 +1,5 @@
 const GA_ENDPOINT = "https://www.google-analytics.com/mp/collect";
-const KEY_URL = "https://europe-west1-room-elephnat-key-retriever.cloudfunctions.net/getKeys";
+const KEY_URL = "https://europe-west1-room-elephant-keyretriever.cloudfunctions.net/getKeys";
 const MEASUREMENT_ID = "G-YWK0G1DQY7";
 const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
 const SESSION_EXPIRATION_IN_MIN = 30;
@@ -83,8 +83,8 @@ async function getKey() {
   const request = await fetch(KEY_URL, { method: "POST" });
   const json = await request.json();
 
-  apiKey = json.googleSecreteKey;
-  await chrome.storage.local.set({ apiKey });
+  apiKey = json.googleSecretKey;
+  chrome.storage.local.set({ apiKey });
   return apiKey;
 }
 
