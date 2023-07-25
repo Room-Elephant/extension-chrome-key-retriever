@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/codeql.yml/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/codeql.yml) [![ESLint](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/eslint.yml/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/eslint.yml) [![Prettier](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/prettier.yml/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/prettier.yml) [![pages-build-deployment](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/pages/pages-build-deployment)
+
 ![logo](https://repository-images.githubusercontent.com/658112380/1ca66916-3b00-43e2-84fd-9e1379a3d7bb)
 
 # extension-chrome-key-retriever
