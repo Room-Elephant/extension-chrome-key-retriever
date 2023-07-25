@@ -1,4 +1,5 @@
 const GA_ENDPOINT = "https://www.google-analytics.com/mp/collect";
+const KEY_URL = "https://europe-west1-room-elephant-keyretriever.cloudfunctions.net/getKeys";
 const MEASUREMENT_ID = "G-YWK0G1DQY7";
 const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
 const SESSION_EXPIRATION_IN_MIN = 30;
@@ -12,7 +13,7 @@ async function fireEvent(name, params = {}) {
   }
 
   try {
-    await fetch(`${GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${getKey()}`, {
+    await fetch(`${GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${await getKey()}`, {
       method: "POST",
       body: JSON.stringify({
         client_id: await getOrCreateClientId(),
@@ -75,90 +76,16 @@ async function getOrCreateSessionId() {
   return sessionData.session_id;
 }
 
-function getKey() {
-  return (
-    (30).toString(36).toLowerCase() +
-    (29)
-      .toString(36)
-      .toLowerCase()
-      .split("")
-      .map(function (r) {
-        return String.fromCharCode(r.charCodeAt() + -71);
-      })
-      .join("") +
-    (55773712).toString(36).toLowerCase() +
-    (24)
-      .toString(36)
-      .toLowerCase()
-      .split("")
-      .map(function (M) {
-        return String.fromCharCode(M.charCodeAt() + -39);
-      })
-      .join("") +
-    (10)
-      .toString(36)
-      .toLowerCase()
-      .split("")
-      .map(function (z) {
-        return String.fromCharCode(z.charCodeAt() + -13);
-      })
-      .join("") +
-    (23)
-      .toString(36)
-      .toLowerCase()
-      .split("")
-      .map(function (D) {
-        return String.fromCharCode(D.charCodeAt() + -39);
-      })
-      .join("") +
-    (30).toString(36).toLowerCase() +
-    (function () {
-      var w = Array.prototype.slice.call(arguments),
-        v = w.shift();
-      return w
-        .reverse()
-        .map(function (X, T) {
-          return String.fromCharCode(X - v - 56 - T);
-        })
-        .join("");
-    })(22, 137, 134, 128) +
-    (20)
-      .toString(36)
-      .toLowerCase()
-      .split("")
-      .map(function (a) {
-        return String.fromCharCode(a.charCodeAt() + -39);
-      })
-      .join("") +
-    (34).toString(36).toLowerCase() +
-    (function () {
-      var A = Array.prototype.slice.call(arguments),
-        V = A.shift();
-      return A.reverse()
-        .map(function (R, z) {
-          return String.fromCharCode(R - V - 3 - z);
-        })
-        .join("");
-    })(22, 112) +
-    (13).toString(36).toLowerCase() +
-    (17)
-      .toString(36)
-      .toLowerCase()
-      .split("")
-      .map(function (i) {
-        return String.fromCharCode(i.charCodeAt() + -39);
-      })
-      .join("") +
-    (190).toString(36).toLowerCase() +
-    (33)
-      .toString(36)
-      .toLowerCase()
-      .split("")
-      .map(function (z) {
-        return String.fromCharCode(z.charCodeAt() + -39);
-      })
-      .join("")
-  );
+async function getKey() {
+  let { apiKey } = await chrome.storage.local.get("apiKey");
+  if (apiKey !== null && apiKey !== undefined) return apiKey;
+
+  const request = await fetch(KEY_URL, { method: "POST" });
+  const json = await request.json();
+
+  apiKey = json.googleSecretKey;
+  chrome.storage.local.set({ apiKey });
+  return apiKey;
 }
 
 addEventListener("unhandledrejection", async (event) => {
