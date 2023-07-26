@@ -116,7 +116,7 @@ function newLabelWithBadge({ label, value }) {
 
   const labelElement = document.createElement("span");
   addClassesToElement(labelElement, "me-2 fw-lighter");
-  labelElement.innerHTML = label;
+  labelElement.innerText = label;
 
   const badge = newBadge({ value });
 
@@ -129,7 +129,7 @@ function newLabelWithBadge({ label, value }) {
 function newBadge({ value }) {
   const badge = document.createElement("span");
   addClassesToElement(badge, "badge text-bg-secondary me-3");
-  badge.innerHTML = value;
+  badge.innerText = value;
   return badge;
 }
 

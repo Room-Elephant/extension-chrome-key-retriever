@@ -95,7 +95,7 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
     presentationItems = items;
 
     const keyListElement = document.getElementById("keyList");
-    keyListElement.innerHTML = "";
+    keyListElement.textContent = "";
 
     const actions = {
       setFnc: onSetItemValue,
@@ -186,7 +186,7 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   }
 
   function onCopyValue(element, itemId) {
-    const token = document.getElementById(`token-${itemId}`)?.innerHTML;
+    const token = document.getElementById(`token-${itemId}`)?.textContent;
     fireEvent("copy_value");
     navigator.clipboard.writeText(token).then(
       function () {
