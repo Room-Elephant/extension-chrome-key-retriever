@@ -149,6 +149,7 @@ function showFooter(id) {
   const textArea = document.getElementById(`token-${id}`);
   textArea.classList.remove("display-none");
   textArea.disabled = false;
+  textArea.focus();
   const keyDetails = document.getElementById(`key-${id}`);
   keyDetails.classList.remove("display-none");
   const textAreaFooter = document.getElementById(`textAreaFooter-${id}`);
