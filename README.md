@@ -44,6 +44,10 @@ you can check other screenshots [here](docs/)
 
 ✏️ **Modify**: Set or update the original value.
 
+# Enhancements and issues
+
+For any enhancement or issue you can open a new ticket [here](https://github.com/Room-Elephant/extension-chrome-key-retriever/issues/new).
+
 # Thanks to
 
 Extension icon by Chanut-is-Industries and you can find it at <a  href="https://www.flaticon.com/free-icons/golden-retriever"  title="golden retriever icons">Golden retriever icons</a> on Flaticon
