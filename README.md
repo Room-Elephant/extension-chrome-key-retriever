@@ -3,10 +3,12 @@
 	<img  src="https://repository-images.githubusercontent.com/658112380/1ca66916-3b00-43e2-84fd-9e1379a3d7bb"  width="200"  />
 	<h1>Key Retriever</h1>
 	<p>🔮 Choose what to watch of your session, local or cookie storage keys/sub keys.</p>
-    <h2>⚡️ Get it now on</h2>	
-	<a href="#"  target="_blank">
-	  <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
-	</a>
+</div>
+<div  style="display:flex;align-items:center;margin:2em 0 2em 0;">
+  <h2 style="margin-right:1em;">⚡️ Get it now on: </h2>	
+  <a href="#"  target="_blank">
+    <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
+  </a>
 </div>
 
 ## 🐶 Description
@@ -19,7 +21,9 @@ Oh, and there's more! No more JSON digging for a single key - Key Retriever lets
 ## 🗃️ Supported storage types
 
 🗂️ Session storage
+
 📦 Local storage
+
 🍪 Cookies - including http only cookies
 
 ## 🚀 Features
