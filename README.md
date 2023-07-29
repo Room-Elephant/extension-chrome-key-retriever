@@ -11,18 +11,18 @@
 </a>
 
 
-## 🐶 Description
+# 🐶 Description
 Tired of scavenging daily your dev console for your most used keys? Look no further! With Key Retriever extension, you're just one click away from accessing your most important session, local, or cookie storage keys.
 
 Say goodbye to console struggles! Choose and add your keys to Key Retriever, and watch the magic unfold. Easily view, copy, or modify their values, all without sifting through the dev console chaos.
 
 Oh, and there's more! No more JSON digging for a single key - Key Retriever lets you map those sub keys directly. And for those pesky unreadable names, don't fret! Give them aliases for a clear understanding of what each key represents.
 
-<img src="./docs/Key-Retriever-preview.png" width="200" />
+<img src="./docs/Key-Retriever-preview.png" width="400" />
 
 you can check other screenshots [here](docs/)
 
-## 🗃️ Supported storage types
+# 🗃️ Supported storage types
 
 🗂️ Session storage
 
@@ -30,7 +30,7 @@ you can check other screenshots [here](docs/)
 
 🍪 Cookies - including http only cookies
 
-## 🚀 Features
+# 🚀 Features
 
 😎 **List**: Watch your chosen keys of session/local/cookie storage
 
@@ -44,7 +44,7 @@ you can check other screenshots [here](docs/)
 
 ✏️ **Modify**: Set or update the original value.
 
-## Thanks to
+# Thanks to
 
 Extension icon by Chanut-is-Industries and you can find it at <a  href="https://www.flaticon.com/free-icons/golden-retriever"  title="golden retriever icons">Golden retriever icons</a> on Flaticon
 
