@@ -1,37 +1,38 @@
-[![CodeQL](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/codeql.yml/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/codeql.yml) [![ESLint](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/eslint.yml/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/eslint.yml) [![Prettier](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/prettier.yml/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/prettier.yml) [![pages-build-deployment](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Room-Elephant/extension-chrome-key-retriever/actions/workflows/pages/pages-build-deployment)
 
-![logo](https://repository-images.githubusercontent.com/658112380/1ca66916-3b00-43e2-84fd-9e1379a3d7bb)
+<div  align="center">
+	<img  src="https://repository-images.githubusercontent.com/658112380/1ca66916-3b00-43e2-84fd-9e1379a3d7bb"  width="200"  />
+	<h1>Key Retriever</h1>
+	<p>🔮 Choose what to watch of your session, local or cookie storage keys/sub keys.</p>
+    <h2>⚡️ Get it now on</h2>	
+	<a href="#"  target="_blank">
+	  <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
+	</a>
+</div>
 
-# extension-chrome-key-retriever
+## 🐶 Description
+Tired of scavenging daily your dev console for your most used keys? Look no further! With Key Retriever extension, you're just one click away from accessing your most important session, local, or cookie storage keys.
 
-This chrome extension allows to watch keys stored and set new values.
-For more complex properties, you can select a subkey to watch and/or set a value.
+Say goodbye to console struggles! Choose and add your keys to Key Retriever, and watch the magic unfold. Easily view, copy, or modify their values, all without sifting through the dev console chaos.
 
-<img width="399" alt="image" src="/docs/preview.png">
-(the preview might not be up to date)
+Oh, and there's more! No more JSON digging for a single key - Key Retriever lets you map those sub keys directly. And for those pesky unreadable names, don't fret! Give them aliases for a clear understanding of what each key represents.
 
-## Supported keys
+## 🗃️ Supported storage types
 
-- Local storage
-- Session storage
-- Cookies
-  - including HTTP only cookies
+🗂️ Session storage
+📦 Local storage
+🍪 Cookies - including http only cookies
 
-## Installation
+## 🚀 Features
 
-This extension was made to work on Chrome browsers.
-To install:
-
-1.  **Download the repository** (https://github.com/Room-Elephant/extension-chrome-key-retriever.git)
-1.  Go to **extension manager** (hamburger menu > Extensions > Manage Extensions)
-1.  Activate **developer mode** (toggle on top right corner)
-1.  Click **Load unpacked** and select the repository folder
-1.  Your extension is **ready to use**. You can always pin it for faster access
-1.  To update the extension, just pull from the repository
-    - If you are coming from an older version and is not working, try removing and adding again.
+😎 **List**: Watch your chosen keys of session/local/cookie storage
+🪄 **JSON**: You can even select a sub key inside a JSON value
+💅 **Alias**: Give relevant names to your chosen keys.
+✅ **Copy**: Save the key value directly to your clipboard.
+👀 **View**: Quickly check your key value.
+✏️ **Modify**: Set or update the original value.
 
 ## Thanks to
 
-Extension icon by Chanut-is-Industries and you can find it at <a href="https://www.flaticon.com/free-icons/golden-retriever" title="golden retriever icons">Golden retriever icons</a> on Flaticon
+Extension icon by Chanut-is-Industries and you can find it at <a  href="https://www.flaticon.com/free-icons/golden-retriever"  title="golden retriever icons">Golden retriever icons</a> on Flaticon
 
-Empty page image by brgfx and you can find it at <a href="https://www.freepik.com/free-vector/dog-digging-dirt-white-background_18973243.htm#query=golden%20retriever%20bone&position=26&from_view=search&track=ais">Image by brgfx</a> on Freepik
+Empty page image by brgfx and you can find it at <a  href="https://www.freepik.com/free-vector/dog-digging-dirt-white-background_18973243.htm#query=golden%20retriever%20bone&position=26&from_view=search&track=ais">Image by brgfx</a> on Freepik
