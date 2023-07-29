@@ -18,6 +18,9 @@ Say goodbye to console struggles! Choose and add your keys to Key Retriever, and
 
 Oh, and there's more! No more JSON digging for a single key - Key Retriever lets you map those sub keys directly. And for those pesky unreadable names, don't fret! Give them aliases for a clear understanding of what each key represents.
 
+![preview](./docs/Key-Retriever-preview.png)
+you can check other screenshots [here](docs/)
+
 ## 🗃️ Supported storage types
 
 🗂️ Session storage
