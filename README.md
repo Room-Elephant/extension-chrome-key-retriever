@@ -5,7 +5,7 @@
 	<p>🔮 Choose what to watch of your session, local or cookie storage keys/sub keys.</p>
 </div>
 <div  style="display:flex;align-items:center;margin:2em 0 2em 0;">
-  <h2 style="margin-right:1em;">⚡️ Get it now on: </h2>	
+  <strong style="font-size: 2em; margin-right:1em;">⚡️ Get it now on: </strong>	
   <a href="#"  target="_blank">
     <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
   </a>
