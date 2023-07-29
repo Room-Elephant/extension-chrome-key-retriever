@@ -11,7 +11,7 @@
     "default_title": "Click Me",
     "default_popup": "src/popup.html"
   },
-  "description": "Extension that allows you to watch session, local and cookie storage of you sites. Additionally Allow advance features such as set new values and watch sub keys.",
+  "description": "You choose what to watch of your session, local or cookie storage. Copy or modify the value of your keys or sub keys!",
   "icons": {
     "16": "images/icon16.png",
     "32": "images/icon32.png",

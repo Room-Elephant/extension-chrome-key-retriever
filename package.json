@@ -1,7 +1,7 @@
 {
   "name": "extension-chrome-key-retriever",
   "version": "1.0.0",
-  "description": "Chrome extension to watch session, local and cookie storage of you sites. Allow advance features such as set new values and watch sub keys.",
+  "description": "You choose what to watch of your session, local or cookie storage. Copy or modify the value of your keys or sub keys!",
   "main": "popup.html",
   "directories": {
     "doc": "docs"
@@ -9,7 +9,8 @@
   "scripts": {
     "prettier": "npx prettier src --check",
     "lint": "npx eslint src",
-    "build": "npm run prettier && npm run lint && webpack"
+    "build": "npm run prettier && npm run lint && webpack",
+    "package for chrome": "npm run build && cd dist && zip -r key-retriever-chrome.zip ./"
   },
   "repository": {
     "type": "git",
