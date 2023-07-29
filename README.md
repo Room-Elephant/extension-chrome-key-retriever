@@ -1,15 +1,15 @@
 
-<div  align="center">
-	<img  src="https://repository-images.githubusercontent.com/658112380/1ca66916-3b00-43e2-84fd-9e1379a3d7bb"  width="200"  />
+<div align="center">
+	<img src="https://repository-images.githubusercontent.com/658112380/1ca66916-3b00-43e2-84fd-9e1379a3d7bb"  width="200"  />
 	<h1>Key Retriever</h1>
 	<p>🔮 Choose what to watch of your session, local or cookie storage keys/sub keys.</p>
 </div>
-<div  style="display:flex;align-items:center;margin:2em 0 2em 0;">
-  <strong style="font-size: 2em; margin-right:1em;">⚡️ Get it now on: </strong>	
-  <a href="#"  target="_blank">
-    <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
-  </a>
-</div>
+
+## ⚡️ Get it now on: 
+<a href="#"  target="_blank">
+  <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
+</a>
+
 
 ## 🐶 Description
 Tired of scavenging daily your dev console for your most used keys? Look no further! With Key Retriever extension, you're just one click away from accessing your most important session, local, or cookie storage keys.
@@ -29,10 +29,15 @@ Oh, and there's more! No more JSON digging for a single key - Key Retriever lets
 ## 🚀 Features
 
 😎 **List**: Watch your chosen keys of session/local/cookie storage
+
 🪄 **JSON**: You can even select a sub key inside a JSON value
+
 💅 **Alias**: Give relevant names to your chosen keys.
+
 ✅ **Copy**: Save the key value directly to your clipboard.
+
 👀 **View**: Quickly check your key value.
+
 ✏️ **Modify**: Set or update the original value.
 
 ## Thanks to
