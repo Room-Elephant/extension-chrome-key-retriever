@@ -4,12 +4,14 @@
 	<h1>Key Retriever</h1>
 	<p>🔮 Choose what to watch of your session, local or cookie storage keys/sub keys.</p>
 </div>
+<br/>
 
-## ⚡️ Get it now on: 
+# ⚡️ Get it now on: 
 <a href="#"  target="_blank">
   <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
 </a>
 
+<br/>
 
 # 🐶 Description
 Tired of scavenging daily your dev console for your most used keys? Look no further! With Key Retriever extension, you're just one click away from accessing your most important session, local, or cookie storage keys.
@@ -18,37 +20,65 @@ Say goodbye to console struggles! Choose and add your keys to Key Retriever, and
 
 Oh, and there's more! No more JSON digging for a single key - Key Retriever lets you map those sub keys directly. And for those pesky unreadable names, don't fret! Give them aliases for a clear understanding of what each key represents.
 
-<img src="./docs/Key-Retriever-preview.png" width="400" />
+![Key Retriever preview](./docs/KeyRetriever-preview.png)
 
-you can check other screenshots [here](docs/)
+🎨 you can check other promotional material [here](docs/)
 
 # 🗃️ Supported storage types
 
-🗂️ Session storage
+&nbsp;&nbsp; 🗂️ Session storage
 
-📦 Local storage
+&nbsp;&nbsp; 📦 Local storage
 
-🍪 Cookies - including http only cookies
+&nbsp;&nbsp; 🍪 Cookies - including http only cookies
 
 # 🚀 Features
 
-😎 **List**: Watch your chosen keys of session/local/cookie storage
+&nbsp;&nbsp; 😎 **List**: Watch your chosen keys of session/local/cookie storage
 
-🪄 **JSON**: You can even select a sub key inside a JSON value
+&nbsp;&nbsp; 🪄 **JSON**: You can even select a sub key inside a JSON value
 
-💅 **Alias**: Give relevant names to your chosen keys.
+&nbsp;&nbsp; 💅 **Alias**: Give relevant names to your chosen keys.
 
-✅ **Copy**: Save the key value directly to your clipboard.
+&nbsp;&nbsp; ✅ **Copy**: Save the key value directly to your clipboard.
 
-👀 **View**: Quickly check your key value.
+&nbsp;&nbsp; 👀 **View**: Quickly check your key value.
 
-✏️ **Modify**: Set or update the original value.
+&nbsp;&nbsp; ✏️ **Modify**: Set or update the original value.
 
-# Enhancements and issues
+<br/>
+
+# ⚙️ Enhancements and issues
 
 For any enhancement or issue you can open a new ticket [here](https://github.com/Room-Elephant/extension-chrome-key-retriever/issues/new).
 
-# Thanks to
+<br/>
+
+# Contributors
+<ul class="list-style-none ">
+    <li class="mb-2 d-flex">
+      <a href="https://github.com/JPedroBorges" class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/JPedroBorges/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self">
+        <img src="https://avatars.githubusercontent.com/u/12955328?s=64&amp;v=4" alt="@JPedroBorges" size="32" height="32" width="32" data-view-component="true" class="avatar circle">
+      </a>
+      <span data-view-component="true" class="flex-self-center min-width-0 css-truncate css-truncate-overflow width-fit flex-auto">
+        <a href="https://github.com/JPedroBorges" class="Link--primary no-underline flex-self-center">
+          <strong>JPedroBorges</strong>
+          
+        </a>
+</span>    </li>
+    <li class="mb-2 d-flex">
+      <a href="https://github.com/Marianarodrigues7" class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/Marianarodrigues7/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self">
+        <img src="https://avatars.githubusercontent.com/u/29409357?s=64&amp;v=4" alt="@Marianarodrigues7" size="32" height="32" width="32" data-view-component="true" class="avatar circle">
+      </a>
+      <span data-view-component="true" class="flex-self-center min-width-0 css-truncate css-truncate-overflow width-fit flex-auto">
+        <a href="https://github.com/Marianarodrigues7" class="Link--primary no-underline flex-self-center">
+          <strong>Marianarodrigues7</strong>
+          <span class="color-fg-muted">Mariana Rodrigues</span>
+        </a>
+</span>    </li>
+</ul>
+
+# 🙇 Thanks to
 
 Extension icon by Chanut-is-Industries and you can find it at <a  href="https://www.flaticon.com/free-icons/golden-retriever"  title="golden retriever icons">Golden retriever icons</a> on Flaticon
 
