@@ -22,29 +22,33 @@ Oh, and there's more! No more JSON digging for a single key - Key Retriever lets
 
 ![Key Retriever preview](./docs/KeyRetriever-preview.png)
 
-🎨 you can check other promotional material [here](docs/)
+🎨 You can check other promotional material [here](docs/)
+
+<br/>
 
 # 🗃️ Supported storage types
 
-&nbsp;&nbsp; 🗂️ Session storage
+&nbsp;&nbsp;&nbsp;&nbsp; 🗂️ Session storage
 
-&nbsp;&nbsp; 📦 Local storage
+&nbsp;&nbsp;&nbsp;&nbsp; 📦 Local storage
 
-&nbsp;&nbsp; 🍪 Cookies - including http only cookies
+&nbsp;&nbsp;&nbsp;&nbsp; 🍪 Cookies - including http only cookies
+
+<br/>
 
 # 🚀 Features
 
-&nbsp;&nbsp; 😎 **List**: Watch your chosen keys of session/local/cookie storage
+&nbsp;&nbsp;&nbsp;&nbsp; 😎 **List**: Watch your chosen keys of session/local/cookie storage
 
-&nbsp;&nbsp; 🪄 **JSON**: You can even select a sub key inside a JSON value
+&nbsp;&nbsp;&nbsp;&nbsp; 🪄 **JSON**: You can even select a sub key inside a JSON value
 
-&nbsp;&nbsp; 💅 **Alias**: Give relevant names to your chosen keys.
+&nbsp;&nbsp;&nbsp;&nbsp; 💅 **Alias**: Give relevant names to your chosen keys.
 
-&nbsp;&nbsp; ✅ **Copy**: Save the key value directly to your clipboard.
+&nbsp;&nbsp;&nbsp;&nbsp; ✅ **Copy**: Save the key value directly to your clipboard.
 
-&nbsp;&nbsp; 👀 **View**: Quickly check your key value.
+&nbsp;&nbsp;&nbsp;&nbsp; 👀 **View**: Quickly check your key value.
 
-&nbsp;&nbsp; ✏️ **Modify**: Set or update the original value.
+&nbsp;&nbsp;&nbsp;&nbsp; ✏️ **Modify**: Set or update the original value.
 
 <br/>
 
@@ -54,29 +58,17 @@ For any enhancement or issue you can open a new ticket [here](https://github.com
 
 <br/>
 
-# Contributors
-<ul class="list-style-none ">
-    <li class="mb-2 d-flex">
-      <a href="https://github.com/JPedroBorges" class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/JPedroBorges/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self">
-        <img src="https://avatars.githubusercontent.com/u/12955328?s=64&amp;v=4" alt="@JPedroBorges" size="32" height="32" width="32" data-view-component="true" class="avatar circle">
-      </a>
-      <span data-view-component="true" class="flex-self-center min-width-0 css-truncate css-truncate-overflow width-fit flex-auto">
-        <a href="https://github.com/JPedroBorges" class="Link--primary no-underline flex-self-center">
-          <strong>JPedroBorges</strong>
-          
-        </a>
-</span>    </li>
-    <li class="mb-2 d-flex">
-      <a href="https://github.com/Marianarodrigues7" class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/Marianarodrigues7/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self">
-        <img src="https://avatars.githubusercontent.com/u/29409357?s=64&amp;v=4" alt="@Marianarodrigues7" size="32" height="32" width="32" data-view-component="true" class="avatar circle">
-      </a>
-      <span data-view-component="true" class="flex-self-center min-width-0 css-truncate css-truncate-overflow width-fit flex-auto">
-        <a href="https://github.com/Marianarodrigues7" class="Link--primary no-underline flex-self-center">
-          <strong>Marianarodrigues7</strong>
-          <span class="color-fg-muted">Mariana Rodrigues</span>
-        </a>
-</span>    </li>
-</ul>
+# 🥷 Contributors
+
+ <div> 
+  <a href="https://github.com/JPedroBorges" data-hovercard-type="user" data-hovercard-url="/users/JPedroBorges/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self">
+    <img src="https://avatars.githubusercontent.com/u/12955328?s=64&amp;v=4" alt="@JPedroBorges" size="32" height="32" width="32" style=" border-radius: 50%;">
+  </a>
+  <a href="https://github.com/Marianarodrigues7" data-hovercard-type="user" data-hovercard-url="/users/Marianarodrigues7/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self">
+    <img src="https://avatars.githubusercontent.com/u/29409357?s=64&amp;v=4" alt="@Marianarodrigues7" size="32" height="32" width="32" style=" border-radius: 50%;">
+  </a>  
+</div>
+<br/>
 
 # 🙇 Thanks to
 
