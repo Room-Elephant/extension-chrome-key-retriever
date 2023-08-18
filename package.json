@@ -9,8 +9,10 @@
   "scripts": {
     "prettier": "npx prettier src --check",
     "lint": "npx eslint src",
-    "build": "npm run prettier && npm run lint && webpack",
-    "package for chrome": "npm run build && cd dist && zip -r key-retriever-chrome.zip ./"
+    "buildChrome": "npm run prettier && npm run lint && webpack --config webpack.chrome.js",
+    "packageChrome": "npm run buildChrome && cd dist_chrome && zip -r key-retriever-chrome.zip ./",
+    "buildFirefox": "npm run prettier && npm run lint && webpack --config webpack.firefox.js",
+    "packageFirefox": "npm run buildFirefox && cd dist_firefox && zip -r key-retriever-firefox.zip ./"
   },
   "repository": {
     "type": "git",
@@ -29,16 +31,17 @@
   },
   "homepage": "https://github.com/Room-Elephant/extension-chrome-key-retriever#readme",
   "devDependencies": {
-    "prettier": "^3.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-minimizer-webpack-plugin": "^5.0.1",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
+    "html-minimizer-webpack-plugin": "^4.4.0",
+    "mini-css-extract-plugin": "^2.7.6",
+    "prettier": "^3.0.0",
+    "terser-webpack-plugin": "^5.3.9",
+    "uglify-js": "^3.17.4",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "copy-webpack-plugin": "^11.0.0",
-    "terser-webpack-plugin": "^5.3.9",
-    "html-minimizer-webpack-plugin": "^4.4.0",
-    "css-minimizer-webpack-plugin": "^5.0.1",
-    "mini-css-extract-plugin": "^2.7.6",
-    "uglify-js": "^3.17.4"
+    "webpack-merge": "^5.9.0"
   }
 }

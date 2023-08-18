@@ -1,3 +1,4 @@
 node_modules
-dist
+dist_chrome
+dist_firefox
 package-lock.json
