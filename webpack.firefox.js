@@ -22,7 +22,7 @@ module.exports = merge(common, {
 });
 
 function modify(buffer) {
-  let manifest = JSON.parse(buffer.toString());
+  const manifest = JSON.parse(buffer.toString());
   manifest.browser_specific_settings = { gecko: { id: "key-retriever@room-elephant.com" } };
   return JSON.stringify(manifest, null, 2);
 }
