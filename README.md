@@ -8,7 +8,7 @@
 
 # ⚡️ Get it now on: 
 <a href="#"  target="_blank">
-  <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png"  width="200"  />
+  <img  src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png"  width="200"  />
 </a>
 <a href="https://addons.mozilla.org/en-US/firefox/addon/key-retriever/"  target="_blank">
   <img  src="https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png"  height="56"  />
