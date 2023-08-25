@@ -3,10 +3,10 @@ async function getCookie(tab, cookieStoreItems) {
 
   return cookieStoreItems.map((item) => {
     const cookie = cookies.find((cookie) => {
-      if(item.key !== cookie.name) return false;
-      
-      if(item.domain && !isDomainMatch(item.domain, cookie.domain)) return false;
-      return true
+      if (item.key !== cookie.name) return false;
+
+      if (item.domain && !isDomainMatch(item.domain, cookie.domain)) return false;
+      return true;
     });
 
     const value = cookie?.value;
@@ -24,7 +24,7 @@ async function getCookie(tab, cookieStoreItems) {
 
 async function saveCookieValue(tab, key, subKey, userDomain, value) {
   const url = tabToStringUrl(tab);
-  const domain =   tabToStringDomain(userDomain|| url);
+  const domain = tabToStringDomain(userDomain || url);
   let details = await chrome.cookies.get({
     name: key,
     url,
