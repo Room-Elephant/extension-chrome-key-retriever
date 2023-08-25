@@ -53,6 +53,16 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
     show(PAGES.LIST);
   });
 
+  document.querySelectorAll('input[name="storage"]').forEach((input) =>
+    input.addEventListener("click", (e) => {
+      const domainField = document.getElementById("domainField");
+
+      if (e.target.id === "localStorage" || e.target.id === "sessionStorage") {
+        if (!domainField.classList.contains("display-none")) domainField.classList.add("display-none");
+      } else domainField.classList.remove("display-none");
+    }),
+  );
+
   function show(page) {
     const emptyPage = document.getElementById("emptyPage");
     const addKeyForm = document.getElementById("addKeyForm");
@@ -233,15 +243,17 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
     const alias = document.getElementById("alias").value;
     const key = document.getElementById("key").value;
     const subKey = document.getElementById("subKey").value || undefined;
+    const domain = document.getElementById("domain").value || undefined;
     const storageType = document.querySelector('input[name="storage"]:checked').value;
 
-    return { alias, key, subKey, type: storageType };
+    return { alias, key, subKey, domain, type: storageType };
   }
 
   function clearFormData() {
     document.getElementById("alias").value = "";
     document.getElementById("key").value = "";
     document.getElementById("subKey").value = "";
+    document.getElementById("domain").value = "";
     document.querySelector('input[name="storage"]').checked = false;
     document.querySelector('input[id="sessionStorage"]').checked = true;
   }

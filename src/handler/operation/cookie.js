@@ -1,23 +1,24 @@
-import { TYPES } from "../../common.js";
-
 async function getCookie(tab, cookieStoreItems) {
-  const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab) });
-  const cookieStoreItemsKeys = cookieStoreItems.map(({ key }) => key);
-
-  const matchCookies = cookies
-    .filter(({ name }) => cookieStoreItemsKeys.includes(name))
-    .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
+  const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab), domain: cookieStoreItems.domain });
 
   return cookieStoreItems.map((item) => {
-    item.value = matchCookies.find(({ name }) => name === item.key)?.value || undefined;
+    const cookie = cookies.find((cookie) => {
+      if(item.key !== cookie.name) return false;
+      
+      if(item.domain && !isDomainMatch(item.domain, cookie.domain)) return false;
+      return true
+    });
+
+    const value = cookie?.value;
     if (item.subKey) {
       try {
-        item.value = JSON.parse(item.value)[item.subKey];
+        value = JSON.parse(value)[item.subKey];
       } catch {
-        item.value = undefined;
+        value = undefined;
       }
     }
-    return item;
+
+    return { ...item, value };
   });
 }
 
@@ -70,6 +71,10 @@ function tabToStringUrl(tab) {
 function tabToStringDomain(tab) {
   const url = new URL(tab.url);
   return `.${url.hostname}`;
+}
+
+function isDomainMatch(itemDomain, cookieDomain) {
+  return itemDomain === cookieDomain || "." + itemDomain === cookieDomain;
 }
 
 export { getCookie, saveCookieValue };
