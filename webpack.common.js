@@ -8,7 +8,6 @@ module.exports = {
   mode: "none",
   entry: "./src/popup.js",
   output: {
-    path: __dirname + "/dist",
     filename: "popup.js",
   },
   plugins: [
@@ -19,13 +18,6 @@ module.exports = {
           to: "popup.html",
           transform(content) {
             return content.toString().replace("../images/", "/images/");
-          },
-        },
-        {
-          from: "manifest.json",
-          to: "manifest.json",
-          transform(content) {
-            return content.toString().replace("src/popup.html", "popup.html");
           },
         },
         { from: "./src/popup.css", to: "popup.css" },

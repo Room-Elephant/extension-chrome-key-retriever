@@ -1,3 +1,6 @@
 src/assets/*
-webpack.config.js
-dist/
+dist_chrome/*
+dist_firefox/*
+webpack.chrome.js
+webpack.common.js
+webpack.firefox.js

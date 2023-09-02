@@ -7,7 +7,7 @@ async function getSessionValues(tab, sessionStoreItems) {
   } catch (e) {
     console.log("🐶 ~ could not read session values:", e);
   }
-  return [];
+  return sessionStoreItems;
 }
 
 async function getLocalValues(tab, localStoreItems) {
@@ -16,7 +16,7 @@ async function getLocalValues(tab, localStoreItems) {
   } catch (e) {
     console.log("🐶 ~ could not read local values:", e);
   }
-  return [];
+  return localStoreItems;
 }
 
 async function getCookieValues(tab, cookieStoreItems) {
@@ -26,7 +26,7 @@ async function getCookieValues(tab, cookieStoreItems) {
     console.log("🐶 ~ could not read cookie values:", e);
   }
 
-  return [];
+  return cookieStoreItems;
 }
 
 export { getSessionValues, getLocalValues, getCookieValues };
