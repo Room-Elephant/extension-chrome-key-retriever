@@ -55,12 +55,12 @@ function newItem({ storageType, item, actions }) {
     keyDetailsArea.appendChild(keyLabel);
 
     if (subKey) {
-      const subKeyLabel = newLabelWithBadge({ label: "Subkey", value: subKey || "" });
+      const subKeyLabel = newLabelWithBadge({ label: "Subkey", value: subKey });
       keyDetailsArea.appendChild(subKeyLabel);
     }
 
     if (domain) {
-      const domainLabel = newLabelWithBadge({ label: "Domain", value: domain || "" });
+      const domainLabel = newLabelWithBadge({ label: "Domain", value: domain });
       keyDetailsArea.appendChild(domainLabel);
     }
 
