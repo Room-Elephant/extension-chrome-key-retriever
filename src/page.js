@@ -55,11 +55,8 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
 
   document.querySelectorAll('input[name="storage"]').forEach((input) =>
     input.addEventListener("click", (e) => {
-      const domainField = document.getElementById("domainField");
-
-      if (e.target.id === "localStorage" || e.target.id === "sessionStorage") {
-        if (!domainField.classList.contains("display-none")) domainField.classList.add("display-none");
-      } else domainField.classList.remove("display-none");
+      if (e.target.id === "localStorage" || e.target.id === "sessionStorage") hideDomainField();
+      else document.getElementById("domainField").classList.remove("display-none");
     }),
   );
 
@@ -268,6 +265,11 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   function removeFormValidation() {
     const form = document.getElementById("add-key-form");
     form.classList.remove("was-validated");
+  }
+
+  function hideDomainField() {
+    const domainField = document.getElementById("domainField");
+    if (!domainField.classList.contains("display-none")) domainField.classList.add("display-none");
   }
 
   return {
