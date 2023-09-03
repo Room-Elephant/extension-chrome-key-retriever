@@ -1,3 +1,6 @@
+const HTTP = "http";
+const HTTP_SEPARATOR = "//";
+
 async function getCookie(tab, cookieStoreItems) {
   const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab), domain: cookieStoreItems.domain });
 
@@ -9,7 +12,7 @@ async function getCookie(tab, cookieStoreItems) {
       return true;
     });
 
-    const value = cookie?.value;
+    let value = cookie?.value;
     if (item.subKey) {
       try {
         value = JSON.parse(value)[item.subKey];
@@ -65,16 +68,16 @@ async function saveCookieValue(tab, key, subKey, userDomain, value) {
 
 function tabToStringUrl(tab) {
   const url = new URL(tab.url);
-  return `${url.protocol}//${url.hostname}`;
+  return `${url.protocol}${HTTP_SEPARATOR}${url.hostname}`;
 }
 
 function tabToStringDomain(inputUrl) {
-  const url = new URL(inputUrl.startsWith("http") ? inputUrl : `http://${inputUrl}`);
+  const url = new URL(inputUrl.startsWith(HTTP) ? inputUrl : `${HTTP}:${HTTP_SEPARATOR}${inputUrl}`);
   return `.${url.hostname}`;
 }
 
 function isDomainMatch(itemDomain, cookieDomain) {
-  return itemDomain === cookieDomain || "." + itemDomain === cookieDomain;
+  return itemDomain === cookieDomain || itemDomain === cookieDomain.subString(1);
 }
 
 export { getCookie, saveCookieValue };
