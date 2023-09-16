@@ -53,7 +53,7 @@ async function saveCookieValue(tab, key, subKey, domain, value) {
   });
 }
 
-function cookieFinder(cookies, key, domain){
+function cookieFinder(cookies, key, domain) {
   return cookies.find((cookie) => {
     if (key !== cookie.name) return false;
 
