@@ -43,7 +43,7 @@ function newItem({ storageType, item, actions }) {
     return [{ action: copyButton, visible: false }, { action: moreActionsButton }];
   }
 
-  function itemFooter({ id, key, subKey }) {
+  function itemFooter({ id, domain, key, subKey }) {
     const footerBody = document.createElement("div");
     addClassesToElement(footerBody, "flex flex-col mb-2");
 
@@ -55,8 +55,13 @@ function newItem({ storageType, item, actions }) {
     keyDetailsArea.appendChild(keyLabel);
 
     if (subKey) {
-      const subKeyLabel = newLabelWithBadge({ label: "Subkey", value: subKey || "" });
+      const subKeyLabel = newLabelWithBadge({ label: "Subkey", value: subKey });
       keyDetailsArea.appendChild(subKeyLabel);
+    }
+
+    if (domain) {
+      const domainLabel = newLabelWithBadge({ label: "Domain", value: domain });
+      keyDetailsArea.appendChild(domainLabel);
     }
 
     footerBody.appendChild(keyDetailsArea);

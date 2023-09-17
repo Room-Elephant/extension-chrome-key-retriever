@@ -1,61 +1,40 @@
-import { TYPES } from "../../common.js";
-
 async function getCookie(tab, cookieStoreItems) {
-  const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab) });
-  const cookieStoreItemsKeys = cookieStoreItems.map(({ key }) => key);
-
-  const matchCookies = cookies
-    .filter(({ name }) => cookieStoreItemsKeys.includes(name))
-    .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
+  const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab), domain: cookieStoreItems.domain });
 
   return cookieStoreItems.map((item) => {
-    item.value = matchCookies.find(({ name }) => name === item.key)?.value || undefined;
+    const cookie = cookieFinder(cookies, item.key, item.domain);
+
+    let value = cookie?.value;
     if (item.subKey) {
       try {
-        item.value = JSON.parse(item.value)[item.subKey];
+        value = JSON.parse(value)[item.subKey];
       } catch {
-        item.value = undefined;
+        value = undefined;
       }
     }
-    return item;
+
+    return { ...item, value };
   });
 }
 
-async function saveCookieValue(tab, key, subKey, value) {
+async function saveCookieValue(tab, key, subKey, userDomain, value) {
   const url = tabToStringUrl(tab);
-  const domain = tabToStringDomain(tab);
-  let details = await chrome.cookies.get({
-    name: key,
-    url,
-  });
-  if (details === null) {
-    details = { name: key };
-  }
+  const domain = getCookieDomain(userDomain, url);
 
-  let newValue = value;
+  const cookies = await chrome.cookies.getAll({ url, domain });
+  const cookie = cookieFinder(cookies, key, userDomain);
 
-  if (subKey) {
-    const originalValue = details.value;
-    if (details.value !== undefined)
-      try {
-        newValue = JSON.parse(originalValue);
-      } catch (e) {
-        newValue = {};
-      }
-    else newValue = {};
+  const cookieValue = getCookieValue(subKey, value, cookie.value);
 
-    newValue[subKey] = value;
-  }
+  cookie.value = cookieValue;
+  cookie.domain = domain;
+  cookie.name = key;
 
-  const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
-
-  details.value = stringifiedValue;
-
-  delete details.hostOnly;
-  delete details.session;
+  delete cookie.hostOnly;
+  delete cookie.session;
 
   return new Promise((resolve, reject) => {
-    chrome.cookies.set({ ...details, url, domain }, function (cookie) {
+    chrome.cookies.set({ ...cookie, url, domain: cookie.domain }, function (cookie) {
       if (cookie) resolve();
       else reject();
     });
@@ -67,9 +46,46 @@ function tabToStringUrl(tab) {
   return `${url.protocol}//${url.hostname}`;
 }
 
-function tabToStringDomain(tab) {
-  const url = new URL(tab.url);
-  return `.${url.hostname}`;
+function getCookieDomain(userDomain, tabUrl) {
+  let sUrl = tabUrl;
+  if (userDomain) sUrl = `http://${userDomain}`;
+
+  const url = new URL(sUrl);
+  return url.hostname;
+}
+
+function cookieFinder(cookies, key, domain) {
+  return (
+    cookies.find((cookie) => {
+      if (key !== cookie.name) return false;
+      if (domain && !isDomainMatch(domain, cookie.domain)) return false;
+      return true;
+    }) || {}
+  );
+}
+
+function isDomainMatch(itemDomain, cookieDomain) {
+  return itemDomain === cookieDomain || itemDomain === cookieDomain.substring(1);
+}
+
+function getCookieValue(subKey, newValue, originalValue) {
+  let value;
+
+  if (subKey) {
+    if (originalValue !== undefined) {
+      try {
+        value = JSON.parse(originalValue);
+      } catch (e) {
+        value = {};
+      }
+    } else value = {};
+
+    value[subKey] = newValue;
+  } else {
+    value = newValue;
+  }
+
+  return value instanceof Object ? JSON.stringify(value) : value;
 }
 
 export { getCookie, saveCookieValue };
