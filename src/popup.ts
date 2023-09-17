@@ -1,9 +1,11 @@
-import versionController from "./handler/versionController.js";
-import appPage from "./page.js";
-import appStore from "./handler/store.js";
-import appManager from "./manager.js";
-import { TYPES } from "./common.js";
-import { fireEvent } from "./handler/analytics.js";
+import versionController from "./handler/versionController";
+import appPage from "./page";
+import appStore from "./handler/store";
+import appManager from "./manager";
+import { Types } from "./types/constants";
+import { fireEvent } from "./handler/analytics";
+import { EventName } from "./types/constants";
+import { Item } from "./types/item";
 
 const store = appStore(onStoreUpdate);
 const manager = appManager();
@@ -19,12 +21,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   onStoreUpdate(await store.getItems());
 });
 
-async function onStoreUpdate(items) {
-  fireEvent("number_of_keys", {
+async function onStoreUpdate(items: Item[]) {
+  fireEvent(EventName.NUMBER_OF_KEYS, {
     total: items?.length || 0,
-    session: items?.filter(({ type }) => type === TYPES.SESSION).length || 0,
-    local: items?.filter(({ type }) => type === TYPES.LOCAL).length || 0,
-    cookie: items?.filter(({ type }) => type === TYPES.COOKIE).length || 0,
+    session: items?.filter(({ type }) => type === Types.SESSION).length || 0,
+    local: items?.filter(({ type }) => type === Types.LOCAL).length || 0,
+    cookie: items?.filter(({ type }) => type === Types.COOKIE).length || 0,
   });
 
   if (!items?.length) {

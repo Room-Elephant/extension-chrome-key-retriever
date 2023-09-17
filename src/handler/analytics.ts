@@ -1,10 +1,25 @@
+import { EventName } from "../types/constants";
+
 const GA_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 const KEY_URL = "https://europe-west1-room-elephant-keyretriever.cloudfunctions.net/getKeys";
 const MEASUREMENT_ID = "G-YWK0G1DQY7";
 const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
 const SESSION_EXPIRATION_IN_MIN = 30;
 
-async function fireEvent(name, params = {}) {
+export interface FireEventParams {
+  invalidFields?: string;
+  total?: number;
+  session?: number;
+  local?: number;
+  cookie?: number;
+  session_id?: string;
+  engagement_time_msec?: number;
+  page_title?: string;
+  page_location?: string;
+  version?: string;
+}
+
+async function fireEvent(name: EventName, params: FireEventParams = {}) {
   if (!params.session_id) {
     params.session_id = await getOrCreateSessionId();
   }
@@ -30,16 +45,16 @@ async function fireEvent(name, params = {}) {
   }
 }
 
-async function firePageViewEvent(pageTitle, pageLocation, additionalParams = {}) {
-  return fireEvent("page_view", {
+async function firePageViewEvent(pageTitle: string, pageLocation: string, additionalParams: FireEventParams = {}) {
+  return fireEvent(EventName.PAGE_VIEW, {
     page_title: pageTitle,
     page_location: pageLocation,
     ...additionalParams,
   });
 }
 
-async function fireErrorEvent(error, additionalParams = {}) {
-  return fireEvent("extension_error", {
+async function fireErrorEvent(error: PromiseRejectionEvent["reason"], additionalParams: FireEventParams = {}) {
+  return fireEvent(EventName.EXTENSION_ERROR, {
     ...error,
     ...additionalParams,
   });
@@ -51,10 +66,10 @@ async function getOrCreateClientId() {
     clientId = self.crypto.randomUUID();
     await chrome.storage.local.set({ clientId });
   }
-  return clientId;
+  return clientId as string;
 }
 
-async function getOrCreateSessionId() {
+export async function getOrCreateSessionId(): Promise<string> {
   let { sessionData } = await chrome.storage.session.get("sessionData");
   const currentTimeInMs = Date.now();
   if (sessionData && sessionData.timestamp) {
@@ -88,7 +103,7 @@ async function getKey() {
   return apiKey;
 }
 
-addEventListener("unhandledrejection", async (event) => {
+addEventListener("unhandledrejection", async (event: PromiseRejectionEvent) => {
   fireErrorEvent(event.reason);
 });
 

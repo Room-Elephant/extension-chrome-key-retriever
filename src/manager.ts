@@ -1,28 +1,30 @@
-import { TYPES } from "./common.js";
-import { getSessionValues, getLocalValues, getCookieValues } from "./handler/valueReader.js";
-import { saveSessionValue, saveLocalValue, saveCookieValue } from "./handler/valueWriter.js";
+import { Types } from "./types/constants";
+import { getSessionValues, getLocalValues, getCookieValues } from "./handler/valueReader";
+import { saveSessionValue, saveLocalValue, saveCookieValue } from "./handler/valueWriter";
+import { Item } from "./types/item";
+import { StoredItem, ValueItem } from "./types/storedItem";
 
 function appManager() {
-  let tab;
+  let tab: chrome.tabs.Tab;
 
   getActiveTab().then((result) => {
     tab = result;
   });
 
-  async function getItemsValue(storeItems) {
-    const valueItems = [];
+  async function getItemsValue(storeItems: StoredItem[]) {
+    const valueItems: ValueItem[] = [];
 
     const sessionKeyPresentation = await getSessionValues(
       tab,
-      storeItems.filter(({ type }) => TYPES.SESSION === type),
+      storeItems.filter(({ type }) => Types.SESSION === type),
     );
     const localKeyPresentation = await getLocalValues(
       tab,
-      storeItems.filter(({ type }) => TYPES.LOCAL === type),
+      storeItems.filter(({ type }) => Types.LOCAL === type),
     );
     const cookieKeyPresentation = await getCookieValues(
       tab,
-      storeItems.filter(({ type }) => TYPES.COOKIE === type),
+      storeItems.filter(({ type }) => Types.COOKIE === type),
     );
 
     valueItems.push(...sessionKeyPresentation.map(({ id, value }) => ({ id, value })));
@@ -32,13 +34,13 @@ function appManager() {
     return valueItems;
   }
 
-  async function setItemValue(item, value) {
+  async function setItemValue(item: Item, value: string) {
     switch (item.type) {
-      case TYPES.SESSION:
+      case Types.SESSION:
         return saveSessionValue(tab, item.key, item.subKey, value);
-      case TYPES.LOCAL:
+      case Types.LOCAL:
         return saveLocalValue(tab, item.key, item.subKey, value);
-      case TYPES.COOKIE:
+      case Types.COOKIE:
         return saveCookieValue(tab, item.key, item.subKey, value);
     }
 
