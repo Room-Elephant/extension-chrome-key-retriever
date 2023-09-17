@@ -34,7 +34,7 @@ async function saveCookieValue(tab, key, subKey, userDomain, value) {
   delete cookie.session;
 
   return new Promise((resolve, reject) => {
-    chrome.cookies.set({ ...cookie, url, domain: cookie.domain }, function (cookie, a, b) {
+    chrome.cookies.set({ ...cookie, url, domain: cookie.domain }, function (cookie) {
       if (cookie) resolve();
       else reject();
     });
