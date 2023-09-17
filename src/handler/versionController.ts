@@ -1,6 +1,7 @@
-import { firePageViewEvent } from "./analytics.js";
+import { AppPage } from "../page";
+import { firePageViewEvent } from "./analytics";
 
-function versionController(page) {
+function versionController(page: AppPage) {
   const currentVersion = chrome.runtime.getManifest().version;
   firePageViewEvent("Extension page", document.location.href, { version: currentVersion });
 
@@ -12,16 +13,16 @@ function versionController(page) {
 
       return response.json();
     })
-    .then((response) => {
+    .then((response: { version: string }) => {
       const latestVersion = response.version;
 
       if (isOutdated(currentVersion, latestVersion)) page.alertOutdatedVersion();
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       console.log("🐶 ~ could not validate version due to:", err);
     });
 
-  function isOutdated(current, latest) {
+  function isOutdated(current: string, latest: string) {
     const splittedCurrent = current.split(".");
     const splittedLatest = latest?.split(".") || [];
 
