@@ -17,58 +17,75 @@ async function getCookie(tab, cookieStoreItems) {
   });
 }
 
-async function saveCookieValue(tab, key, subKey, domain, value) {
-  const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab), domain });
-  const cookie = cookieFinder(cookies, key, domain);
+async function saveCookieValue(tab, key, subKey, userDomain, value) {
+  const url = tabToStringUrl(tab);
+  const domain = getCookieDomain(userDomain, url);
 
-  let newValue = value;
+  const cookies = await chrome.cookies.getAll({ url, domain });
+  const cookie = cookieFinder(cookies, key, userDomain);
 
-  if (subKey) {
-    const originalValue = cookie.value;
-    if (cookie.value !== undefined)
-      try {
-        newValue = JSON.parse(originalValue);
-      } catch (e) {
-        newValue = {};
-      }
-    else newValue = {};
+  const cookieValue = getCookieValue(subKey, value, cookie.value);
 
-    newValue[subKey] = value;
-  }
-
-  const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
-
-  cookie.value = stringifiedValue;
+  cookie.value = cookieValue;
+  cookie.domain = domain;
+  cookie.name = key;
 
   delete cookie.hostOnly;
   delete cookie.session;
 
-  const url = tabToStringUrl(tab);
-
   return new Promise((resolve, reject) => {
-    chrome.cookies.set({ ...cookie, url, domain: cookie.domain }, function (cookie) {
+    chrome.cookies.set({ ...cookie, url, domain: cookie.domain }, function (cookie, a, b) {
       if (cookie) resolve();
       else reject();
     });
   });
 }
 
-function cookieFinder(cookies, key, domain) {
-  return cookies.find((cookie) => {
-    if (key !== cookie.name) return false;
+function tabToStringUrl(tab) {
+  const url = new URL(tab.url);
+  return `${url.protocol}//${url.hostname}`;
+}
 
-    if (domain && !isDomainMatch(domain, cookie.domain)) return false;
-    return true;
-  });
+function getCookieDomain(userDomain, tabUrl) {
+  let sUrl = tabUrl;
+  if (userDomain) sUrl = `http://${userDomain}`;
+
+  const url = new URL(sUrl);
+  return url.hostname;
+}
+
+function cookieFinder(cookies, key, domain) {
+  return (
+    cookies.find((cookie) => {
+      if (key !== cookie.name) return false;
+      if (domain && !isDomainMatch(domain, cookie.domain)) return false;
+      return true;
+    }) || {}
+  );
 }
 
 function isDomainMatch(itemDomain, cookieDomain) {
   return itemDomain === cookieDomain || itemDomain === cookieDomain.substring(1);
 }
 
-function tabToStringUrl(tab) {
-  const url = new URL(tab.url);
-  return `${url.protocol}//${url.hostname}`;
+function getCookieValue(subKey, newValue, originalValue) {
+  let value;
+
+  if (subKey) {
+    if (originalValue !== undefined) {
+      try {
+        value = JSON.parse(originalValue);
+      } catch (e) {
+        value = {};
+      }
+    } else value = {};
+
+    value[subKey] = newValue;
+  } else {
+    value = newValue;
+  }
+
+  return value instanceof Object ? JSON.stringify(value) : value;
 }
 
 export { getCookie, saveCookieValue };
