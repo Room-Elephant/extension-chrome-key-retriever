@@ -2,8 +2,6 @@ import versionController from "./handler/versionController.js";
 import appPage from "./page.js";
 import appStore from "./handler/store.js";
 import appManager from "./manager.js";
-import { TYPES } from "./common.js";
-import { fireEvent } from "./handler/analytics.js";
 
 const store = appStore(onStoreUpdate);
 const manager = appManager();
@@ -20,13 +18,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function onStoreUpdate(items) {
-  fireEvent("number_of_keys", {
-    total: items?.length || 0,
-    session: items?.filter(({ type }) => type === TYPES.SESSION).length || 0,
-    local: items?.filter(({ type }) => type === TYPES.LOCAL).length || 0,
-    cookie: items?.filter(({ type }) => type === TYPES.COOKIE).length || 0,
-  });
-
   if (!items?.length) {
     page.show(page.PAGES.EMPTY);
     return;
