@@ -1,0 +1,24 @@
+# Configuration used to generate release notes automatically
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+  categories:
+    - title: 🚀 Enhancements
+      labels:
+        - enhancement
+    - title: 🐛 Bug Fixes
+      labels:
+        - bug
+    - title: 🦾 Infrastructure
+      labels:
+        - infra
+    - title: 📝 Documentation
+      labels:
+        - documentation
+    - title: 🧹 Refactoring
+      labels:
+        - refactor
+    - title: Other Changes
+      labels:
+        - "*"
