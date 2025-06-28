@@ -1,4 +1,3 @@
 node_modules
 dist_chrome
 dist_firefox
-package-lock.json
