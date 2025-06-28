@@ -9,10 +9,8 @@
   "scripts": {
     "prettier": "npx prettier src --check",
     "lint": "npx eslint src",
-    "buildChrome": "npm run prettier && npm run lint && webpack --config webpack.chrome.js",
-    "packageChrome": "npm run buildChrome && cd dist_chrome && zip -r key-retriever-chrome.zip ./",
-    "buildFirefox": "npm run prettier && npm run lint && webpack --config webpack.firefox.js",
-    "packageFirefox": "npm run buildFirefox && cd dist_firefox && zip -r key-retriever-firefox.zip ./"
+    "buildChrome": "webpack --config webpack.chrome.js",
+    "buildFirefox": "webpack --config webpack.firefox.js"
   },
   "repository": {
     "type": "git",

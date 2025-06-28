@@ -1,5 +1,4 @@
 import { TYPES } from "./common.js";
-import { fireEvent } from "./handler/analytics.js";
 import { newSessionItem, newLocalItem, newCookieItem } from "./view/items.js";
 
 function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
@@ -38,10 +37,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
-    else {
-      const invalidFields = [...document.querySelectorAll(".form-control:invalid")].map((element) => element.name);
-      fireEvent("invalid_form", { invalidFields: invalidFields.toString() });
-    }
   });
 
   document.getElementById("cancelAddKeyBtn").addEventListener("click", () => {
@@ -170,7 +165,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   }
 
   function onDeleteItem(itemId) {
-    fireEvent("delete_item");
     const idToRemove = presentationItems.find((element) => itemId === element.id).id;
 
     storeDelete(idToRemove);
@@ -179,7 +173,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   async function onSetItemValue(itemId, value) {
     const item = presentationItems.find(({ id }) => id === itemId);
     await storeSet(item, value);
-    fireEvent("set_value");
 
     const viewBtn = document.getElementById(`viewBtn-${itemId}`);
     onViewValue(itemId, viewBtn);
@@ -187,7 +180,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
 
   function onCopyValue(element, itemId) {
     const token = document.getElementById(`token-${itemId}`)?.textContent;
-    fireEvent("copy_value");
     navigator.clipboard.writeText(token).then(
       function () {
         element.lastChild.classList.remove("fa-copy");
@@ -206,7 +198,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   }
 
   function onViewValue(id, element) {
-    fireEvent("view_value");
     const textArea = document.getElementById(`token-${id}`);
     textArea.disabled = true;
     const keyDetails = document.getElementById(`key-${id}`);
