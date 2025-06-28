@@ -1,4 +1,3 @@
-import versionController from "./handler/versionController.js";
 import appPage from "./page.js";
 import appStore from "./model/store.js";
 import appManager from "./manager.js";
