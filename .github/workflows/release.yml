@@ -59,8 +59,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ github.event.inputs.releaseVersion }}
-          name: Release v${{ github.event.inputs.releaseVersion }}
+          tag_name: ${{ github.event.inputs.releaseVersion }}
+          name: Release ${{ github.event.inputs.releaseVersion }}
           generate_release_notes: true
           files: |
             release/key-retriever-chrome-${{ github.event.inputs.releaseVersion }}.zip
