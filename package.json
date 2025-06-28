@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/Room-Elephant/extension-chrome-key-retriever#readme",
   "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
+    "copy-webpack-plugin": "^13.0.0",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
