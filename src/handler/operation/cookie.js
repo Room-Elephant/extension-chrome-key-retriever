@@ -1,4 +1,4 @@
-import { TYPES } from "../../common.js";
+import { ITEM_TYPES } from "./types/index.js";
 
 async function getCookie(tab, cookieStoreItems) {
   const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab) });
@@ -6,7 +6,7 @@ async function getCookie(tab, cookieStoreItems) {
 
   const matchCookies = cookies
     .filter(({ name }) => cookieStoreItemsKeys.includes(name))
-    .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
+    .map(({ name, value }) => ({ name, value, type: ITEM_TYPES.COOKIE }));
 
   return cookieStoreItems.map((item) => {
     item.value = matchCookies.find(({ name }) => name === item.key)?.value || undefined;

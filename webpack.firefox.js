@@ -13,7 +13,7 @@ module.exports = merge(common, {
           from: "manifest.json",
           to: "manifest.json",
           transform(content) {
-            return modify(content).toString().replace("src/popup.html", "popup.html");
+            return modify(content).toString().replace("src/index.html", "index.html");
           },
         },
       ],

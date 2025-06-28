@@ -1,23 +1,23 @@
 import versionController from "./handler/versionController.js";
 import appPage from "./page.js";
-import appStore from "./handler/store.js";
+import appStore from "./model/store.js";
 import appManager from "./manager.js";
 
-const store = appStore(onStoreUpdate);
+const store = appStore(onStoreChange);
 const manager = appManager();
+
 const page = appPage({
-  storeSave: onSaveItem,
-  storeDelete: onDeleteKeys,
-  storeSet: onSetItemValue,
-  refreshValues: onRefreshValues,
+  storeSaveItem: onSaveItem,
+  storeDeleteItem: onDeleteItem,
+  storeSetItemValue: onSetItemValue,
+  storeRefreshItems: onRefreshItems,
 });
-versionController(page);
 
 document.addEventListener("DOMContentLoaded", async function () {
-  onStoreUpdate(await store.getItems());
+  onStoreChange(await store.getItems());
 });
 
-async function onStoreUpdate(items) {
+async function onStoreChange(items) {
   if (!items?.length) {
     page.show(page.PAGES.EMPTY);
     return;
@@ -27,11 +27,11 @@ async function onStoreUpdate(items) {
   page.show(page.PAGES.LIST);
 }
 
-function onSaveItem(formData) {
-  store.addItem(formData);
+function onSaveItem(item) {
+  store.addItem(item);
 }
 
-function onDeleteKeys(itemId) {
+function onDeleteItem(itemId) {
   store.removeItem(itemId);
 }
 
@@ -40,6 +40,6 @@ async function onSetItemValue(item, value) {
   page.renderValueElements({ newValue: { id: item.id, value } });
 }
 
-async function onRefreshValues(items) {
+async function onRefreshItems(items) {
   page.renderValueElements({ itemValues: await manager.getItemsValue(items) });
 }

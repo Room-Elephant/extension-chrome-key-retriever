@@ -24,6 +24,31 @@ function getLocalValue(localItems) {
   return localItems;
 }
 
+function saveLocalValue(key, subKey, value) {
+  try {
+    let newValue = value;
+
+    if (subKey) {
+      const originalValue = window.localStorage.getItem(key) || {};
+      try {
+        newValue = JSON.parse(originalValue);
+      } catch {
+        newValue = {};
+      }
+
+      newValue[subKey] = value;
+    }
+
+    const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+
+    window.localStorage.setItem(key, stringifiedValue);
+  } catch (e) {
+    return false;
+  }
+
+  return true;
+}
+
 function getSessionValue(sessionItems) {
   for (let i = 0; i < sessionItems.length; i++) {
     try {
@@ -58,31 +83,6 @@ function saveSessionValue(key, subKey, value) {
     const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
 
     window.sessionStorage.setItem(key, stringifiedValue);
-  } catch (e) {
-    return false;
-  }
-
-  return true;
-}
-
-function saveLocalValue(key, subKey, value) {
-  try {
-    let newValue = value;
-
-    if (subKey) {
-      const originalValue = window.localStorage.getItem(key) || {};
-      try {
-        newValue = JSON.parse(originalValue);
-      } catch {
-        newValue = {};
-      }
-
-      newValue[subKey] = value;
-    }
-
-    const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
-
-    window.localStorage.setItem(key, stringifiedValue);
   } catch (e) {
     return false;
   }

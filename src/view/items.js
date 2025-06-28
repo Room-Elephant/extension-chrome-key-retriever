@@ -1,16 +1,17 @@
-import { TYPES, addClassesToElement } from "../common.js";
+import { addClassesToElement } from "./view/utils/styles.js";
+import { ITEM_TYPES } from "./types/index.js";
 import { newListItem, newButton, newTextArea, newDropdown, newLabelWithBadge } from "./components.js";
 
 function newSessionItem(item, actions) {
-  return newItem({ storageType: TYPES.SESSION, item, actions });
+  return newItem({ storageType: ITEM_TYPES.SESSION, item, actions });
 }
 
 function newLocalItem(item, actions) {
-  return newItem({ storageType: TYPES.LOCAL, item, actions });
+  return newItem({ storageType: ITEM_TYPES.LOCAL, item, actions });
 }
 
 function newCookieItem(item, actions) {
-  return newItem({ storageType: TYPES.COOKIE, item, actions });
+  return newItem({ storageType: ITEM_TYPES.COOKIE, item, actions });
 }
 
 function newItem({ storageType, item, actions }) {
@@ -171,17 +172,17 @@ function hideApplyFooter(id) {
 
 function iconByStorageType(storageType) {
   switch (storageType) {
-    case TYPES.SESSION:
+    case ITEM_TYPES.SESSION:
       return {
         classNames: "fa-sharp fa-regular fa-folder-open fa-lg me-2",
         style: "color: var(--yellow)",
       };
-    case TYPES.LOCAL:
+    case ITEM_TYPES.LOCAL:
       return {
         classNames: "fa-solid fa-box-archive fa-lg me-2",
         style: "color: var(--brown)",
       };
-    case TYPES.COOKIE:
+    case ITEM_TYPES.COOKIE:
       return {
         classNames: "fa-solid fa-cookie-bite fa-lg me-2",
         style: "color: var(--yellow);",

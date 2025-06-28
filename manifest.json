@@ -9,7 +9,7 @@
       "128": "images/icon128.png"
     },
     "default_title": "Click Me",
-    "default_popup": "src/popup.html"
+    "default_popup": "src/index.html"
   },
   "description": "You choose what to watch of your session, local or cookie storage. Copy or modify the value of your keys or sub keys!",
   "icons": {

@@ -1,4 +1,4 @@
-function appStore(onStoreUpdate) {
+function appStore(onStoreChange) {
   let storeItems = [];
 
   chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -6,7 +6,7 @@ function appStore(onStoreUpdate) {
     if (!changes?.storeItems) return;
 
     storeItems = changes.storeItems.newValue;
-    onStoreUpdate(storeItems);
+    onStoreChange(storeItems);
   });
 
   async function getItems() {

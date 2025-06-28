@@ -1,4 +1,4 @@
-import { TYPES } from "./common.js";
+import { ITEM_TYPES } from "./types/index.js";
 import { getSessionValues, getLocalValues, getCookieValues } from "./handler/valueReader.js";
 import { saveSessionValue, saveLocalValue, saveCookieValue } from "./handler/valueWriter.js";
 
@@ -12,33 +12,33 @@ function appManager() {
   async function getItemsValue(storeItems) {
     const valueItems = [];
 
-    const sessionKeyPresentation = await getSessionValues(
+    const currentSessionKeysAndValues = await getSessionValues(
       tab,
-      storeItems.filter(({ type }) => TYPES.SESSION === type),
+      storeItems.filter(({ type }) => ITEM_TYPES.SESSION === type),
     );
-    const localKeyPresentation = await getLocalValues(
+    const currentLocalKeysAndValues = await getLocalValues(
       tab,
-      storeItems.filter(({ type }) => TYPES.LOCAL === type),
+      storeItems.filter(({ type }) => ITEM_TYPES.LOCAL === type),
     );
-    const cookieKeyPresentation = await getCookieValues(
+    const currentCookieKeysAndValues = await getCookieValues(
       tab,
-      storeItems.filter(({ type }) => TYPES.COOKIE === type),
+      storeItems.filter(({ type }) => ITEM_TYPES.COOKIE === type),
     );
 
-    valueItems.push(...sessionKeyPresentation.map(({ id, value }) => ({ id, value })));
-    valueItems.push(...localKeyPresentation.map(({ id, value }) => ({ id, value })));
-    valueItems.push(...cookieKeyPresentation.map(({ id, value }) => ({ id, value })));
+    valueItems.push(...currentSessionKeysAndValues.map(({ id, value }) => ({ id, value })));
+    valueItems.push(...currentLocalKeysAndValues.map(({ id, value }) => ({ id, value })));
+    valueItems.push(...currentCookieKeysAndValues.map(({ id, value }) => ({ id, value })));
 
     return valueItems;
   }
 
   async function setItemValue(item, value) {
     switch (item.type) {
-      case TYPES.SESSION:
+      case ITEM_TYPES.SESSION:
         return saveSessionValue(tab, item.key, item.subKey, value);
-      case TYPES.LOCAL:
+      case ITEM_TYPES.LOCAL:
         return saveLocalValue(tab, item.key, item.subKey, value);
-      case TYPES.COOKIE:
+      case ITEM_TYPES.COOKIE:
         return saveCookieValue(tab, item.key, item.subKey, value);
     }
 

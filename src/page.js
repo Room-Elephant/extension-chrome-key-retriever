@@ -1,7 +1,7 @@
-import { TYPES } from "./common.js";
+import { ITEM_TYPES } from "./types/index.js";
 import { newSessionItem, newLocalItem, newCookieItem } from "./view/items.js";
 
-function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
+function appPage({ storeSaveItem, storeDeleteItem, storeSetItemValue, storeRefreshItems }) {
   const PAGES = {
     EMPTY: {
       emptyPage: true,
@@ -33,7 +33,7 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
 
   document.getElementById("addKeyBtn").addEventListener("click", () => show(PAGES.ADD));
 
-  document.getElementById("refreshBtn").addEventListener("click", () => refreshValues(presentationItems));
+  document.getElementById("refreshBtn").addEventListener("click", () => storeRefreshItems(presentationItems));
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
@@ -102,13 +102,13 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
     presentationItems.forEach((presentationItem) => {
       let item;
       switch (presentationItem.type) {
-        case TYPES.SESSION:
+        case ITEM_TYPES.SESSION:
           item = newSessionItem(presentationItem, actions);
           break;
-        case TYPES.LOCAL:
+        case ITEM_TYPES.LOCAL:
           item = newLocalItem(presentationItem, actions);
           break;
-        case TYPES.COOKIE:
+        case ITEM_TYPES.COOKIE:
           item = newCookieItem(presentationItem, actions);
       }
       keyListElement.appendChild(item);
@@ -161,18 +161,18 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
     const formData = getFormData();
     clearFormData();
     removeFormValidation();
-    storeSave(formData);
+    storeSaveItem(formData);
   }
 
   function onDeleteItem(itemId) {
     const idToRemove = presentationItems.find((element) => itemId === element.id).id;
 
-    storeDelete(idToRemove);
+    storeDeleteItem(idToRemove);
   }
 
   async function onSetItemValue(itemId, value) {
     const item = presentationItems.find(({ id }) => id === itemId);
-    await storeSet(item, value);
+    await storeSetItemValue(item, value);
 
     const viewBtn = document.getElementById(`viewBtn-${itemId}`);
     onViewValue(itemId, viewBtn);

@@ -6,16 +6,16 @@ const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 
 module.exports = {
   mode: "none",
-  entry: "./src/popup.js",
+  entry: "./src/index.js",
   output: {
-    filename: "popup.js",
+    filename: "index.js",
   },
   plugins: [
     new CopyPlugin({
       patterns: [
         {
-          from: "./src/popup.html",
-          to: "popup.html",
+          from: "./src/index.html",
+          to: "index.html",
           transform(content) {
             return content.toString().replace("../images/", "/images/");
           },
