@@ -14,8 +14,6 @@
   <img  src="https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png"  height="56"  />
 </a>
 
-For chrome users, while we wait for chrome store approval, check [here](https://github.com/Room-Elephant/extension-chrome-key-retriever/blob/886c21df8ebad621c6f0b28f669825d1b1a83aa9/README.md#installation) how to install the developer version
-
 
 <br/>
 
