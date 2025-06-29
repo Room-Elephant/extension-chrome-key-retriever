@@ -10,47 +10,31 @@
     <header>
       <div class="flex flex-row align-items-center justify-content-between">
         <div class="flex flex-row align-items-center">
-          <img src="../images/icon48.png" width="48" height="48" class="me-3" />
+          <img class="me-3" src="../images/icon48.png" width="48" height="48" />
           <h4>Key Retriever</h4>
         </div>
-        <button id="refreshBtn" type="button" class="btn" style="color: var(--green)">
+        <button class="btn" id="refreshBtn" type="button" style="color: var(--green)">
           <i class="fa-solid fa-arrows-rotate fa-lg"></i>
         </button>
       </div>
-      <div
-        id="outdatedVersion"
-        class="alert alert-danger flex align-items-center mt-1 mb-0 display-none"
-        role="alert"
-        style="font-size: 12px"
-      >
-        <i class="fa-solid fa-circle-exclamation fa-lg me-2"></i>
-        <div>
-          There is an update available. Go to
-          <a href="https://github.com/Room-Elephant/extension-chrome-key-retriever" target="_blank" class="alert-link"
-            >key retriever github</a
-          >
-          to download the newest version.
-        </div>
-        <button type="button" class="btn-close ms-2" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
     </header>
     <section class="mt-1">
-      <div id="emptyPage" class="flex flex-col align-items-center my-3 display-none">
+      <div class="flex flex-col align-items-center my-3 display-none" id="emptyPage">
         <img class="mb-4" src="../images/empty-page.jpg" width="200" height="75" />
         <em style="color: var(--medium-gray)">Key retriever is waiting for your new keys</em>
       </div>
-      <ul id="keyList" class="list-group list-group-flush"></ul>
-      <div id="addKeyForm" class="display-none">
+      <ul class="list-group list-group-flush" id="keyList"></ul>
+      <div class="display-none" id="addKeyForm">
         <form id="add-key-form" novalidate>
           <div class="my-3">
             <div class="flex flex-row">
               <div class="btn-group" role="group">
                 <input
                   class="btn-check"
+                  id="sessionStorage"
                   autocomplete="off"
                   type="radio"
                   name="storage"
-                  id="sessionStorage"
                   value="session"
                   checked
                 />
@@ -60,17 +44,17 @@
                 </label>
                 <input
                   class="btn-check"
+                  id="localStorage"
                   autocomplete="off"
                   type="radio"
                   name="storage"
-                  id="localStorage"
                   value="local"
                 />
                 <label class="btn btn-outline-primary" for="localStorage">
                   <i class="fa-solid fa-box-archive fa-lg" style="color: var(--brown)"></i>
                   Local storage
                 </label>
-                <input class="btn-check" autocomplete="off" type="radio" name="storage" id="cookies" value="cookie" />
+                <input class="btn-check" id="cookies" autocomplete="off" type="radio" name="storage" value="cookie" />
                 <label class="btn btn-outline-primary" for="cookies">
                   <i class="fa-solid fa-cookie-bite fa-lg" style="color: var(--yellow)"></i>
                   Cookies
@@ -79,34 +63,34 @@
             </div>
           </div>
           <div class="form-floating mb-3">
-            <input id="key" type="text" class="form-control" name="key" required value="" />
-            <label for="key" class="form-label">Key <span style="color: red">*</span></label>
+            <input class="form-control" id="key" type="text" name="key" required value="" />
+            <label class="form-label" for="key">Key <span style="color: red">*</span></label>
             <div class="invalid-feedback">Please choose a key.</div>
           </div>
           <div class="form-floating mb-3">
-            <input id="subKey" type="text" class="form-control" name="subKey" />
-            <label for="subKey" class="form-label">Sub-key</label>
+            <input class="form-control" id="subKey" type="text" name="subKey" />
+            <label class="form-label" for="subKey">Sub-key</label>
           </div>
           <div class="form-floating mb-3">
-            <input id="alias" type="text" class="form-control" name="alias" required />
-            <label for="alias" class="form-label">Alias <span style="color: red">*</span></label>
+            <input class="form-control" id="alias" type="text" name="alias" required />
+            <label class="form-label" for="alias">Alias <span style="color: red">*</span></label>
             <div class="invalid-feedback">Please choose an alias for your key.</div>
           </div>
         </form>
       </div>
     </section>
     <footer class="mt-1">
-      <div id="keyListFooter" class="flex flex-row justify-content-end w-100 align-items-center">
-        <button id="addKeyBtn" type="submit" class="btn btn-outline-success">
+      <div class="flex flex-row justify-content-end w-100 align-items-center" id="keyListFooter">
+        <button class="btn btn-outline-success" id="addKeyBtn" type="submit">
           <span class="btn-label"> <i class="fa-solid fa-circle-plus fa-lg me-1"></i></span>
           Add key
         </button>
       </div>
-      <div id="addKeyFooter" class="flex flex-row justify-content-end w-100 align-items-center display-none">
-        <button id="cancelAddKeyBtn" type="button" class="btn me-1">
+      <div class="flex flex-row justify-content-end w-100 align-items-center display-none" id="addKeyFooter">
+        <button class="btn me-1" id="cancelAddKeyBtn" type="button">
           <i class="fa-solid fa-circle-arrow-left fa-lg" style="color: var(--dark-gray)"></i>
         </button>
-        <button id="saveKeyBtn" type="button" class="btn btn-outline-success">
+        <button class="btn btn-outline-success" id="saveKeyBtn" type="button">
           <i class="fa-solid fa-floppy-disk me-1"></i>Save
         </button>
       </div>
