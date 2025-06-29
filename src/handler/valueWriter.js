@@ -23,9 +23,9 @@ async function saveLocalValue(tab, key, subKey = "", value) {
   return false;
 }
 
-async function saveCookieValue(tab, key, subKey = "", value) {
+async function saveCookieValue(tab, key, subKey = "", domain, value) {
   try {
-    return await chromeSaveCookieValue(tab, key, subKey, value);
+    return await chromeSaveCookieValue(tab, key, subKey, domain, value);
   } catch (e) {
     console.log("🐶 ~ could not set cookie value for key " + key + " :", e);
   }
