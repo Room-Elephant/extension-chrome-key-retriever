@@ -1,6 +1,4 @@
 import { Types } from "./types/constants";
-import { fireEvent } from "./handler/analytics";
-import { EventName } from "./types/constants";
 import { Item } from "./types/item";
 import { Action } from "./types/action";
 import { Page } from "./types/page";
