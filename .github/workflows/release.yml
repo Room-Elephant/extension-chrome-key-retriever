@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release version'
+        required: true
+      prerelease:
+        description: 'Is pre-release?'
+        required: false
+        default: 'false'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Prettier and Lint
+        run: |
+          npm run prettier
+          npm run lint
+
+      - name: Build Chrome
+        run: npm run buildChrome
+
+      - name: Build Firefox
+        run: npm run buildFirefox
+
+      - name: Create versioned ZIPs
+        run: |
+          mkdir -p release
+          zip -r release/key-retriever-chrome-${{ github.event.inputs.releaseVersion }}.zip dist_chrome/
+          zip -r release/key-retriever-firefox-${{ github.event.inputs.releaseVersion }}.zip dist_firefox/
+
+      - name: Update package.json version
+        run: |
+          npm version ${{ github.event.inputs.releaseVersion }} --no-git-tag-version
+              jq --arg v "${{ github.event.inputs.releaseVersion }}" '.version = $v' manifest.json > tmp.$$.json && mv tmp.$$.json manifest.json
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add package.json
+          git add manifest.json
+          git commit -m "chore: release v${{ github.event.inputs.releaseVersion }}"
+          git push
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.releaseVersion }}
+          name: Release ${{ github.event.inputs.releaseVersion }}
+          generate_release_notes: true
+          files: |
+            release/key-retriever-chrome-${{ github.event.inputs.releaseVersion }}.zip
+            release/key-retriever-firefox-${{ github.event.inputs.releaseVersion }}.zip
+          draft: false
+          prerelease: ${{ github.event.inputs.prerelease == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,9 +2,6 @@ import versionController from "./handler/versionController";
 import appPage from "./page";
 import appStore from "./handler/store";
 import appManager from "./manager";
-import { Types } from "./types/constants";
-import { fireEvent } from "./handler/analytics";
-import { EventName } from "./types/constants";
 import { Item } from "./types/item";
 
 const store = appStore(onStoreUpdate);
@@ -22,13 +19,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function onStoreUpdate(items: Item[]) {
-  fireEvent(EventName.NUMBER_OF_KEYS, {
-    total: items?.length || 0,
-    session: items?.filter(({ type }) => type === Types.SESSION).length || 0,
-    local: items?.filter(({ type }) => type === Types.LOCAL).length || 0,
-    cookie: items?.filter(({ type }) => type === Types.COOKIE).length || 0,
-  });
-
   if (!items?.length) {
     page.show(page.PAGES.EMPTY);
     return;

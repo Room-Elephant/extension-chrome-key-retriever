@@ -1,6 +1,6 @@
 {
   "name": "extension-chrome-key-retriever",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "You choose what to watch of your session, local or cookie storage. Copy or modify the value of your keys or sub keys!",
   "main": "popup.html",
   "directories": {
@@ -9,10 +9,8 @@
   "scripts": {
     "prettier": "npx prettier src --check",
     "lint": "npx eslint src",
-    "buildChrome": "npm run prettier && npm run lint && webpack --config webpack.chrome.js",
-    "packageChrome": "npm run buildChrome && cd dist_chrome && zip -r key-retriever-chrome.zip ./",
-    "buildFirefox": "npm run prettier && npm run lint && webpack --config webpack.firefox.js",
-    "packageFirefox": "npm run buildFirefox && cd dist_firefox && zip -r key-retriever-firefox.zip ./"
+    "buildChrome": "webpack --config webpack.chrome.js",
+    "buildFirefox": "webpack --config webpack.firefox.js"
   },
   "repository": {
     "type": "git",
@@ -40,7 +38,7 @@
     "eslint-config-prettier": "^8.8.0",
     "html-minimizer-webpack-plugin": "^4.4.0",
     "mini-css-extract-plugin": "^2.7.6",
-    "prettier": "^3.0.0",
+    "prettier": "3.0.0",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",
     "typescript": "^5.2.2",

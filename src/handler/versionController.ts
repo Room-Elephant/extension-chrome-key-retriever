@@ -1,9 +1,7 @@
 import { AppPage } from "../page";
-import { firePageViewEvent } from "./analytics";
 
 function versionController(page: AppPage) {
   const currentVersion = chrome.runtime.getManifest().version;
-  firePageViewEvent("Extension page", document.location.href, { version: currentVersion });
 
   fetch("https://key-retriever.room-elephant.com/manifest.json")
     .then((response) => {

@@ -44,12 +44,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
 
   document.getElementById("saveKeyBtn").addEventListener("click", () => {
     if (formValidation()) onSaveItem();
-    else {
-      const invalidFields = [...document.querySelectorAll(".form-control:invalid")].map(
-        (element) => (element as HTMLInputElement).name,
-      );
-      fireEvent(EventName.INVALID_FORM, { invalidFields: invalidFields.toString() });
-    }
   });
 
   document.getElementById("cancelAddKeyBtn").addEventListener("click", () => {
@@ -182,7 +176,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   }
 
   function onDeleteItem(itemId: number) {
-    fireEvent(EventName.DELETE_ITEM);
     const idToRemove = presentationItems.find((element) => itemId === element.id).id;
 
     storeDelete(idToRemove);
@@ -191,7 +184,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   async function onSetItemValue(itemId: number, value: string) {
     const item = presentationItems.find(({ id }) => id === itemId);
     await storeSet(item, value);
-    fireEvent(EventName.SET_VALUE);
 
     const viewBtn = document.getElementById(`viewBtn-${itemId}`);
     onViewValue(itemId, viewBtn);
@@ -199,7 +191,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
 
   function onCopyValue(element: HTMLButtonElement, itemId: number) {
     const token = document.getElementById(`token-${itemId}`)?.textContent;
-    fireEvent(EventName.COPY_VALUE);
     navigator.clipboard.writeText(token).then(
       function () {
         const icon = element.lastChild as HTMLElement;
@@ -221,7 +212,6 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
   }
 
   function onViewValue(id: number, element: HTMLButtonElement | HTMLElement) {
-    fireEvent(EventName.VIEW_VALUE);
     const textArea = document.getElementById(`token-${id}`) as HTMLInputElement;
     textArea.disabled = true;
     const keyDetails = document.getElementById(`key-${id}`);
