@@ -1,19 +1,24 @@
-import { TYPES, addClassesToElement } from "../common.js";
-import { newListItem, newButton, newTextArea, newDropdown, newLabelWithBadge } from "./components.js";
+import { addClassesToElement } from "../common";
+import { Item } from "../types/item";
+import { Icon, Option } from "../types/options";
+import { Action } from "../types/action";
+import { NewItem } from "../types/components";
+import { newListItem, newButton, newTextArea, newDropdown, newLabelWithBadge } from "./components";
+import { Types } from "../types/constants";
 
-function newSessionItem(item, actions) {
-  return newItem({ storageType: TYPES.SESSION, item, actions });
+function newSessionItem(item: Item, actions: Action) {
+  return newItem({ storageType: Types.SESSION, item, actions });
 }
 
-function newLocalItem(item, actions) {
-  return newItem({ storageType: TYPES.LOCAL, item, actions });
+function newLocalItem(item: Item, actions: Action) {
+  return newItem({ storageType: Types.LOCAL, item, actions });
 }
 
-function newCookieItem(item, actions) {
-  return newItem({ storageType: TYPES.COOKIE, item, actions });
+function newCookieItem(item: Item, actions: Action) {
+  return newItem({ storageType: Types.COOKIE, item, actions });
 }
 
-function newItem({ storageType, item, actions }) {
+function newItem({ storageType, item, actions }: NewItem) {
   return newListItem({
     item: {
       ...item,
@@ -24,7 +29,7 @@ function newItem({ storageType, item, actions }) {
     footer: itemFooter({ ...item }),
   });
 
-  function itemActions({ id }) {
+  function itemActions({ id }: { id: Item["id"] }) {
     const copyButton = newButton({
       icon: {
         classNames: "fa-solid fa-copy fa-lg",
@@ -36,14 +41,13 @@ function newItem({ storageType, item, actions }) {
 
     const moreActionsButton = moreActions({
       id: item.id,
-      value: item.value,
       actions,
     });
 
     return [{ action: copyButton, visible: false }, { action: moreActionsButton }];
   }
 
-  function itemFooter({ id, key, subKey }) {
+  function itemFooter({ id, key, subKey }: { id: Item["id"]; key: Item["key"]; subKey?: Item["subKey"] }) {
     const footerBody = document.createElement("div");
     addClassesToElement(footerBody, "flex flex-col mb-2");
 
@@ -74,17 +78,18 @@ function newItem({ storageType, item, actions }) {
     const applyButton = newButton({
       classNames: "btn btn-outline-success",
       onClick: () => {
-        const textArea = document.getElementById(`token-${item.id}`);
+        const textArea = document.getElementById(`token-${item.id}`) as HTMLTextAreaElement;
         textArea.disabled = true;
 
         hideApplyFooter(item.id);
         const value = textArea.value;
         actions.setFnc(item.id, value);
       },
+
       label: "Apply",
       icon: {
         classNames: "fa-solid fa-floppy-disk fa-lg me-1",
-      },
+      } as Icon,
     });
 
     const cancelButton = newButton({
@@ -106,7 +111,7 @@ function newItem({ storageType, item, actions }) {
 }
 
 function moreActions({ id, actions }) {
-  const options = [
+  const options: Option[] = [
     {
       id: `viewBtn-${id}`,
       itemId: id,
@@ -145,8 +150,8 @@ function moreActions({ id, actions }) {
   return newDropdown({ options });
 }
 
-function showFooter(id) {
-  const textArea = document.getElementById(`token-${id}`);
+function showFooter(id: string) {
+  const textArea = document.getElementById(`token-${id}`) as HTMLTextAreaElement;
   textArea.classList.remove("display-none");
   textArea.disabled = false;
   textArea.focus();
@@ -156,32 +161,32 @@ function showFooter(id) {
   textAreaFooter.classList.remove("display-none");
 }
 
-function hideTokenArea(id) {
-  const textArea = document.getElementById(`token-${id}`);
+function hideTokenArea(id: number) {
+  const textArea = document.getElementById(`token-${id}`) as HTMLTextAreaElement;
   textArea.classList.add("display-none");
   textArea.disabled = true;
   const keyDetails = document.getElementById(`key-${id}`);
   keyDetails.classList.add("display-none");
 }
 
-function hideApplyFooter(id) {
+function hideApplyFooter(id: number) {
   const textAreaFooter = document.getElementById(`textAreaFooter-${id}`);
   textAreaFooter.classList.add("display-none");
 }
 
-function iconByStorageType(storageType) {
+function iconByStorageType(storageType: Types) {
   switch (storageType) {
-    case TYPES.SESSION:
+    case Types.SESSION:
       return {
         classNames: "fa-sharp fa-regular fa-folder-open fa-lg me-2",
         style: "color: var(--yellow)",
       };
-    case TYPES.LOCAL:
+    case Types.LOCAL:
       return {
         classNames: "fa-solid fa-box-archive fa-lg me-2",
         style: "color: var(--brown)",
       };
-    case TYPES.COOKIE:
+    case Types.COOKIE:
       return {
         classNames: "fa-solid fa-cookie-bite fa-lg me-2",
         style: "color: var(--yellow);",

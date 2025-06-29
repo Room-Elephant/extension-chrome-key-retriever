@@ -1,5 +1,8 @@
-function appStore(onStoreUpdate) {
-  let storeItems = [];
+import { Item } from "../types/item";
+import { StoredItem } from "../types/storedItem";
+
+function appStore(onStoreUpdate: (items: StoredItem[]) => Promise<void>) {
+  let storeItems: Item[] = [];
 
   chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace !== "local") return;
@@ -26,7 +29,7 @@ function appStore(onStoreUpdate) {
 
       storeItems.push(newItem);
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         chrome.storage.local.set({ storeItems }, function () {
           resolve();
         });

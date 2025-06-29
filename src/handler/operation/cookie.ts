@@ -1,12 +1,13 @@
-import { TYPES } from "../../common.js";
+import { Types } from "../../types/constants";
+import { StoredItem } from "../../types/storedItem";
 
-async function getCookie(tab, cookieStoreItems) {
+async function getCookie(tab: chrome.tabs.Tab, cookieStoreItems: StoredItem[]) {
   const cookies = await chrome.cookies.getAll({ url: tabToStringUrl(tab) });
   const cookieStoreItemsKeys = cookieStoreItems.map(({ key }) => key);
 
   const matchCookies = cookies
     .filter(({ name }) => cookieStoreItemsKeys.includes(name))
-    .map(({ name, value }) => ({ name, value, type: TYPES.COOKIE }));
+    .map(({ name, value }) => ({ name, value, type: Types.COOKIE }));
 
   return cookieStoreItems.map((item) => {
     item.value = matchCookies.find(({ name }) => name === item.key)?.value || undefined;
@@ -21,10 +22,15 @@ async function getCookie(tab, cookieStoreItems) {
   });
 }
 
-async function saveCookieValue(tab, key, subKey, value) {
+async function saveCookieValue(
+  tab: chrome.tabs.Tab,
+  key: StoredItem["key"],
+  subKey: StoredItem["subKey"],
+  value: StoredItem["value"],
+) {
   const url = tabToStringUrl(tab);
   const domain = tabToStringDomain(tab);
-  let details = await chrome.cookies.get({
+  let details: chrome.cookies.Cookie | { [key: string]: string } = await chrome.cookies.get({
     name: key,
     url,
   });
@@ -32,11 +38,11 @@ async function saveCookieValue(tab, key, subKey, value) {
     details = { name: key };
   }
 
-  let newValue = value;
+  let newValue: any = value;
 
   if (subKey) {
-    const originalValue = details.value;
-    if (details.value !== undefined)
+    const originalValue = details?.value;
+    if (details?.value !== undefined)
       try {
         newValue = JSON.parse(originalValue);
       } catch (e) {
@@ -54,7 +60,7 @@ async function saveCookieValue(tab, key, subKey, value) {
   delete details.hostOnly;
   delete details.session;
 
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     chrome.cookies.set({ ...details, url, domain }, function (cookie) {
       if (cookie) resolve();
       else reject();
@@ -62,13 +68,13 @@ async function saveCookieValue(tab, key, subKey, value) {
   });
 }
 
-function tabToStringUrl(tab) {
-  const url = new URL(tab.url);
+function tabToStringUrl(tab: chrome.tabs.Tab) {
+  const url = new URL(tab.url || "");
   return `${url.protocol}//${url.hostname}`;
 }
 
-function tabToStringDomain(tab) {
-  const url = new URL(tab.url);
+function tabToStringDomain(tab: chrome.tabs.Tab) {
+  const url = new URL(tab.url || "");
   return `.${url.hostname}`;
 }
 
