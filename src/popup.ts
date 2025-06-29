@@ -1,7 +1,8 @@
-import versionController from "./handler/versionController.js";
-import appPage from "./page.js";
-import appStore from "./handler/store.js";
-import appManager from "./manager.js";
+import versionController from "./handler/versionController";
+import appPage from "./page";
+import appStore from "./handler/store";
+import appManager from "./manager";
+import { Item } from "./types/item";
 
 const store = appStore(onStoreUpdate);
 const manager = appManager();
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   onStoreUpdate(await store.getItems());
 });
 
-async function onStoreUpdate(items) {
+async function onStoreUpdate(items: Item[]) {
   if (!items?.length) {
     page.show(page.PAGES.EMPTY);
     return;

@@ -1,4 +1,10 @@
-async function executeRequest(tab, args, func) {
+import { StoredItem } from "../../types/storedItem";
+
+async function executeRequest(
+  tab: chrome.tabs.Tab,
+  args: string[] | StoredItem[][],
+  func: (...args: string[] | StoredItem[][]) => boolean | StoredItem[],
+) {
   const result = await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     args,
@@ -24,7 +30,7 @@ function getLocalValue(localItems) {
   return localItems;
 }
 
-function getSessionValue(sessionItems) {
+function getSessionValue(sessionItems: StoredItem[]) {
   for (let i = 0; i < sessionItems.length; i++) {
     try {
       let value = window.sessionStorage.getItem(sessionItems[i].key);
@@ -41,12 +47,12 @@ function getSessionValue(sessionItems) {
   return sessionItems;
 }
 
-function saveSessionValue(key, subKey, value) {
+function saveSessionValue(key: StoredItem["key"], subKey: StoredItem["subKey"], value: StoredItem["value"]) {
   try {
-    let newValue = value;
+    let newValue: any = value;
 
     if (subKey) {
-      const originalValue = window.sessionStorage.getItem(key) || {};
+      const originalValue = window.sessionStorage.getItem(key) || "{}";
       try {
         newValue = JSON.parse(originalValue);
       } catch {
@@ -55,7 +61,7 @@ function saveSessionValue(key, subKey, value) {
       newValue[subKey] = value;
     }
 
-    const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+    const stringifiedValue = typeof newValue === "object" ? JSON.stringify(newValue) : newValue;
 
     window.sessionStorage.setItem(key, stringifiedValue);
   } catch (e) {
@@ -65,12 +71,12 @@ function saveSessionValue(key, subKey, value) {
   return true;
 }
 
-function saveLocalValue(key, subKey, value) {
+function saveLocalValue(key: StoredItem["key"], subKey: StoredItem["subKey"], value: StoredItem["value"]) {
   try {
-    let newValue = value;
+    let newValue: any = value;
 
     if (subKey) {
-      const originalValue = window.localStorage.getItem(key) || {};
+      const originalValue = window.localStorage.getItem(key) || "{}";
       try {
         newValue = JSON.parse(originalValue);
       } catch {
@@ -80,7 +86,7 @@ function saveLocalValue(key, subKey, value) {
       newValue[subKey] = value;
     }
 
-    const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+    const stringifiedValue = typeof newValue === "object" ? JSON.stringify(newValue) : newValue;
 
     window.localStorage.setItem(key, stringifiedValue);
   } catch (e) {
