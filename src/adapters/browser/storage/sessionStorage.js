@@ -1,6 +1,6 @@
 import { remoteExecution, remoteGetLocalStorageItems, remoteSetLocalStorageValue } from "./client/remote.js";
 
-async function getSessionStorage(tab, {keys}) {
+async function getSessionStorage(tab, { keys }) {
   try {
     return await remoteExecution(tab, [keys], remoteGetLocalStorageItems);
   } catch (e) {
