@@ -39,7 +39,7 @@ function appManager() {
       case TYPES.LOCAL:
         return saveLocalValue(tab, item.key, item.subKey, value);
       case TYPES.COOKIE:
-        return saveCookieValue(tab, item.key, item.subKey, value);
+        return saveCookieValue(tab, item.key, item.subKey, item.domain, value);
     }
 
     return false;
