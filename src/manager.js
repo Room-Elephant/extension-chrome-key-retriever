@@ -12,18 +12,7 @@ function appManager() {
   async function getItemsValue(storeItems) {
     const valueItems = [];
 
-    const sessionKeyPresentation = await getSessionValues(
-      tab,
-      storeItems.filter(({ type }) => TYPES.SESSION === type),
-    );
-    const localKeyPresentation = await getLocalValues(
-      tab,
-      storeItems.filter(({ type }) => TYPES.LOCAL === type),
-    );
-    const cookieKeyPresentation = await getCookieValues(
-      tab,
-      storeItems.filter(({ type }) => TYPES.COOKIE === type),
-    );
+
 
     valueItems.push(...sessionKeyPresentation.map(({ id, value }) => ({ id, value })));
     valueItems.push(...localKeyPresentation.map(({ id, value }) => ({ id, value })));
