@@ -30,6 +30,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Update package.json version
+        run: |
+          npm version ${{ github.event.inputs.releaseVersion }} --no-git-tag-version
+          jq --arg v "${{ github.event.inputs.releaseVersion }}" '.version = $v' manifest.json > tmp.$$.json && mv tmp.$$.json manifest.json
+
       - name: Run Prettier and Lint
         run: |
           npm run prettier
@@ -47,10 +52,8 @@ jobs:
           (cd dist_chrome && zip -r ../release/key-retriever-chrome-${{ github.event.inputs.releaseVersion }}.zip .)
           (cd dist_firefox && zip -r ../release/key-retriever-firefox-${{ github.event.inputs.releaseVersion }}.zip .)
 
-      - name: Update package.json version
+      - name: Commit version bump
         run: |
-          npm version ${{ github.event.inputs.releaseVersion }} --no-git-tag-version
-              jq --arg v "${{ github.event.inputs.releaseVersion }}" '.version = $v' manifest.json > tmp.$$.json && mv tmp.$$.json manifest.json
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git add package.json
