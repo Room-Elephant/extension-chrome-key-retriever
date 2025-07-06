@@ -44,8 +44,8 @@ jobs:
       - name: Create versioned ZIPs
         run: |
           mkdir -p release
-          zip -r release/key-retriever-chrome-${{ github.event.inputs.releaseVersion }}.zip dist_chrome/
-          zip -r release/key-retriever-firefox-${{ github.event.inputs.releaseVersion }}.zip dist_firefox/
+          (cd dist_chrome && zip -r release/key-retriever-chrome-${{ github.event.inputs.releaseVersion }}.zip .)
+          (cd dist_firefox && zip -r release/key-retriever-firefox-${{ github.event.inputs.releaseVersion }}.zip .)
 
       - name: Update package.json version
         run: |
