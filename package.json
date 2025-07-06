@@ -1,6 +1,6 @@
 {
   "name": "extension-chrome-key-retriever",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "You choose what to watch of your session, local or cookie storage. Copy or modify the value of your keys or sub keys!",
   "main": "popup.html",
   "directories": {
