@@ -14,16 +14,16 @@ async function executeRequest(
 }
 
 function getLocalValue(localItems) {
-  for (let i = 0; i < localItems.length; i++) {
+  for (const element of localItems) {
     try {
-      let value = window.localStorage.getItem(localItems[i].key);
+      let value = window.localStorage.getItem(element.key);
 
-      if (localItems[i].subKey) {
-        value = JSON.parse(value)[localItems[i].subKey];
+      if (element.subKey) {
+        value = JSON.parse(value)[element.subKey];
       }
 
-      localItems[i].value = value;
-    } catch (e) {
+      element.value = value;
+    } catch (_) {
       /* empty */
     }
   }
@@ -31,16 +31,16 @@ function getLocalValue(localItems) {
 }
 
 function getSessionValue(sessionItems: StoredItem[]) {
-  for (let i = 0; i < sessionItems.length; i++) {
+  for (const element of sessionItems) {
     try {
-      let value = window.sessionStorage.getItem(sessionItems[i].key);
+      let value = window.sessionStorage.getItem(element.key);
 
-      if (sessionItems[i].subKey) {
-        value = JSON.parse(value)[sessionItems[i].subKey];
+      if (element.subKey) {
+        value = JSON.parse(value)[element.subKey];
       }
 
-      sessionItems[i].value = value;
-    } catch (e) {
+      element.value = value;
+    } catch (_) {
       /* empty */
     }
   }
@@ -64,7 +64,7 @@ function saveSessionValue(key: StoredItem["key"], subKey: StoredItem["subKey"], 
     const stringifiedValue = typeof newValue === "object" ? JSON.stringify(newValue) : newValue;
 
     window.sessionStorage.setItem(key, stringifiedValue);
-  } catch (e) {
+  } catch (_) {
     return false;
   }
 
@@ -89,7 +89,7 @@ function saveLocalValue(key: StoredItem["key"], subKey: StoredItem["subKey"], va
     const stringifiedValue = typeof newValue === "object" ? JSON.stringify(newValue) : newValue;
 
     window.localStorage.setItem(key, stringifiedValue);
-  } catch (e) {
+  } catch (_) {
     return false;
   }
 

@@ -4,7 +4,7 @@ import { StoredItem } from "../types/storedItem";
 
 async function getSessionValues(tab: chrome.tabs.Tab, sessionStoreItems: StoredItem[]): Promise<StoredItem[]> {
   try {
-    return executeRequest(tab, [sessionStoreItems as StoredItem[]], getSessionValue) as Promise<StoredItem[]>;
+    return executeRequest(tab, [sessionStoreItems], getSessionValue) as Promise<StoredItem[]>;
   } catch (e) {
     console.log("🐶 ~ could not read session values:", e);
   }

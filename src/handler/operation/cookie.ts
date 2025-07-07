@@ -34,9 +34,7 @@ async function saveCookieValue(
     name: key,
     url,
   });
-  if (details === null) {
-    details = { name: key };
-  }
+  details ??= { name: key };
 
   let newValue: string | Record<string, unknown> = value;
 
@@ -45,7 +43,7 @@ async function saveCookieValue(
     if (details?.value !== undefined)
       try {
         newValue = JSON.parse(originalValue) as Record<string, unknown>;
-      } catch (e) {
+      } catch (_) {
         newValue = {};
       }
     else newValue = {};
@@ -65,7 +63,7 @@ async function saveCookieValue(
   return new Promise<void>((resolve, reject) => {
     chrome.cookies.set({ ...details, url, domain }, function (cookie) {
       if (cookie) resolve();
-      else reject();
+      else reject(new Error('Failed to set'));
     });
   });
 }

@@ -1,4 +1,3 @@
-import versionController from "./handler/versionController";
 import appPage from "./page";
 import appStore from "./handler/store";
 import appManager from "./manager";
@@ -12,7 +11,6 @@ const page = appPage({
   storeSet: onSetItemValue,
   refreshValues: onRefreshValues,
 });
-versionController(page);
 
 document.addEventListener("DOMContentLoaded", async function () {
   onStoreUpdate(await store.getItems());
