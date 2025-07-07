@@ -131,8 +131,13 @@ function appPage({ storeSave, storeDelete, storeSet, refreshValues }) {
     const itemsByValue = presentationItems.reduce(
       (acc, curr) => {
         const valueItem = valueItems.find(({ id }) => id === curr.id);
-        if (valueItem.value) (acc.withValue = acc.withValue || []).push(valueItem);
-        else (acc.emptyValue = acc.emptyValue || []).push(valueItem);
+        if (valueItem.value) {
+          acc.withValue = acc.withValue || [];
+          acc.withValue.push(valueItem);
+        } else {
+          acc.emptyValue = acc.emptyValue || [];
+          acc.emptyValue.push(valueItem);
+        }
 
         return acc;
       },

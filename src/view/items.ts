@@ -59,7 +59,7 @@ function newItem({ storageType, item, actions }: NewItem) {
     keyDetailsArea.appendChild(keyLabel);
 
     if (subKey) {
-      const subKeyLabel = newLabelWithBadge({ label: "Subkey", value: subKey || "" });
+      const subKeyLabel = newLabelWithBadge({ label: "Subkey", value: subKey });
       keyDetailsArea.appendChild(subKeyLabel);
     }
 

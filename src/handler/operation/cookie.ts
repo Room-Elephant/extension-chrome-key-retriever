@@ -10,7 +10,7 @@ async function getCookie(tab: chrome.tabs.Tab, cookieStoreItems: StoredItem[]) {
     .map(({ name, value }) => ({ name, value, type: Types.COOKIE }));
 
   return cookieStoreItems.map((item) => {
-    item.value = matchCookies.find(({ name }) => name === item.key)?.value || undefined;
+    item.value = matchCookies.find(({ name }) => name === item.key)?.value ?? undefined;
     if (item.subKey) {
       try {
         item.value = JSON.parse(item.value)[item.subKey];
@@ -69,12 +69,12 @@ async function saveCookieValue(
 }
 
 function tabToStringUrl(tab: chrome.tabs.Tab) {
-  const url = new URL(tab.url || "");
+  const url = new URL(tab.url ?? "");
   return `${url.protocol}//${url.hostname}`;
 }
 
 function tabToStringDomain(tab: chrome.tabs.Tab) {
-  const url = new URL(tab.url || "");
+  const url = new URL(tab.url ?? "");
   return `.${url.hostname}`;
 }
 
