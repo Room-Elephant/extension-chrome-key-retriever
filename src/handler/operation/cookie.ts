@@ -53,9 +53,9 @@ async function saveCookieValue(
     newValue[subKey] = value;
   }
 
-  const stringifiedValue = typeof newValue === "object" && newValue !== null
+  const stringifiedValue: string = typeof newValue === "object" && newValue !== null
     ? JSON.stringify(newValue)
-    : newValue;
+    : newValue as string;
 
   details.value = stringifiedValue;
 

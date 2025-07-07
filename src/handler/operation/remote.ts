@@ -49,7 +49,7 @@ function getSessionValue(sessionItems: StoredItem[]) {
 
 function saveSessionValue(key: StoredItem["key"], subKey: StoredItem["subKey"], value: StoredItem["value"]) {
   try {
-    let newValue: any = value;
+    let newValue: string | Record<string, unknown> = value;
 
     if (subKey) {
       const originalValue = window.sessionStorage.getItem(key) || "{}";
@@ -73,7 +73,7 @@ function saveSessionValue(key: StoredItem["key"], subKey: StoredItem["subKey"], 
 
 function saveLocalValue(key: StoredItem["key"], subKey: StoredItem["subKey"], value: StoredItem["value"]) {
   try {
-    let newValue: any = value;
+    let newValue: string | Record<string, unknown>    = value;
 
     if (subKey) {
       const originalValue = window.localStorage.getItem(key) || "{}";
