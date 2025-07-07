@@ -2,10 +2,16 @@ import {
   executeRequest,
   saveSessionValue as remoteSaveSessionValue,
   saveLocalValue as remoteSaveLocalValue,
-} from "./operation/remote.js";
-import { saveCookieValue as chromeSaveCookieValue } from "./operation/cookie.js";
+} from "./operation/remote";
+import { saveCookieValue as chromeSaveCookieValue } from "./operation/cookie";
+import { StoredItem } from "../types/storedItem";
 
-async function saveSessionValue(tab, key, subKey = "", value) {
+async function saveSessionValue(
+  tab: chrome.tabs.Tab,
+  key: StoredItem["key"],
+  subKey: StoredItem["subKey"] = "",
+  value: StoredItem["value"],
+) {
   try {
     return executeRequest(tab, [key, subKey, value], remoteSaveSessionValue);
   } catch (e) {
@@ -14,7 +20,12 @@ async function saveSessionValue(tab, key, subKey = "", value) {
   return false;
 }
 
-async function saveLocalValue(tab, key, subKey = "", value) {
+async function saveLocalValue(
+  tab: chrome.tabs.Tab,
+  key: StoredItem["key"],
+  subKey: StoredItem["subKey"] = "",
+  value: StoredItem["value"],
+) {
   try {
     return executeRequest(tab, [key, subKey, value], remoteSaveLocalValue);
   } catch (e) {
@@ -23,7 +34,7 @@ async function saveLocalValue(tab, key, subKey = "", value) {
   return false;
 }
 
-async function saveCookieValue(tab, key, subKey = "", value) {
+async function saveCookieValue(tab: chrome.tabs.Tab, key, subKey = "", value) {
   try {
     return await chromeSaveCookieValue(tab, key, subKey, value);
   } catch (e) {

@@ -1,6 +1,7 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <title>Key Retriever</title>
     <link href="./assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/font-awesome/font-awesome.css" />
     <link rel="stylesheet" href="popup.css" />
@@ -10,33 +11,17 @@
     <header>
       <div class="flex flex-row align-items-center justify-content-between">
         <div class="flex flex-row align-items-center">
-          <img src="../images/icon48.png" width="48" height="48" class="me-3" />
+          <img alt="logo" src="../images/icon48.png" width="48" height="48" class="me-3" />
           <h4>Key Retriever</h4>
         </div>
         <button id="refreshBtn" type="button" class="btn" style="color: var(--green)">
           <i class="fa-solid fa-arrows-rotate fa-lg"></i>
         </button>
       </div>
-      <div
-        id="outdatedVersion"
-        class="alert alert-danger flex align-items-center mt-1 mb-0 display-none"
-        role="alert"
-        style="font-size: 12px"
-      >
-        <i class="fa-solid fa-circle-exclamation fa-lg me-2"></i>
-        <div>
-          There is an update available. Go to
-          <a href="https://github.com/Room-Elephant/extension-chrome-key-retriever" target="_blank" class="alert-link"
-            >key retriever github</a
-          >
-          to download the newest version.
-        </div>
-        <button type="button" class="btn-close ms-2" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
     </header>
     <section class="mt-1">
       <div id="emptyPage" class="flex flex-col align-items-center my-3 display-none">
-        <img class="mb-4" src="../images/empty-page.jpg" width="200" height="75" />
+        <img alt="empty page" class="mb-4" src="../images/empty-page.jpg" width="200" height="75" />
         <em style="color: var(--medium-gray)">Key retriever is waiting for your new keys</em>
       </div>
       <ul id="keyList" class="list-group list-group-flush"></ul>
