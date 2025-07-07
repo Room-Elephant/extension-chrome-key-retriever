@@ -38,13 +38,13 @@ async function saveCookieValue(
     details = { name: key };
   }
 
-  let newValue: any = value;
+  let newValue: string | Record<string, unknown> = value;
 
   if (subKey) {
     const originalValue = details?.value;
     if (details?.value !== undefined)
       try {
-        newValue = JSON.parse(originalValue);
+        newValue = JSON.parse(originalValue) as Record<string, unknown>;
       } catch (e) {
         newValue = {};
       }
@@ -53,7 +53,9 @@ async function saveCookieValue(
     newValue[subKey] = value;
   }
 
-  const stringifiedValue = newValue instanceof Object ? JSON.stringify(newValue) : newValue;
+  const stringifiedValue = typeof newValue === "object" && newValue !== null
+    ? JSON.stringify(newValue)
+    : newValue;
 
   details.value = stringifiedValue;
 
