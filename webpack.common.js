@@ -8,7 +8,6 @@ const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 module.exports = {
   mode: "none",
   entry: "./src/popup.ts",
-  // devtool: "source-map",
   output: {
     path: path.join(__dirname, "dist"),
     filename: "popup.js",
