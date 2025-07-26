@@ -4,3 +4,4 @@ dist_firefox/*
 webpack.chrome.js
 webpack.common.js
 webpack.firefox.js
+webpack.chrome.dev.js
