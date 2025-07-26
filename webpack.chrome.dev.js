@@ -35,7 +35,7 @@ module.exports = {
           to: "manifest.json",
           transform(content) {
             const manifest = JSON.parse(content.toString());
-            manifest.version = "0.0.0"; // <-- override version here
+            manifest.version = "0.0.0";
 
             if (manifest.action && manifest.action.default_popup) {
               manifest.action.default_popup = manifest.action.default_popup.replace("src/popup.html", "popup.html");
