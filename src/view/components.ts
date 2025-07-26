@@ -1,6 +1,9 @@
-import { addClassesToElement } from "../common.js";
+import { addClassesToElement } from "../common";
+import { Item } from "../types/item";
+import { Option } from "../types/options";
+import { NewAction, NewButton, NewListItem } from "../types/components";
 
-function newListItem({ item, actions, footer }) {
+function newListItem({ item, actions, footer }: NewListItem) {
   const li = document.createElement("li");
   li.classList.add("list-group-item");
 
@@ -24,7 +27,7 @@ function newListItem({ item, actions, footer }) {
   li.appendChild(liFooter);
   return li;
 
-  function newLabel({ icon, text }) {
+  function newLabel({ icon, text }: { icon: Item["icon"]; text: Item["text"] }) {
     const label = document.createElement("div");
     addClassesToElement(label, "flex align-items-center");
 
@@ -39,7 +42,7 @@ function newListItem({ item, actions, footer }) {
     return label;
   }
 
-  function newAction({ action, visible = true }) {
+  function newAction({ action, visible = true }: NewAction) {
     const actionElement = document.createElement("div");
     addClassesToElement(actionElement, "flex listActions");
 
@@ -65,7 +68,7 @@ function newListItem({ item, actions, footer }) {
   }
 }
 
-function newDropdown({ options }) {
+function newDropdown({ options }: { options: Option[] }) {
   const dropdown = document.createElement("div");
   addClassesToElement(dropdown, "dropdown dropstart");
 
@@ -93,7 +96,7 @@ function newDropdown({ options }) {
     return button;
   }
 
-  function newDropdownOption({ icon, id, itemId, label, disabled = false, onClick, separator = false }) {
+  function newDropdownOption({ icon, id, itemId, label, disabled = false, onClick, separator = false }: Option) {
     const liItem = document.createElement("li");
     const option = newButton({
       icon,
@@ -146,7 +149,7 @@ function newTextArea({ id, classNames, style, disabled = false, text = "", rows 
   return textArea;
 }
 
-function newButton({ icon, disabled = false, onClick, classNames, id, label }) {
+function newButton({ icon, disabled = false, onClick, classNames, id, label }: NewButton) {
   const button = document.createElement("button");
 
   button.type = "button";
